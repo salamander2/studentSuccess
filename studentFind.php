@@ -51,8 +51,8 @@ if (!$result) {
 // printing table rows
 // $row = mysql_fetch_row($result);
 while ($row = mysqli_fetch_assoc($result)){ 
-   //try to get the corresponding sssInfo data
 
+   //1. Is the student "at risk" - ie. does he/she have an sssInfo record?
    //this always gives 1 row with either a 1 or 0 in it.
    #$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE studentID='" . $row['studentID'] . "')";
    #$sql = "SELECT studentID FROM sssInfo WHERE studentID='" . $row['studentID'] . "'";
@@ -70,7 +70,8 @@ while ($row = mysqli_fetch_assoc($result)){
       $message_ .= 'SQL: ' . $sql;
       die($message_); 
    }
-//TODO: add in something that colours the row purple if all of the comments are completed.
+   
+   //2. If yes, then are all of the comments completed or not?
    if ($num_rows == 1) {
       $sql = "SELECT completed FROM comments WHERE studentID = ?";
       if ($stmt = $sssDB->prepare($sql)) {
@@ -90,23 +91,21 @@ while ($row = mysqli_fetch_assoc($result)){
       if ($comp) $num_rows = 2;
    }
 
-   ?> 
+   #  <!-- select page based on "$nextPage"  -->
+   # should look like this: <tr onclick="window.document.location='commentPage.php?ID=339671216';" class="row0">
+   # old code: echo "<tr onclick=".'"'."window.document.location='commentPage.php?ID=".$row['studentID'] ."';".'" class="row0">';
+   #echo "<tr onclick=\"window.document.location='commentPage.php?ID=". $row['studentID'] . "';\" class=\"row$num_rows\">";
+   echo "<tr onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" class=\"row$num_rows\">";
+   echo "<td>".$row['lastname'], ", ", $row['firstname'] ."</td>";
+   echo "<td>".$row['studentID']. "</td>";
+   echo "</tr>";
 
-   <!-- //TODO: select page based on "$nextPage"  -->
-
-   <!-- set colour based on $num_rows -->
-   <?php #echo "<tr onclick=\"window.document.location='" .$nextPage. "?ID=$row['studentID']';\""  ;
-         #echo " class=\"row$num_rows\"";
-   ?>
-   <tr onclick="window.document.location='commentPage.php?ID=<?php echo $row['studentID']; ?>';" class="row<?php echo $num_rows?>">
-   <td><?php echo $row['lastname'], ", ", $row['firstname']; ?></td>
-   <td><?php echo $row['studentID']; ?></td>
-   </tr>
-<?php
 } //this is the end of the while loop
 ?>
+
 </tbody>
 </table>
+
 <?php
 // mysqli_free_result($result);
 ?>
