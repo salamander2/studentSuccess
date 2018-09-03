@@ -1,0 +1,19 @@
+The software is working.
+
+31 Aug 2017:
+added in a next_steps table so that there can be multiple entries for each comment
+
+php from before this is indicated by _pre NS table
+
+------------------------
+Deleting students who are older than 21 years old
+
+1. find year (current - 21)
+2. SELECT student_number FROM students WHERE dob < '1996-01-01';
+3. make sure that there are no waitlist entries for that student
+4. delete the photo
+5. delete the student entry
+
+============================
+to delete a user: 
+DROP USER ‘demo’@‘localhost’;

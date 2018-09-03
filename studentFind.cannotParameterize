@@ -1,0 +1,91 @@
+<?php
+/*******************************************************************************
+   Name: studentFind.php
+   Called from: home.php
+   Purpose: This file holds the function for finding students and diplaying them as a table
+   Tables used: schoolDB/students, sssDB/sssInfo
+   Transfers control to: commentPage.php
+******************************************************************************/
+
+error_reporting(E_ALL);
+session_start();
+require_once('../../DB-admin/php_includes/sssDB.php');
+require_once('sssdb.php');
+
+// get the q parameter from URL
+$q1 = $q2 = $q3 = clean_input($_REQUEST["q"]).'%';
+echo $q1;
+
+//#$result = mysqli_query($mysqli, "SELECT * FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or student_number LIKE '$q%'");
+//$sql="SELECT * FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or student_number LIKE '$q%' ORDER BY lastname, firstname";
+$sql="SELECT * FROM students WHERE firstname LIKE ? or lastname LIKE ? or student_number LIKE ? ORDER BY lastname, firstname";
+$sql="SELECT * FROM students WHERE firstname LIKE 'de%' ORDER BY lastname, firstname";
+if ($stmt = $mysqli->prepare($sql)) {
+  /* bind parameters for markers */
+//    $stmt->bind_param("s", $q1);
+    /* execute query */
+    $stmt->execute();
+    /* bind result variables */
+    $stmt->bind_result($result);
+   /* fetch value */
+//    $stmt->fetch();
+/* fetch values */
+while ($row = mysqli_fetch_array($result,MYSQLI_NUM)){
+        printf ("%s\n", $row[0]);
+    }
+} else {
+   $message_  = 'Invalid query: ' . mysqli_error($mysqli) . "\n<br>";
+   $message_ .= 'SQL: ' . $sql;
+   die($message_); 
+}
+
+echo var_dump($result);
+
+//$result = mysqli_query($mysqli, $sql);
+//if (!$result) {
+	//die("Query to list students from table failed");
+//}
+?>
+
+<table class="pure-table pure-table-bordered table-canvas">
+<thead>
+<tr>
+<th>Student Name</th>
+<th>Student Number</th>
+</tr>
+</thead>
+<tbody>
+
+<?php
+// printing table rows
+// $row = mysql_fetch_row($result);
+##while ($row = mysqli_fetch_assoc($result)){ 
+while ($row = mysqli_fetch_array($result,MYSQLI_NUM)){
+	//try to get the corresponding sssInfo data
+
+	//this always gives 1 row with either a 1 or 0 in it.
+	#$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE student_number='" . $row['student_number'] . "')";
+//	$sql = "SELECT * FROM sssInfo WHERE student_number='" . $row['student_number'] . "'";
+//	$result2 = mysqli_query($mysqli,$sql);
+//	if (!$result2) {
+	    echo "^"; //this shouldn't happen ever
+	    //echo $sql."<br>"; //DEBUG
+//	}
+//	$num_rows = mysqli_num_rows($result2);
+$num_rows=0;
+	?> 
+	<tr onclick="window.document.location='commentPage.php?ID=<?php echo $row['student_number']; ?>';" class="row<?php echo $num_rows?>">
+	<td><?php echo $row['lastname'], ", ", $row['firstname']; ?></td>
+	<td><?php echo $row['student_number']; ?></td>
+	</tr>
+	<?php
+}
+//this is the end of the { in the while loop
+?>
+</tbody>
+</table>
+<?php
+    /* close statement */
+    $stmt->close();
+// mysqli_free_result($result);
+?>

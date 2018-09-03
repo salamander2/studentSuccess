@@ -1,0 +1,527 @@
+html{
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  background-color:#22264B;
+  background-color:#222;
+  margin:0;
+} 
+  
+body {
+  /*background-color: #1F8DD6;
+  background-color: #1FD68D; */
+  background-color: #22264B;
+  color:#e8edf3;
+  color:#22264B;
+  margin:-5px 10px 5px 10px;
+  text-align: center;
+}
+
+p {
+  text-align:left;
+}
+
+h1, h2 {
+  color:#22264b;
+}
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+hr{
+  color:#22264b; 
+}
+
+img {
+  border:0;
+} 
+
+li {
+    list-style-position:inside;
+}
+
+pre {
+  overflow: auto;
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%
+}
+a {
+  color:cyan;
+}
+
+button {
+  overflow: visible;
+  font-size:15px;
+  text-transform: none
+}
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+  -webkit-appearance: button;
+  cursor: pointer
+}
+button[disabled],
+html input[disabled] {
+  cursor: default
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0
+}
+
+
+input {
+  line-height: normal;
+  font-size:20px;
+  background-color:#e8edf3;
+}
+
+/* not in commentPage */
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em
+}
+/* legend is only used in addstudents.php */
+legend {
+  border: 1px solid white;
+  padding:15px; 
+  margin: 10px;
+  color: white; 
+  font-size: 26px;
+}
+textarea {
+  overflow: auto;
+  margin-top:10px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+  margin: auto;
+}
+td,
+th {
+  padding: 0
+}
+
+
+/********** My CLASSES ********/
+#fixedtop {
+  z-index:-1;
+/*  position: fixed; */
+  top: 0px;
+  width: 98%;
+}
+
+#header {
+  background-color:#e6cf8b;
+  padding: 0 10px 5px 10px;
+  color:#22264B;
+}
+#header hr {
+  margin:0 -10px;
+}
+
+/** TODO FIXME: #main text must not be white, except for the sql errors that show up ... */
+/* The problem is more complex than that. The Body has the same color for text as the background! */
+#txtHint {
+color:#22264B;
+}
+
+#main {
+  text-align: left;
+  margin-left: 4%;
+  margin-right: 4%;
+  padding:0;
+  color:white;
+}
+
+#main h1, #main-top h2 {
+  color:#ED9;
+}
+
+#main-top {
+}
+
+#mkbk,#ssData{
+  margin:0;
+  border-radius: 2px;
+  padding:10px 20px;
+  line-height:140%;
+  width:40%;
+}
+#mkbk {
+/* border not needed: I'm making the box2 background transparent */
+ /* border:solid navy 1px; */
+  float:left;
+}
+#ssData {
+  border:solid #e6cf8b 1px;
+  float:right;
+}
+
+/* This is hidden until the ssDATA is entered. */
+#main-lower{
+
+}
+
+#newComment{
+  width:100%;
+}
+
+#repeatingComments {
+  margin-left:-10px;
+  top:85%;
+  /* background: #CCC; */
+  min-height:10%;
+  width:100%;
+  padding-top:10px;
+}
+
+#footer {
+  background: #111;
+  color:#CCC;
+  padding: 1% 0;
+  margin-top:5px;
+}
+
+.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.prevComment, .comment-text, .comment-text2 {
+  color:black; 
+/*  max-width: 80%;
+  width:80%;
+  min-width: 30%;  */
+  width:92%;
+  border: 2px solid gray;
+  border-radius: 5px;
+  padding: 1em;
+}
+.prevComment {
+  background-color:transparent;
+}
+.comment-text2 {
+  width:95%;
+}
+
+.fontONE {
+  /*font-family: Georgia, serif;*/
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.error {
+  color:#B00;
+  font-weight:bold;
+  padding:4px 0;
+  background:#BBDDFF;
+}
+
+.center { text-align:center; }
+.fleft { float:left; }
+.fright { float:right; }
+.nomargin { margin:0; }
+.green { color:green; }
+.gray { color:gray; }
+.white { color:white; color:#e8edf3; }
+.tan { color:#ED9;}
+.smaller{ font-size:80%; }
+.noborder { border:none; }
+
+/* These boxes are used in the comment display page.   
+   Box is for displaying the alpha characters, box2 inner1 and innner2 are for the comments on commentPage.php */
+.box {
+  border: 1px solid #036;
+  border-radius: 4px;
+  margin: 2% 0;
+  padding: 5px;
+  vertical-align:middle;
+}
+
+.box-repeat {
+  background-color:#999;
+  border: 1px solid #666;
+  text-align:left;
+  /*overflow:hidden;*/
+  padding:10px;
+  border-radius: 4px;
+  vertical-align:middle;
+  margin:8px 0;
+}
+
+.box2 {
+/*  background-color:#999; */
+  border: 1px solid #666;
+  text-align:left;
+  overflow:hidden;
+  padding:10px;
+  border-radius: 4px;
+  vertical-align:middle;
+}
+
+.box-repeat .topcell {
+  background-color:#ADD;
+  padding-right:0;
+  width:79%;
+}
+.box-repeat .rightcell {
+  background-color:#AAA;
+  height:100%;
+}
+.box-repeat .leftcell2{
+  padding-right:0;
+  width:80%;
+  border:none;
+}
+.box-repeat .rightcell2{
+  color:#AAA;
+  height:100%;
+  padding-left:0;
+  border:none;
+}
+.box-repeat .rightcell3 {
+/* this makes the text next to the Update and Completed buttons too close to the edge
+  padding-left:0;
+  padding-right:0; */
+}
+.box-repeat .bottomcell {
+  border:1px solid silver;
+  background-color:#8DD;
+}
+.box-repeat .completed {
+ background-color:#8D8;
+}
+
+.topalign {
+  position:absolute;
+/*
+  position: relative;
+  top: 10px;
+  vertical-align: top;
+  display:inline; */
+}
+.submit {
+  position:absolute;
+  top:2em;
+  left:0;
+}
+
+/* these columns are for the table of fields in addstudent.php */
+.col1, .col2{
+   display: inline-block;
+}
+.col1 {
+   float:left;
+}
+.col1 p {
+   margin:0;
+   text-align:right;
+}   
+.col2 {
+   float:right;
+}
+
+.tcol1, .tcol2 {
+  padding:4px;
+}
+.tcol1 p {
+  text-align:right;
+  margin:0;
+}
+.tcol2 {
+  text-align:left;
+}
+
+/* this is for studentFind.php to higlhight certain rows */
+.row0 {}
+.row1 { color:#A00;}
+.row2 { color:#080;}
+
+
+.student-desc {
+}
+
+.student-img {
+  margin: auto;
+  padding-left:20px;
+  height: 225px;
+  width: 180px;
+  float:right;
+}
+
+.subhead {
+  color: white;
+  opacity: 0.8;
+}
+
+.nav-button {
+  display:block;
+  text-decoration:none;
+  margin-top: 1em;
+  padding: 5px;
+  font-size: 18px;
+  color:white;
+  color:#036;
+  text-transform:uppercase;
+  border-radius: 5px;
+  border:1px solid #22264b;
+  border:1px solid #036;
+  vertical-align: middle;
+}
+
+.table-canvas
+{
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    overflow:hidden;
+    border-radius: 10px;
+    -pie-background: linear-gradient(#ece9d8, #E5ECD8);
+    box-shadow: #666 0px 2px 3px;
+    behavior: url(Include/PIE.htc);
+    overflow: hidden;
+    width: 80%;
+}
+.table-canvas td {
+  cursor:pointer; cursor:hand;
+}
+
+.timetable {
+   margin-top:0.8em;
+   float:left;
+   border:1px solid gray;
+}
+.timetable td, .timetable th
+{
+   padding-left:6px;
+   padding-right:6px;
+   border-left:1px solid gray;
+   border-right:1px solid gray;
+   text-align:center;
+}
+.timetable th {
+   border-bottom:1px solid gray;
+}
+.timetable td + td,
+.timetable th + th
+{
+    text-align:left;
+}
+
+
+/* copied from PURECSS */
+.pure-button {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    padding: 3px;
+    border: 3px outset #999;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 1% 2%;
+    font-weight:bold;
+}
+
+.pure-form .pure-input-2-3 {
+    width: 66%
+}
+.pure-form {
+  display:block;
+/*  font-size: .75em; */
+  padding: .2em 0 .8em;
+  margin: 1.5em 0 0 ;
+}
+.pure-form fieldset {
+    margin: 0;
+    padding: .35em 0 .75em;
+    border: 0
+}
+
+.pure-control-group{
+  margin-bottom: .5em;
+  clear:both;
+}
+
+.pure-form textarea {
+    padding: .5em .6em;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 3px #ddd;
+    border-radius: 4px;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.pure-form input,
+.pure-form textarea {
+    padding: 0.5em 0.6em;
+    display: inline-block;
+    border: 1px solid #CCC;
+    box-shadow: 0px 1px 3px #DDD inset;
+    border-radius: 4px;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/* Pure table stuff */
+.pure-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb
+}
+.pure-table caption {
+    color: #000;
+    font: italic 85%/1 arial, sans-serif;
+    padding: 1em 0;
+    text-align: center
+}
+.pure-table td,
+.pure-table th {
+    border-left: 1px solid #cbcbcb;
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+    padding: .5em 1em;
+    text-align: left;
+}
+.pure-table td .noborder {
+  border:none;
+}
+.pure-table td:first-child,
+.pure-table th:first-child {
+    border-left-width: 0
+}
+.pure-table thead {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
+    font-weight: bold;
+}
+.pure-table td {
+    background-color: white
+}
+.pure-table-odd td {
+    background-color: #f2f2f2
+}
+.pure-table-striped tr:nth-child(2n-1) td {
+    background-color: #f2f2f2
+}
+.pure-table-bordered td {
+    border-bottom: 1px solid #cbcbcb
+}
+.pure-table-bordered tbody>tr:last-child>td {
+    border-bottom-width: 0
+}
