@@ -40,8 +40,8 @@ Student Waitlist Database -- administrative options
 
 
 <ul>
-<li class="majorlinks"><a href="changePWD.php">Change your own login password</a><br><br></li>
-<li class="majorlinks"><a href="listUsers.php">List database users</a></li>
+<li><a style="font-size:larger;" href="changePWD.php">Change your own login password</a><br><br></li>
+<li><a style="font-size:larger;" href="listUsers.php">List database users</a></li>
 </ul>
 <hr>
 <p>&nbsp;</p>

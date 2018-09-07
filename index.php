@@ -99,7 +99,7 @@ about students to facilitate communication and follow-up regarding at-risk stude
 <td width=30% valign="top">
 <p>&nbsp;</p>
 <p class="box">
-  eg. "jsmith"<br> or standard teacher login</p>
+  eg. "jsmith"<br> or standard 'teacher' login</p>
 </td></tr>
 </table>
 
