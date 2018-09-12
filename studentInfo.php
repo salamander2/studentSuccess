@@ -3,7 +3,8 @@
 /*******************************************************************************
    Name: studentInfo.php
    Called from: home.php / studentFind.php
-   Purpose: 
+   Purpose: based on commentPage.php, but with sensitive information removed.
+	It's for general teacher view)
    Tables used: schoolDB/students, sssDB/sssInfo, sssDB/social_workers
    Calls: 
    Transfers control to: home.php
@@ -121,13 +122,7 @@ function formatCourse($course) {
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
 <?php
-if (false === $sssInfoFound) {
-    echo "<style>#main-lower{display:none;}#ssData{border-color:red;}.pure-button{color:red;}</style>";
-} else {
-    if (0 === $isTeam) {
-       echo "<style>#main-lower{display:none;}</style>";
-    }
-}
+    echo "<style>#main-lower{display:none;}</style>";
 ?>
 </head>
 
@@ -231,7 +226,6 @@ function validateData() {
 </script>
 
 <div id="ssData">
-<form action="sssDataHandler.php" method="post" onsubmit="return validateData();">
 <p>
 <span class="fleft">
 <?php 
@@ -254,7 +248,9 @@ if ($fnmi) {
 }
 ?>
 </span>
+</p>
 <br clear="both">
+<p>
 <span class="fleft">
     Grade: <input id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
 </span>
@@ -265,16 +261,7 @@ if ($fnmi) {
 </select>
 </span>
 <br clear="both" />
-<div>
-   Staff: <input type="text" size="22" name="staff" value="<?php echo $staff; ?>">
-   
-   <button type="submit" 
-       <?php 
-           if (0===$isTeam) echo " disabled ";
-       ?>
-       class="pure-button fright">Update</button>
-   <input type="hidden" name="dataExists" value="<?php echo $sssInfoFound; ?>">
-</div>
+</p>
 <!-- drop down box
 <select name="cars">
  <optgroup label="Swedish Cars">
@@ -300,8 +287,6 @@ if ($fnmi) {
 
 <!-- ********** start maim-lower section [continues til footer] ******************* -->
 <div id="main-lower">
-
-
 
 <p>&nbsp;</p>
 <hr>

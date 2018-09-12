@@ -158,6 +158,8 @@ color:#22264B;
 /* border not needed: I'm making the box2 background transparent */
  /* border:solid navy 1px; */
   float:left;
+  width:43%;
+  max-width:45%;
 }
 #ssData {
   border:solid #e6cf8b 1px;

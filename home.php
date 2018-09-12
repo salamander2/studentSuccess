@@ -86,8 +86,14 @@ function showHint(str) {
 <span class="white">Enter First Name, Last Name, or Student Number...</span>
 <fieldset>
 <input class="pure-input-2-3" autofocus="" type="text" onkeyup="showHint(this.value)" placeholder="Enter First Name, Last Name, or Student Number..." >
+
 <!-- adding in a button to show all of the students who have comments -->
-<input class="pure-button" style="border:5px outset #999;font-size:16px;" type="button" value="List at-risk students" onclick="showHint('ACTIVATED')" >
+<?php
+
+if (1 === $isTeam) {
+echo '<input class="pure-button" style="border:5px outset #999;font-size:16px;" type="button" value="List at-risk students" onclick="showHint(\'ACTIVATED\')" >';
+}
+?>
 </fieldset>
 <!-- the student table is created here at txtHint. There is also formatting for this in the css  -->
 <div id="txtHint"></div>
