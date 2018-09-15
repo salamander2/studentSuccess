@@ -8,8 +8,7 @@ home.php
 studentFind.php		** NOT PREPARED STATEMENTS yet
 admin.php	- no tables used
 logout.php	- no tables used
-commentPage.php		** NOT PREPARED STATEMENTS yet
-	still need line 336 and 363
+commentPage.php
 commentHandler.php
 nextSteps.php
 completed.php

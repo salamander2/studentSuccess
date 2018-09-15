@@ -327,11 +327,18 @@ if ($fnmi) {
     <?php 
     // sending query: get all comments for this student.
     //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, AES_DECRYPT(next_steps,'$masterkeyhash'), id, completed FROM comments WHERE student_number=$student_number ORDER BY timestamp DESC";
-    $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=$studentID ORDER BY timestamp DESC";
+    //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=$studentID ORDER BY timestamp DESC";
 
-    $result = mysqli_query($sssDB, $sql);
-    if (!$result) {
-        die("Query to show fields from comments table failed. commentPage.php<br>" . $sql);
+    $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=? ORDER BY timestamp DESC";
+    if ($stmt = $sssDB->prepare($sql)) {
+       $stmt->bind_param("i", $studentID);
+       $stmt->execute();
+       $result = $stmt->get_result();
+       $stmt->close();
+    } else {
+       $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
+       $message_ .= 'SQL: ' . $sql;
+       die($message_); 
     }
     $row_cnt = mysqli_num_rows($result);
     if ($row_cnt == 0) {
@@ -354,12 +361,19 @@ while ($row = mysqli_fetch_row($result)){
    if ($row[4] == 1) $completed = true;
 
    //now select the next steps for each comment 
-   $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID='$row[3]' ORDER BY timestamp ASC";
+   //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID='$row[3]' ORDER BY timestamp ASC";
+   $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID=? ORDER BY timestamp ASC";
    // for NS table [0] is decrypted notes, [1] is timestamp. [2] is login_name
-   $resultNS = mysqli_query($sssDB, $sql);
-   if (!$resultNS) {
-        die("Query to show fields from next_steps table failed. commentPage.php<br>" . $sql);
-   }
+    if ($stmt = $sssDB->prepare($sql)) {
+       $stmt->bind_param("i", $row[3]);
+       $stmt->execute();
+       $resultNS = $stmt->get_result();
+       $stmt->close();
+    } else {
+       $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
+       $message_ .= 'SQL: ' . $sql;
+       die($message_);
+    }
    $row_cntNS = mysqli_num_rows($resultNS);
 
 ?>
