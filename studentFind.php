@@ -27,15 +27,31 @@ $q = clean_input($_REQUEST["q"]);
 if ($q == "ACTIVATED") {
    //this query uses two databases. It assumes that the first database (default) is schoolDB.
    $query = "SELECT students.studentID, students.firstname, students.lastname FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
+   $result = mysqli_query($schoolDB, $query);
+   if (!$result) {
+      die("Query to list students from table failed");
+   }
+
 } else {
-   $query = "SELECT * FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
-//   $query = "SELECT * FROM students ORDER BY lastname, firstname";
+
+   #$query = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
+   $q = $q.'%';
+   $q2 = $q;
+   $q3 = $q;
+   $query = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE ? or lastname LIKE ? or studentID LIKE ? ORDER BY lastname, firstname";
+   if ($stmt = $schoolDB->prepare($query)) {
+       $stmt->bind_param("sss", $q, $q2, $q3);
+       $stmt->execute(); 
+       $result = $stmt->get_result();
+       $stmt->close();                 
+   } else {
+      $message_  = 'Invalid query: ' . mysqli_error($schoolDB) . "\n<br>";
+      $message_ .= 'SQL2: ' . $query;
+      die($message_); 
+   }
 }
 
-$result = mysqli_query($schoolDB, $query);
-if (!$result) {
-	die("Query to list students from table failed");
-}
+
 ?>
 
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
