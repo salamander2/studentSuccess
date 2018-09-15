@@ -4,7 +4,7 @@
    Called from: home.php
    Purpose: This file holds the function for finding students and diplaying them as a table
    Tables used: schoolDB/students, sssDB/sssInfo
-   Transfers control to: commentPage.php
+   Transfers control to: commentPage.php or studentInfo.php (for non TEAM members)
 ******************************************************************************/
 
 error_reporting(E_ALL);
@@ -38,7 +38,7 @@ if (!$result) {
 }
 ?>
 
-<table class="pure-table pure-table-bordered table-canvas">
+<table class="pure-table pure-table-bordered table-canvas" style="border:none;">
 <thead>
 <tr>
 <th>Student Name</th>

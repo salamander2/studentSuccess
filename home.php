@@ -100,6 +100,7 @@ echo '<input class="pure-button" style="border:5px outset #999;font-size:16px;" 
 </form>
 <?php
 #  echo "===".$isTeam."===";
+echo base64_encode(random_bytes(32));
 ?>
 </body>
 </html>

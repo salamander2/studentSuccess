@@ -257,7 +257,9 @@ if ($fnmi) {
 }
 ?>
 </span>
+</p>
 <br clear="both">
+<p>
 <span class="fleft">
     Grade: <input id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
 </span>
@@ -267,15 +269,20 @@ if ($fnmi) {
    <?php echo $sw_name_opt; ?>
 </select>
 </span>
+</p>
 <br clear="both" />
 <div>
-   Staff: <input type="text" size="22" name="staff" value="<?php echo $staff; ?>">
+   <!--Staff: <input type="text" size="22" name="staff" value="<?php #echo $staff; ?>"> -->
    
    <button type="submit" 
        <?php 
            if (0===$isTeam) echo " disabled ";
        ?>
-       class="pure-button fright">Update</button>
+       class="pure-button fright">
+       <?php if (true===$sssInfoFound) echo "Update";
+	     else echo "Activate AtRisk";
+       ?>
+   </button>
    <input type="hidden" name="dataExists" value="<?php echo $sssInfoFound; ?>">
 </div>
 <!-- drop down box

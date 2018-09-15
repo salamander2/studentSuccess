@@ -64,7 +64,7 @@ function printHeader($fullname, $alpha, $isTeam = null) { //if you don't add isT
    if (0===$isTeam || null===$isTeam) {
       $text.= '<span class="box fontONE">VIEW ONLY</span>';
    } else {
-      $text.= "<span class=\"box fontONE\">Alpha=\"$alpha\"</span>";
+      $text.= "<span class=\"box fontONE\"> Dept: $alpha</span>";
    }
    $text .= "</h4>";
    echo $text;

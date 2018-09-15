@@ -21,3 +21,4 @@ TODO:
 * get addusers working
 
 * fix changePWD:  it must include both schoolDB and sssDB (connect to them first), and also change them to be prepared statements
+		  it must also remove default password flag
