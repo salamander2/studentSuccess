@@ -5,7 +5,7 @@
 index.php
 sssdb.php
 home.php
-studentFind.php		** NOT PREPARED STATEMENTS yet
+studentFind.php
 admin.php	- no tables used
 logout.php	- no tables used
 commentPage.php
