@@ -4,17 +4,17 @@
    Called from: admin.php
    Purpose: change user password. 
 	NOTE: does not work with prepared statements
-   Tables used: sssDB
+   Tables used: schoolDB
    Calls: 
    Transfers control to: logout.php
 ******************************************************************************/
 error_reporting(E_ALL);
 // Start the session
 session_start();
-require_once('../../DB-admin/php_includes/sssDB.php');
-require_once('sssdb.php');
+require_once('../../DB-admin/php_includes/sssDB.inc.php');
+require_once('common.inc.php');
 
-$sssDB = connectToDB("sssDB", $username, $password);
+$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 $error_message="";
 $newpass = "";
@@ -32,7 +32,7 @@ if(isset($_POST['submit'])) {
 		$sql = "SET PASSWORD = PASSWORD('".$newpass."'); "; //flush priveleges
 
 		// Perform Query
-		$result = mysqli_query($sssDB, $sql);
+		$result = mysqli_query($schoolDB, $sql);
 
 		// Check result
 		// This shows the actual query sent to MySQL, and the error. Useful for debugging.
@@ -45,7 +45,7 @@ if(isset($_POST['submit'])) {
 		} else {
 			$error_message = "<div class=\"error green\">" . "Password successfully changed." . "</div>";
 /*
-			runSimpleQuery($sssDB,"FLUSH PRIVILEGES");
+			runSimpleQuery($schoolDB,"FLUSH PRIVILEGES");
 Invalid query: Access denied; you need (at least one of) the RELOAD privilege(s) for this operation
 SQL: FLUSH PRIVILEGES
 */

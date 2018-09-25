@@ -1,14 +1,21 @@
 <?php
 //Databse information that is globally shared
-//session_start();
 $servername = getenv('IP');
 
-//Load session variables again
+/*** Load session variables again ***/
+$sql_user = "";
+$sql_pass = "";
+
+//user's login and password and fullname
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
 $fullname = $_SESSION["fullname"];
 $alpha    = $_SESSION["alpha"];
 $isTeam   = $_SESSION["isTeam"];
+$isAdmin  = $_SESSION["isAdmin"];
+$sql_user = $_SESSION["sql_user"]; 
+$sql_pass = $_SESSION["sql_pass"];
+
 $studentID = $_SESSION["studentID"];
 
 /*
@@ -19,21 +26,6 @@ if(empty($_SESSION['username'])){
 }
 */
 
-//TODO: do not have every single page making these connections. Put them in a function and only call them if necessary.
-/*
-// Connecting, selecting database
-$mysqli = mysqli_connect($servername, $username, $password, $database);
-if (mysqli_connect_errno($mysqli)) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    die("Program terminated");
-}
-// Connecting, selecting database
-$schoolDB = mysqli_connect($servername, $username, $password, "schoolDB");
-if (mysqli_connect_errno($schoolDB)) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    die("Program terminated");
-}
-*/
 function connectToDB($database, $username, $password) {
    $servername = getenv('IP');
    $db = mysqli_connect($servername, $username, $password, $database);

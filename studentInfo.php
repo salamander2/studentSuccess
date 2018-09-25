@@ -12,11 +12,11 @@
 
 error_reporting(E_ALL);
 session_start();
-require_once('../../DB-admin/php_includes/sssDB.php');
-require_once('sssdb.php');
+require_once('../../DB-admin/php_includes/sssDB.inc.php');
+require_once('common.inc.php');
 
-$sssDB = connectToDB("sssDB",$username,$password);
-$schoolDB = connectToDB("schoolDB",$username,$password);
+$sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
+$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 $studentID = $_GET['ID'];
 $_SESSION["studentID"] = $studentID;

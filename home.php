@@ -11,10 +11,10 @@
 error_reporting(E_ALL);
 // Start the session
 session_start();
-require_once('../../DB-admin/php_includes/sssDB.php');
-require_once('sssdb.php');
+require_once('../../DB-admin/php_includes/sssDB.inc.php');
+require_once('common.inc.php');
 
-$schoolDB = connectToDB("schoolDB", $username, $password);
+$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 //retrieve user info
 $sql = "SELECT full_name, alpha, isTeam FROM users WHERE login_name = ?";

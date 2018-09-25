@@ -12,7 +12,7 @@ session_start();
 require_once('../../DB-admin/php_includes/sssDB.php');
 require_once('sssdb.php');
 
-$schoolDB = connectToDB("schoolDB", $username, $password);
+$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 $error_message="";
 
