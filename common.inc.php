@@ -19,6 +19,7 @@ $password = $_SESSION["password"];
 $fullname = $_SESSION["fullname"];
 $alpha    = $_SESSION["alpha"];
 $isTeam   = $_SESSION["isTeam"];
+$isTeamAdmin  = $_SESSION["isTeamAdmin"];
 $isAdmin  = $_SESSION["isAdmin"];
 $sql_user = $_SESSION["sql_user"]; 
 $sql_pass = $_SESSION["sql_pass"];

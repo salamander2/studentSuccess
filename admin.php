@@ -40,7 +40,13 @@ Student Waitlist Database -- administrative options
 
 
 <ul>
-<li><a style="font-size:larger;" href="changePWD.php">Change your own login password</a><br><br></li>
+<?php
+if (1==$isTeam) {
+	echo '<li><a style="font-size:larger;" href="changePWD.php">Change your own login password</a><br><br></li>';
+} else {
+	echo '<li><a style="font-size:larger;" href=""><s>Change your own login password</s></a><br><br></li>';
+}
+?>
 <li><a style="font-size:larger;" href="listUsers.php">List database users</a></li>
 </ul>
 <hr>

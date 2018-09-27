@@ -17,13 +17,15 @@ require_once('common.inc.php');
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 //retrieve user info
-$sql = "SELECT full_name, alpha, isTeam FROM users WHERE login_name = ?";
+#$sql = "SELECT full_name, alpha, isTeam FROM users WHERE login_name = ?";
+$sql = "SELECT full_name, alpha FROM users WHERE login_name = ?";
 
 if ($stmt = $schoolDB->prepare($sql)) {
   /* bind parameters for markers */
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $stmt->bind_result($fullname,$alpha,$isTeam);
+    #$stmt->bind_result($fullname,$alpha,$isTeam);
+    $stmt->bind_result($fullname,$alpha);
     $stmt->fetch();
     $stmt->close();
 } else {
@@ -34,7 +36,8 @@ if ($stmt = $schoolDB->prepare($sql)) {
 
 $_SESSION["fullname"] = $fullname;
 $_SESSION["alpha"] = $alpha;
-$_SESSION["isTeam"] = $isTeam;
+
+#$_SESSION["isTeam"] = $isTeam;	-- done in index.php
 ?>
 
 <!DOCTYPE html>

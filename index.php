@@ -49,11 +49,11 @@ if(isset($_POST['login'])) {
 	//3. get user info from schoolDB/users table
 
 	if (empty($error_message)) {
-		$sql = "SELECT full_name, alpha, password, isAdmin, isTeam FROM users WHERE login_name = ?";
+		$sql = "SELECT full_name, alpha, password, isAdmin, isTeamAdmin, isTeam FROM users WHERE login_name = ?";
 		if ($stmt = $schoolDB->prepare($sql)) {
 			$stmt->bind_param("s", $username);
 			$stmt->execute();
-			$stmt->bind_result($fullname,$alpha,$hashPassword,$isAdmin,$isTeam);
+			$stmt->bind_result($fullname,$alpha,$hashPassword,$isAdmin,$isTeamAdmin,$isTeam);
 			$stmt->fetch();
 			$stmt->close();
 		} else {
@@ -76,6 +76,9 @@ if(isset($_POST['login'])) {
 		if (1==$isAdmin) {
 			$sql_user = $username;
 			$sql_pass = $password;
+		} else if (1==$isTeamAdmin) {
+			$sql_user = $userADM;
+			$sql_pass = $passADM;
 		} else if (1==$isTeam) {
 			$sql_user = $userSTD;
 			$sql_pass = $passSTD;
@@ -93,7 +96,8 @@ if(isset($_POST['login'])) {
 		$_SESSION["sql_pass"] = $sql_pass;
 
 		$_SESSION["isAdmin"] = $isAdmin;
-#		$_SESSION["isTeam"] = $isTeam;	//done in home.php
+		$_SESSION["isTeamAdmin"] = $isTeamAdmin;
+		$_SESSION["isTeam"] = $isTeam;
 
 		header("location: home.php");
 	}
