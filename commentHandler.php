@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
-   Name: index.php
+   Name: CommentHandler.php
    Called from: --
    Purpose: This file is used to insert data into the comment's table
    Tables used: sssDB/comments

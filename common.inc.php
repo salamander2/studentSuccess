@@ -1,5 +1,12 @@
 <?php
-//Databse information that is globally shared
+/*******************************************************************************
+   Name: common.inc.php
+   Purpose: 
+		Database information that is shared 
+		and frequently used methods.
+
+******************************************************************************/
+
 $servername = getenv('IP');
 
 /*** Load session variables again ***/
