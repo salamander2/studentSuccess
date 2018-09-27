@@ -35,7 +35,7 @@ Student Waitlist Database -- administrative options
 
 <?php echo $error_message; ?>
 
-
+<?php echo $sql_user; ?>
 <div id="main">
 
 

@@ -1,19 +1,20 @@
 <?php
 /*******************************************************************************
-   Name: changePWD.php
-   Called from: admin.php
-   Purpose: change user password. 
-	NOTE: does not work with prepared statements
-   Tables used: schoolDB
-   Calls: 
-   Transfers control to: logout.php
-******************************************************************************/
+  Name: changePWD.php
+  Called from: admin.php
+  Purpose: change user password 
+ ***NOTE: does not work with prepared statements
+ Tables used: schoolDB/users
+ Calls: 
+ Transfers control to: logout.php
+ ******************************************************************************/
+
 error_reporting(E_ALL);
-// Start the session
 session_start();
 require_once('../../DB-admin/php_includes/sssDB.inc.php');
 require_once('common.inc.php');
 
+//This won't work if you're a readonly user. You can't change your password. Maybe this is a good thing.
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 $error_message="";
@@ -28,30 +29,21 @@ if(isset($_POST['submit'])) {
 
 	//if correct, then add to database
 	if (empty($error_message)) {
-		//$sql = "SET PASSWORD FOR '". $username."'@'localhost' = PASSWORD('".$newpass."'); FLUSH PRIVILEGES;";
-		$sql = "SET PASSWORD = PASSWORD('".$newpass."'); "; //flush priveleges
+		$hashPassword = password_hash($newpass, PASSWORD_DEFAULT);
 
-		// Perform Query
-		$result = mysqli_query($schoolDB, $sql);
+		$sql = "UPDATE users SET password=?, defaultPWD=0 WHERE login_name=?";
 
-		// Check result
-		// This shows the actual query sent to MySQL, and the error. Useful for debugging.
-		if (!$result) {
-			$message  = 'Invalid query: ' . mysql_error() . "\n";
-			$message .= 'Whole query: ' . $query;
-             		$message .= 'SQL: ' . $sql;
-
-			die($message);
+		if ($stmt = $schoolDB->prepare($sql)) {
+			$stmt->bind_param("ss", $hashPassword, $username);
+			$stmt->execute();
+			$stmt->close();
 		} else {
-			$error_message = "<div class=\"error green\">" . "Password successfully changed." . "</div>";
-/*
-			runSimpleQuery($schoolDB,"FLUSH PRIVILEGES");
-Invalid query: Access denied; you need (at least one of) the RELOAD privilege(s) for this operation
-SQL: FLUSH PRIVILEGES
-*/
-			header("Location: logout.php");
-			die();
+			$message_  = 'Invalid query: ' . mysqli_error($schoolDB) . "\n<br>";
+			$message_ .= 'SQL: ' . $sql;
+			die($message_);
 		}
+
+		header("Location: logout.php");
 	}
 }
 

@@ -66,17 +66,17 @@ if(isset($_POST['login'])) {
 	//4. verify the password that was entered (we already have the username)
 	if (empty($error_message)) {
 		if (!password_verify($password, $hashPassword)) {
-			$error_message = "Invalid password. $username -- $password";
+			$error_message = "Invalid password.";
 		}
 	}
 
 
 	//5. determine access priveledges and set session variables
 	if (empty($error_message)) {
-		if (1===isAdmin) {
+		if (1==$isAdmin) {
 			$sql_user = $username;
 			$sql_pass = $password;
-		} else if (1===isTeam) {
+		} else if (1==$isTeam) {
 			$sql_user = $userSTD;
 			$sql_pass = $passSTD;
 		} else {
@@ -87,13 +87,13 @@ if(isset($_POST['login'])) {
 		//store session variables
 		$_SESSION["username"] = $username;
 		$_SESSION["password"] = $password;
-#			$_SESSION["alpha"] = $alpha;	//done in home.php
+#		$_SESSION["alpha"] = $alpha;	//done in home.php
 
 		$_SESSION["sql_user"] = $sql_user;
 		$_SESSION["sql_pass"] = $sql_pass;
 
 		$_SESSION["isAdmin"] = $isAdmin;
-#			$_SESSION["isTeam"] = $isTeam;	//done in home.php
+#		$_SESSION["isTeam"] = $isTeam;	//done in home.php
 
 		header("location: home.php");
 	}

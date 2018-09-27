@@ -81,6 +81,7 @@ function showHint(str) {
     <hr>
 </div>
 
+<?php echo $sql_user."=".$isTeam; ?>
 
 <form class="pure-form">
 <span class="white">Enter First Name, Last Name, or Student Number...</span>
