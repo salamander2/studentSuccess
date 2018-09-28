@@ -70,8 +70,14 @@ if(isset($_POST['login'])) {
 		}
 	}
 
+	// Extra check to make sure that the "teacher" login never gets isTeam access ...
+	if (empty($error_message)) {
+		if (1==$isTeam && $username=="teacher") {
+			$error_message = "ERROR: someone has granted TEACHER user elevated permissions. Contact Michael Harwood ASAP.";
+		}
+	}
 
-	//5. determine access priveledges and set session variables
+	//5. determine access priveledges and set session variables, then go to the next page
 	if (empty($error_message)) {
 		if (1==$isAdmin) {
 			$sql_user = $username;

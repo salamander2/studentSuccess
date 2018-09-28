@@ -52,6 +52,18 @@ $_SESSION["alpha"] = $alpha;
 -->
 <script type="text/javascript" src="jquery-1.8.0.min.js"></script>
 <script>
+function toggleSelect(ID) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			//document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+			showHint("ACTIVATED");
+		}
+	}
+	xmlhttp.open("GET", "toggleSelect.php?q=" + ID, true);
+	xmlhttp.send(); 
+}
+
 function showHint(str) {
     if (str.length == 0) { 
         document.getElementById("txtHint").innerHTML = "";
@@ -99,6 +111,7 @@ echo '<input class="pure-button" style="border:5px outset #999;font-size:16px;" 
 }
 ?>
 </fieldset>
+
 <!-- the student table is created here at txtHint. There is also formatting for this in the css  -->
 <div id="txtHint"></div>
 </form>

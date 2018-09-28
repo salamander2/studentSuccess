@@ -204,7 +204,7 @@ function formatCourse($course) {
    }
 ?>
 </table>
-<p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p>
+<!-- <p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p> -->
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->

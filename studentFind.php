@@ -24,9 +24,12 @@ if (1 === $isTeam) {
 // get the q parameter from URL
 $q = clean_input($_REQUEST["q"]);
 
-if ($q == "ACTIVATED") {
+$activate = false;
+if ($q == "ACTIVATED") $activate = true;
+
+if ($activate) {
    //this query uses two databases. It assumes that the first database (default) is schoolDB.
-   $query = "SELECT students.studentID, students.firstname, students.lastname FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
+   $query = "SELECT students.studentID, students.firstname, students.lastname, sssInfo.selected FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
    $result = mysqli_query($schoolDB, $query);
    if (!$result) {
       die("Query to list students from table failed");
@@ -50,8 +53,12 @@ if ($q == "ACTIVATED") {
       die($message_); 
    }
 }
+?>
 
-
+<?php
+if ($activate && 1===$isTeam) {
+  echo "<p class='white centered'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
+}
 ?>
 
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
@@ -59,6 +66,11 @@ if ($q == "ACTIVATED") {
 <tr>
 <th>Student Name</th>
 <th>Student Number</th>
+<?php
+	if ($activate && 1==$isTeamAdmin) {
+		echo "<th>Select?</th>";
+	}
+?>
 </tr>
 </thead>
 <tbody>
@@ -68,10 +80,12 @@ if ($q == "ACTIVATED") {
 // $row = mysql_fetch_row($result);
 while ($row = mysqli_fetch_assoc($result)){ 
 
+	 $selected = false;
+	 if ($row['selected'] == 1) $selected=true;
    //1. Is the student "at risk" - ie. does he/she have an sssInfo record?
-   //this always gives 1 row with either a 1 or 0 in it.
-   #$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE studentID='" . $row['studentID'] . "')";
-   #$sql = "SELECT studentID FROM sssInfo WHERE studentID='" . $row['studentID'] . "'";
+	   //this always gives 1 row with either a 1 or 0 in it.
+	   #$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE studentID='" . $row['studentID'] . "')";
+	   #$sql = "SELECT studentID FROM sssInfo WHERE studentID='" . $row['studentID'] . "'";
    $sql = "SELECT studentID FROM sssInfo WHERE studentID = ? ";
    if ($stmt = $sssDB->prepare($sql)) {
       $stmt->bind_param("i", $row['studentID']);
@@ -105,15 +119,26 @@ while ($row = mysqli_fetch_assoc($result)){
          die($message_); 
       }
       if ($comp) $num_rows = 2;
+	  if ($selected) $num_rows = $num_rows * 10;
    }
 
    #  <!-- select page based on "$nextPage"  -->
    # should look like this: <tr onclick="window.document.location='commentPage.php?ID=339671216';" class="row0">
    # old code: echo "<tr onclick=".'"'."window.document.location='commentPage.php?ID=".$row['studentID'] ."';".'" class="row0">';
    #echo "<tr onclick=\"window.document.location='commentPage.php?ID=". $row['studentID'] . "';\" class=\"row$num_rows\">";
-   echo "<tr onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" class=\"row$num_rows\">";
-   echo "<td>".$row['lastname'], ", ", $row['firstname'] ."</td>";
-   echo "<td>".$row['studentID']. "</td>";
+   echo "<tr class=\"row$num_rows\">";
+   echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
+   echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']. "</td>";
+   if ($activate) {
+	    if (1==$isTeamAdmin) {
+//			echo '<td onclick="toggleSelect('.$row['studentID'].','.$selected.')" >';
+			echo '<td>';
+  			echo '<input onclick="toggleSelect('.$row['studentID'].','.$selected.')" type="checkbox" id="fluency"';
+			 if ($selected) echo " checked ";
+			echo '>';
+			echo '</td>';
+		}
+   }
    echo "</tr>";
 
 } //this is the end of the while loop
@@ -125,3 +150,4 @@ while ($row = mysqli_fetch_assoc($result)){
 <?php
 // mysqli_free_result($result);
 ?>
+

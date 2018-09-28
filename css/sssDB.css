@@ -164,8 +164,22 @@ color:#22264B;
 #ssData {
   border:solid #e6cf8b 1px;
   float:right;
+  margin-top:10px;
+  margin-right:10px;
 }
 
+#mtgDate {
+border:1px solid green;
+padding:2px 10px;
+position:absolute;
+bottom:12px;right:20px;
+}
+
+#mtgDate input {
+  font-size:15px;
+  margin:0;
+  padding:0;
+}
 /* This is hidden until the ssDATA is entered. */
 #main-lower{
 
@@ -268,6 +282,8 @@ color:#22264B;
   padding:10px;
   border-radius: 4px;
   vertical-align:middle;
+  position:relative;
+  padding-bottom:45px;
 }
 
 .box-repeat .topcell {
@@ -343,11 +359,14 @@ color:#22264B;
   text-align:left;
 }
 
-/* this is for studentFind.php to higlhight certain rows */
+/* this is for studentFind.php to highlight certain rows */
 .row0 {}
 .row1 { color:#A00;}
+.row10 { color:#A00;background-color:#f4f85d;}
+.pure-table .row10 td { color:#A00;background-color:#f4f85d;}
 .row2 { color:#080;}
-
+.row20 { color:#080;background-color:#f4f85d;}
+.pure-table .row20 td { color:#080;background-color:#f4f85d;}
 
 .student-desc {
 }

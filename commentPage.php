@@ -72,6 +72,7 @@ if ($sssInfoFound) {
         $grade = $row['grade'];
         $swID = $row['swID'];
         $staff = $row['staff'];
+		$lastMtg = $row['lastMtg'];
     }
 }
 
@@ -212,7 +213,7 @@ if (false === $sssInfoFound) {
    }
 ?>
 </table>
-<p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p>
+<!-- <p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p> -->
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
@@ -300,7 +301,20 @@ if ($fnmi) {
 <p>
 </form>
 
+
 </div><!-- ************ end ssData **************** -->
+<?php
+if (1===$isTeam && $sssInfoFound) {
+	if ($lastMtg == "") $lastMtg = "yyyy-mm-dd";
+	echo '<div id="mtgDate">';
+	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
+	if ($isTeamAdmin == 1) {
+		echo '&nbsp;&nbsp;<button class="Xpure-button" style="margin:0;">Update</button>';
+	}
+	echo '</p>';
+	echo '</div>';
+}
+?>
 </div><!-- ************ end of box2 *************** -->
 
 
@@ -388,7 +402,7 @@ while ($row = mysqli_fetch_row($result)){
    	 echo "<td align=\"left\" class=\"topcell\">";
 	}
    ?>
-<textarea readonly rows="2" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
+<textarea readonly rows="4" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
    </td>
 
    <td valign="center" class="rightcell"><?php echo $row[1],"<br>",$row[2]; ?></td>
