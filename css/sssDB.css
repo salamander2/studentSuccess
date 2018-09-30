@@ -10,7 +10,7 @@ html{
 body {
   /*background-color: #1F8DD6;
   background-color: #1FD68D; */
-  background-color: #22264B;
+  background-color: #22264B; /* navy background */
   color:#e8edf3;
   color:#22264B;
   margin:-5px 10px 5px 10px;
@@ -18,6 +18,7 @@ body {
 }
 
 p {
+  padding: 3px;
   text-align:left;
 }
 
@@ -55,6 +56,7 @@ button {
   font-size:15px;
   text-transform: none
 }
+
 button,
 html input[type=button],
 input[type=reset],
@@ -85,7 +87,7 @@ fieldset {
   margin: 0 2px;
   padding: .35em .625em .75em
 }
-/* legend is only used in addstudents.php */
+/* legend is used in addstudents.php and userMaint.php*/
 legend {
   border: 1px solid white;
   padding:15px; 
@@ -129,7 +131,7 @@ th {
 /** TODO FIXME: #main text must not be white, except for the sql errors that show up ... */
 /* The problem is more complex than that. The Body has the same color for text as the background! */
 #txtHint {
-color:#22264B;
+  color:#22264B;
 }
 
 #main {
@@ -169,12 +171,15 @@ color:#22264B;
 }
 
 #mtgDate {
-border:1px solid green;
+border:2px solid #262;
 padding:2px 10px;
 position:absolute;
 bottom:12px;right:20px;
 }
 
+#mtgDate p {
+  margin:0;
+}
 #mtgDate input {
   font-size:15px;
   margin:0;
@@ -182,7 +187,6 @@ bottom:12px;right:20px;
 }
 /* This is hidden until the ssDATA is entered. */
 #main-lower{
-
 }
 
 #newComment{
@@ -238,7 +242,7 @@ bottom:12px;right:20px;
 .error {
   color:#B00;
   font-weight:bold;
-  padding:4px 0;
+  padding:4px 0 4px 4px;
   background:#BBDDFF;
 }
 
@@ -246,12 +250,16 @@ bottom:12px;right:20px;
 .fleft { float:left; }
 .fright { float:right; }
 .nomargin { margin:0; }
+.smaller{ font-size:80%; }
+.noborder { border:none; }
 .green { color:green; }
 .gray { color:gray; }
 .white { color:white; color:#e8edf3; }
 .tan { color:#ED9;}
-.smaller{ font-size:80%; }
-.noborder { border:none; }
+.lightblue {color:#55e2f3;}
+.red { color:red; }
+/* header background */
+.yellow { color:#e6cf8b; }
 
 /* These boxes are used in the comment display page.   
    Box is for displaying the alpha characters, box2 inner1 and innner2 are for the comments on commentPage.php */
@@ -493,7 +501,12 @@ bottom:12px;right:20px;
     vertical-align: middle;
     box-sizing: border-box;
 }
-
+.pure-form .small {
+   margin-left:4px; 
+   margin-right:4px;
+   font-size:80%;
+}
+/******************************************************/
 /* Pure table stuff */
 .pure-table {
     border-collapse: collapse;
@@ -532,10 +545,10 @@ bottom:12px;right:20px;
     font-weight: bold;
 }
 .pure-table td {
-    background-color: white
+    background-color: white;
 }
 .pure-table-odd td {
-    background-color: #f2f2f2
+    background-color: #f2f2f2;
 }
 .pure-table-striped tr:nth-child(2n-1) td {
     background-color: #f2f2f2

@@ -201,14 +201,24 @@ if (false === $sssInfoFound) {
 <table class="timetable">
 <tr><th>Period</th><th>Course</th><th>Teacher</th><th>Room</th></tr>
 <?php
+   //This prints out the timetable if there is one. 
+   //If there is no timetable, we still have to print out 4 rows in order for the "mtgDate" to be positioned correctly on the page.
    if ($timetable->num_rows == 0) {
      echo "<tr><td colspan=4> no timetable </td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
    } else {
+	  $n=1;
       while ($row = mysqli_fetch_assoc($timetable)) {
         $coursecode = formatCourse($row['coursecode']);
 
         $text = "<td>".$row['period'] ."</td><td>". $coursecode ."</td><td>". $row['teacher'] ."</td><td>". $row['room'] . "</td>";
         echo "<tr>" . $text . "</tr>";
+		$n++;
+      }
+	  for(;$n<=4; $n++) {
+        echo "<tr><td colspan=4>&nbsp;</td></tr>";
       }
    }
 ?>
@@ -305,11 +315,12 @@ if ($fnmi) {
 </div><!-- ************ end ssData **************** -->
 <?php
 if (1===$isTeam && $sssInfoFound) {
-	if ($lastMtg == "") $lastMtg = "yyyy-mm-dd";
+	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
 	echo '<div id="mtgDate">';
 	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
 	if ($isTeamAdmin == 1) {
-		echo '&nbsp;&nbsp;<button class="Xpure-button" style="margin:0;">Update</button>';
+		$clickStr = "onclick=\"window.document.location='updateSSTdate.php?ID=$studentID';\"";
+		echo '&nbsp;&nbsp;<button class="Xpure-button" '.$clickStr.' style="margin:0;">Set to today</button>';
 	}
 	echo '</p>';
 	echo '</div>';

@@ -20,7 +20,7 @@ require_once('common.inc.php');
 <head lang="en">
 <meta charset="UTF-8">
 <title>
-Student Waitlist Database -- administrative options
+Student Success Database -- administrative options
 </title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
@@ -29,7 +29,7 @@ Student Waitlist Database -- administrative options
 <body>
 <div id="header">
 <a class="fa fa-arrow-left nav-button fleft" href="home.php">  Go Back</a>
-<h1>Waitlist database administration</h1>
+<h1>Student Success database administration</h1>
 <?php printHeader($fullname, $alpha, $isTeam); ?>
 </div>
 
@@ -46,8 +46,13 @@ if (1==$isTeam) {
 } else {
 	echo '<li><a style="font-size:larger;" href=""><s>Change your own login password</s></a><br><br></li>';
 }
+
+echo '<li><a style="font-size:larger;" class="white" href="listUsers.php">List database users</a><br><br></li>';
+
+if (1==$isTeamAdmin) {
+	echo '<li><a style="font-size:larger;" href="userMaint.php">Add, modify, delete users</a><br><br></li>';
+}
 ?>
-<li><a style="font-size:larger;" href="listUsers.php">List database users</a></li>
 </ul>
 <hr>
 <p>&nbsp;</p>
@@ -63,7 +68,7 @@ if (1==$isTeam) {
 </div>
 
 <div id="footer" class="centered">
-Created by Michael Harwood &copy; 2017.
+Created by Michael Harwood &copy; 2018.
 </div>
 </body>
 </html>
