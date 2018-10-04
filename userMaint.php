@@ -68,14 +68,19 @@ function updateRow(num, login) {
 	var val = document.getElementById(name).value;
 	formData.append("alpha_row",val);
 
-	name = "isWait_row" + num;
-	val = document.getElementById(name).checked;
-	formData.append("isWait_row",val);
+<?php 
+	if ($userList == "ALL" || $userList == "WAIT") {
+		echo 'name = "isWait_row" + num;';
+		echo 'val = document.getElementById(name).checked;';
+		echo 'formData.append("isWait_row",val);';
+	}
+	if ($userList == "ALL" || $userList == "TEAM") {
+		echo 'name = "isTeam_row" + num;';
+		echo 'val = document.getElementById(name).checked;';
+		echo 'formData.append("isTeam_row",val);';
+	}
 
-	name = "isTeam_row" + num;
-	val = document.getElementById(name).checked;
-	formData.append("isTeam_row",val);
-
+?>
 	//Warning: You have to use encodeURIComponent() for all names and especially for the values so that possible & contained in the strings do not break the format.
 
 	var xmlhttp = new XMLHttpRequest();
