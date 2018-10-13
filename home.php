@@ -50,7 +50,7 @@ $_SESSION["alpha"] = $alpha;
 <!-- for mobile devices
 <meta name="viewport" content="width=device-width, initial-scale=1">
 -->
-<script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+<!-- <script type="text/javascript" src="jquery-1.8.0.min.js"></script> -->
 <script>
 function toggleSelect(ID) {
 	var xmlhttp = new XMLHttpRequest();
