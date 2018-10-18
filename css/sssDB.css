@@ -170,6 +170,16 @@ th {
   margin-right:10px;
 }
 
+#resetBtn {
+border:2px solid #E22;
+padding:2px 10px;
+position:absolute;
+bottom:12px;left:20px;
+}
+#resetBtn p {
+  margin:0;
+}
+
 #mtgDate {
 border:2px solid #262;
 padding:2px 10px;
@@ -291,7 +301,7 @@ bottom:12px;right:20px;
   border-radius: 4px;
   vertical-align:middle;
   position:relative;
-  padding-bottom:45px;
+  padding-bottom:55px; /* this is to allow space for the admin buttons */
 }
 
 .box-repeat .topcell {

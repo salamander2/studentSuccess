@@ -272,7 +272,7 @@ if ($fnmi) {
 <br clear="both">
 <p>
 <span class="fleft">
-    Grade: <input id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
+    Grade: <input style="text-align:center;" id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
 </span>
 <span class="fright">
     Social Worker: 
@@ -313,6 +313,8 @@ if ($fnmi) {
 
 
 </div><!-- ************ end ssData **************** -->
+
+<!-- *********** Other admin buttons ************ -->
 <?php
 if (1===$isTeam && $sssInfoFound) {
 	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
@@ -324,10 +326,22 @@ if (1===$isTeam && $sssInfoFound) {
 	}
 	echo '</p>';
 	echo '</div>';
+
+	if ($isTeamAdmin == 1) {
+		$clickStr = "onclick=\"window.document.location='removeAtRisk.php?ID=$studentID';\"";
+		$clickStr = "removeAtRisk.php?ID=$studentID";
+		echo '<div id="resetBtn">';
+		echo '<p>';
+		echo '<a href="'.$clickStr.'"  onclick="return confirm(\'Are you sure you want to do this? All comments will be deleted!\');">';
+		echo '<button style="margin:0;">Reset At-Risk status</button>';
+		echo '</a>';
+		echo '</p>';
+		echo '</div>';
+	}
 }
 ?>
-</div><!-- ************ end of box2 *************** -->
 
+</div><!-- ************ end of box2 *************** -->
 
 </div><!-- ************ end of main-top *********** -->
 
