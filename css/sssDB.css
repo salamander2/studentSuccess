@@ -378,13 +378,22 @@ bottom:12px;right:20px;
 }
 
 /* this is for studentFind.php to highlight certain rows */
-.row0 {}
-.row1 { color:#A00;}
-.row10 { color:#A00;background-color:#f4f85d;}
-.pure-table .row10 td { color:#A00;background-color:#f4f85d;}
+/* Setup a status variable for colour coding.
+	   0 = not at risk
+	   1 = at risk, no issues
+	   2 = at risk, all issues completed
+	   3 = at risk, some open issues
+	 */
+.row0 {color:black; }
+.row1 { color:#00A;}
+.row10 { color:#00A;background-color:#f4f85d;}
+.pure-table .row10 td { color:#00A;background-color:#f4f85d;}
 .row2 { color:#080;}
 .row20 { color:#080;background-color:#f4f85d;}
 .pure-table .row20 td { color:#080;background-color:#f4f85d;}
+.row3 { color:#A00;}
+.row30 { color:#A00;background-color:#f4f85d;}
+.pure-table .row30 td { color:#A00;background-color:#f4f85d;}
 
 .student-desc {
 }
