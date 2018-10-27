@@ -126,12 +126,14 @@ function validate_Date($mydate, $format = 'YYYY-MM-DD') {
 }         
 
 function isDuplicate_studentNum($studentNum, $schoolDB) {
-	$sql = "SELECT * FROM students WHERE studentID = '" . $studentNum . "'";
- 	$result = mysqli_query($schoolDB, $sql);
-	if (!$result) {
-    		die("$studentNum Query to search student numbers in students failed \n $sql");
+	$sql = "SELECT firstname FROM students WHERE student_number = ?";
+	if ($stmt = $choolDB->prepare($sql)) {
+    	$stmt->bind_param("i", $studentNum);
+	    $stmt->execute();
+		$stmt->store_result();
+		$row_cnt = $stmt->num_rows;
+		$stmt->close();
 	}
-	$row_cnt = mysqli_num_rows($result);
 	if ($row_cnt > 0) return true;
 	return false;
 }
