@@ -63,8 +63,24 @@ if ($activate && 1===$isTeam) {
 	echo "<p class='white centered'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
 }
 ?>
-<center>
-<table class="simpletable" style="xbackground-color:#777;">
+
+
+<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
+<form class="white">
+<div style="text-align:left;color:white;">
+	<p><u>Select colour scheme</u></br>
+            <input type="radio" name="group1" id="none" value="none" checked />
+            <label for="none">none</label><br>
+            <input type="radio" name="group1" id="issues" value="issues" /> 
+            <label for="issues">by issues</label><br>
+            <input type="radio" name="group1" id="date" value="date" />
+            <label for="date">by date</label>
+</div>
+</form>
+</div>
+
+
+<table class="simpletable" style="xbackground-color:#777;font-size:80%;">
 <tr><th colspan=4 class="white">Colour coding</th></tr>
 <tr>
 <td class="row0" style="color:#000;">black = not AtRisk</td>
@@ -73,7 +89,7 @@ if ($activate && 1===$isTeam) {
 <td class="row3" style="color:#D21;">red = AtRisk, some open issues</td>
 </tr>
 </table>
-</center>
+
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
 <thead>
 <tr>
