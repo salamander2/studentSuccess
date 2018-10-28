@@ -426,11 +426,28 @@ bottom:12px;right:20px;
   vertical-align: middle;
 }
 
+/*for colour coding table */
+.simpletable
+{
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 10px;
+    text-align:center;
+    border: 1px solid #999;
+	border-collapse:separate;
+}
+.simpletable th, .simpletable td {
+    margin: 0;
+    padding: .3em 1em;
+}
+.simpletable th {
+	font-weight:normal;
+}
+
 .table-canvas
 {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
-    overflow:hidden;
     border-radius: 10px;
     -pie-background: linear-gradient(#ece9d8, #E5ECD8);
     box-shadow: #666 0px 2px 3px;

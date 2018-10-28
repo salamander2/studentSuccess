@@ -27,11 +27,12 @@ $q = clean_input($_REQUEST["q"]);
 $activate = false;
 if ($q == "ACTIVATED") $activate = true;
 
+/************* Begin selecting all students by name/who are at risk. Store results in $resultArray (a name that I don't use for query results *****************/
 if ($activate) {
 	//this query uses two databases. It assumes that the first database (default) is schoolDB.
 	$query = "SELECT students.studentID, students.firstname, students.lastname, sssInfo.selected FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
-	$result = mysqli_query($schoolDB, $query);
-	if (!$result) {
+	$resultArray = mysqli_query($schoolDB, $query);
+	if (!$resultArray) {
 		die("Query to list students from table failed");
 	}
 
@@ -45,7 +46,7 @@ if ($activate) {
 	if ($stmt = $schoolDB->prepare($query)) {
 		$stmt->bind_param("sss", $q, $q2, $q3);
 		$stmt->execute(); 
-		$result = $stmt->get_result();
+		$resultArray = $stmt->get_result();
 		$stmt->close();                 
 	} else {
 		$message_  = 'Invalid query: ' . mysqli_error($schoolDB) . "\n<br>";
@@ -53,14 +54,26 @@ if ($activate) {
 		die($message_); 
 	}
 }
-?>
+/************* END selecting students into $resultArray **********/
 
+/***  HTML STARTS being written HERE ***/
+?>
 <?php
 if ($activate && 1===$isTeam) {
 	echo "<p class='white centered'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
 }
 ?>
-
+<center>
+<table class="simpletable" style="xbackground-color:#777;">
+<tr><th colspan=4 class="white">Colour coding</th></tr>
+<tr>
+<td class="row0" style="color:#000;">black = not AtRisk</td>
+<td class="row1" style="color:#06D;">blue = AtRisk, no issues</td>
+<td class="row2" style="color:#080;">green = AtRisk, all issues closed</td>
+<td class="row3" style="color:#D21;">red = AtRisk, some open issues</td>
+</tr>
+</table>
+</center>
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
 <thead>
 <tr>
@@ -77,8 +90,7 @@ if ($activate && 1==$isTeamAdmin) {
 
 <?php
 // printing table rows
-// $row = mysql_fetch_row($result);
-while ($row = mysqli_fetch_assoc($result)){ 
+while ($row = mysqli_fetch_assoc($resultArray)){ 
 
 	$selected = false;
 	if ($row['selected'] == 1) $selected=true;
@@ -168,6 +180,6 @@ while ($row = mysqli_fetch_assoc($result)){
 </table>
 
 <?php
-// mysqli_free_result($result);
+// mysqli_free_result($resultArray);
 ?>
 
