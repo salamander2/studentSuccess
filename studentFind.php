@@ -43,11 +43,51 @@ if (null === $colour || empty($colour)) {
 if ($colour == 99) $colour = 0;
 //$colour = 1;	//for testing
 
+// Get current month and year
+//$today = date("Y-m-d H:i:s");
+//$date = "2010-01-21 00:00:00";
+// SQL field lastMtg is 2018-10-15	DATE - format YYYY-MM-DD
+
+$year=date('Y');
+$month=date('m');
+
+//make strings for the previous 4 months ($m1, $m2, $m3, $m4)
+//and store month names ($mn1, $mn2, $mn3, $mn4)
+$m1 = $year.'-'.$month.'-01';
+$dateObj   = DateTime::createFromFormat('!m', $month);
+$mn1 = $dateObj->format('F'); 
+
+
+$month--;
+if ($month < 1) {
+	$month=12; $year--;
+}
+$m2 = $year.'-'.$month.'-01';
+$dateObj   = DateTime::createFromFormat('!m', $month);
+$mn2 = $dateObj->format('F'); 
+
+$month--;
+if ($month < 1) {
+	$month=12; $year--;
+}
+$m3 = $year.'-'.$month.'-01';
+$dateObj   = DateTime::createFromFormat('!m', $month);
+$mn3 = $dateObj->format('F'); 
+
+$month--;
+if ($month < 1) {
+	$month=12; $year--;
+}
+$m4 = $year.'-'.$month.'-01';
+$dateObj   = DateTime::createFromFormat('!m', $month);
+$mn4 = $dateObj->format('F'); 
+
+// echo $m1." ".$m2." ".$m3." ".$m4;
 
 /************* Begin selecting all students by name/who are at risk. Store results in $resultArray (a name that I don't use for query results *****************/
 if ($activate) {
 	//this query uses two databases. It assumes that the first database (default) is schoolDB.
-	$query = "SELECT students.studentID, students.firstname, students.lastname, sssInfo.selected FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
+	$query = "SELECT students.studentID, students.firstname, students.lastname, sssInfo.selected, sssInfo.lastMtg FROM students INNER JOIN sssDB.sssInfo ON students.studentID=sssDB.sssInfo.studentID ORDER BY lastname, firstname";
 	$resultArray = mysqli_query($schoolDB, $query);
 	if (!$resultArray) {
 		die("Query to list students from table failed");
@@ -81,22 +121,23 @@ if ($activate && 1===$isTeam) {
 //only show legend for ACTIVATED (ie. list AtRisk)
 if ($activate) {
 	echo '<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
-		<form class="white" action="home.php" method="post">
+
+		<form class="white" action="home.php" method="POST" id="colourScheme">
 		<div style="text-align:left;color:white;">
 		<p><u>Select colour scheme</u></br>
 		';
 
-	echo '<input type="radio" name="colourScheme" id="none" value="99" onclick="this.form.submit();" '; //none=99 because null also changes to be zero.
+	echo '<input type="radio" name="colourScheme" id="none" value="99" onclick="this.form.submit();return false;" '; //none=99 because null also changes to be zero.
 	if ($colour==0) echo ' checked '; 
 	echo ' />
 	<label for="none">none</label><br>
 	';
-	echo '<input type="radio" name="colourScheme" id="issues" value="1" onclick="this.form.submit();" ';
+	echo '<input type="radio" name="colourScheme" id="issues" value="1" onclick="this.form.submit();return false;" '; //the form submits as GET.  Try and force to POST
 	if ($colour==1) echo ' checked ';
 	echo '/> 
 	<label for="issues">by issues</label><br>
 	';
-	echo '<input type="radio" name="colourScheme" id="date" value="2" onclick="this.form.submit();" ';
+	echo '<input type="radio" name="colourScheme" id="date" value="2" onclick="this.form.submit();return false;" ';
 	if ($colour==2) echo ' checked ';
 	echo ' />
 	<label for="date">by date</label>
@@ -104,9 +145,9 @@ if ($activate) {
 	</form>
 	</div>';
 }
-
+echo "colour=".$colour;
 //print legend for colour scheme 1: by issue
-if ($colour == 1) {
+if ($activate && $colour == 1) {
 	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
 	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
 	echo '<tr>';
@@ -119,14 +160,15 @@ if ($colour == 1) {
 }
 
 //print legend for colour scheme 2: by date
-if ($colour == 2) {
+if ($activate && $colour == 2) {
 	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
 	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
 	echo '<tr>';
-	echo '<td style="color:#000;">purple = October (this month)</td>';
-	echo '<td style="color:#06D;">blue = September</td>';
-	echo '<td style="color:#080;">orange = August</td>';
-	echo '<td style="color:#D21;">red = July</td>';
+	echo '<td style="color:#E0E;">purple = '.$mn1.' (this month)</td>';
+	echo '<td style="color:#09F;">blue = '.$mn2.'</td>';
+	echo '<td style="color:#FA0;">orange = '.$mn3.'</td>';
+	//echo '<td style="color:#D21;">red = '.$mn4.'</td>';
+	echo '<td style="color:#D21;">red = never</td>';
 	echo '</tr>';
 	echo '</table>';
 }

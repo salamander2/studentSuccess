@@ -109,6 +109,8 @@ function showHint(str) {
 <?php
 if ($colour != 0) {
 	echo '<script type="text/javascript"> showHint(\'ACTIVATED\');</script>';
+} else {
+	$_SESSION['$colourScheme'] = "";
 }
 ?>
 
