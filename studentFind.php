@@ -23,9 +23,26 @@ if (1 === $isTeam) {
 
 // get the q parameter from URL
 $q = clean_input($_REQUEST["q"]);
-
 $activate = false;
 if ($q == "ACTIVATED") $activate = true;
+
+/* get colour scheme from radio buttons
+   0 = none
+   1 = by issue
+   2 = by date
+ */
+
+/* This can't come from inside this form. It has to come from a $session variable that is set by the radio buttons 
+   But they can't do that either since it's no longer php at that point. 
+   So ... it will have to call home.php which then sets the $session variable */
+$colour=0;
+$colour = $_SESSION["colourScheme"];
+if (null === $colour || empty($colour)) {
+	$colour=0;
+}
+if ($colour == 99) $colour = 0;
+//$colour = 1;	//for testing
+
 
 /************* Begin selecting all students by name/who are at risk. Store results in $resultArray (a name that I don't use for query results *****************/
 if ($activate) {
@@ -57,39 +74,63 @@ if ($activate) {
 /************* END selecting students into $resultArray **********/
 
 /***  HTML STARTS being written HERE ***/
-?>
-<?php
 if ($activate && 1===$isTeam) {
 	echo "<p class='white centered'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
 }
+
+//only show legend for ACTIVATED (ie. list AtRisk)
+if ($activate) {
+	echo '<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
+		<form class="white" action="home.php" method="post">
+		<div style="text-align:left;color:white;">
+		<p><u>Select colour scheme</u></br>
+		';
+
+	echo '<input type="radio" name="colourScheme" id="none" value="99" onclick="this.form.submit();" '; //none=99 because null also changes to be zero.
+	if ($colour==0) echo ' checked '; 
+	echo ' />
+	<label for="none">none</label><br>
+	';
+	echo '<input type="radio" name="colourScheme" id="issues" value="1" onclick="this.form.submit();" ';
+	if ($colour==1) echo ' checked ';
+	echo '/> 
+	<label for="issues">by issues</label><br>
+	';
+	echo '<input type="radio" name="colourScheme" id="date" value="2" onclick="this.form.submit();" ';
+	if ($colour==2) echo ' checked ';
+	echo ' />
+	<label for="date">by date</label>
+	</div>
+	</form>
+	</div>';
+}
+
+//print legend for colour scheme 1: by issue
+if ($colour == 1) {
+	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
+	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
+	echo '<tr>';
+	echo '<td class="row0" style="color:#000;">black = not AtRisk</td>';
+	echo '<td class="row1" style="color:#06D;">blue = AtRisk, no issues</td>';
+	echo '<td class="row2" style="color:#080;">green = AtRisk, all issues closed</td>';
+	echo '<td class="row3" style="color:#D21;">red = AtRisk, some open issues</td>';
+	echo '</tr>';
+	echo '</table>';
+}
+
+//print legend for colour scheme 2: by date
+if ($colour == 2) {
+	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
+	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
+	echo '<tr>';
+	echo '<td style="color:#000;">purple = October (this month)</td>';
+	echo '<td style="color:#06D;">blue = September</td>';
+	echo '<td style="color:#080;">orange = August</td>';
+	echo '<td style="color:#D21;">red = July</td>';
+	echo '</tr>';
+	echo '</table>';
+}
 ?>
-
-
-<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
-<form class="white">
-<div style="text-align:left;color:white;">
-	<p><u>Select colour scheme</u></br>
-            <input type="radio" name="group1" id="none" value="none" checked />
-            <label for="none">none</label><br>
-            <input type="radio" name="group1" id="issues" value="issues" /> 
-            <label for="issues">by issues</label><br>
-            <input type="radio" name="group1" id="date" value="date" />
-            <label for="date">by date</label>
-</div>
-</form>
-</div>
-
-
-<table class="simpletable" style="xbackground-color:#777;font-size:80%;">
-<tr><th colspan=4 class="white">Colour coding</th></tr>
-<tr>
-<td class="row0" style="color:#000;">black = not AtRisk</td>
-<td class="row1" style="color:#06D;">blue = AtRisk, no issues</td>
-<td class="row2" style="color:#080;">green = AtRisk, all issues closed</td>
-<td class="row3" style="color:#D21;">red = AtRisk, some open issues</td>
-</tr>
-</table>
-
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
 <thead>
 <tr>
@@ -105,15 +146,17 @@ if ($activate && 1==$isTeamAdmin) {
 <tbody>
 
 <?php
-// printing table rows
+// printing table rows: student name, student number, selected (if isTeamAdmin)
 while ($row = mysqli_fetch_assoc($resultArray)){ 
 
 	$selected = false;
 	if ($row['selected'] == 1) $selected=true;
+
 	//1. Is the student "at risk" - ie. does he/she have an sssInfo record?
 	//this always gives 1 row with either a 1 or 0 in it.
-#$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE studentID='" . $row['studentID'] . "')";
-#$sql = "SELECT studentID FROM sssInfo WHERE studentID='" . $row['studentID'] . "'";
+	#$sql = "SELECT EXISTS(SELECT 1 FROM sssInfo WHERE studentID='" . $row['studentID'] . "')";
+	#$sql = "SELECT studentID FROM sssInfo WHERE studentID='" . $row['studentID'] . "'";
+
 	$sql = "SELECT studentID FROM sssInfo WHERE studentID = ? ";
 	if ($stmt = $sssDB->prepare($sql)) {
 		$stmt->bind_param("i", $row['studentID']);
@@ -129,43 +172,48 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 		die($message_); 
 	}
 
-	/* Setup a status variable for colour coding.
+	if ($num_rows == 0) $status = 0; 
+	else $status = 1;
+
+	/* Setup a $status variable for colour coding.
 	   0 = not at risk
 	   1 = at risk, no issues
 	   2 = at risk, all issues completed
 	   3 = at risk, some open issues
 	 */
-	if ($num_rows == 0) $status = 0; 
-	else $status = 1;
-
-	//2. If yes, then are all of the comments completed or not?
-	if ($num_rows == 1) {
-		$sql = "SELECT completed FROM comments WHERE studentID = ?";
-		if ($stmt = $sssDB->prepare($sql)) {
-			$stmt->bind_param("i", $row['studentID']);
-			$stmt->execute();
-			$stmt->bind_result($ans);
-			//loop through all comments and see if any are not completed.
-			$stmt->store_result();
-			$nr = $stmt->num_rows;
-			if ($nr == 0) {
-				$status = 1;
-			} else { 
-				$completed = true;
-				while ($stmt->fetch()) {
-					if ($ans == 0) $completed = false;
+	if ($colour == 1) {	//determine the status for the colours using the issues
+		//2. If yes, then are all of the comments completed or not?
+		if ($num_rows == 1) {
+			$sql = "SELECT completed FROM comments WHERE studentID = ?";
+			if ($stmt = $sssDB->prepare($sql)) {
+				$stmt->bind_param("i", $row['studentID']);
+				$stmt->execute();
+				$stmt->bind_result($ans);
+				//loop through all comments and see if any are not completed.
+				$stmt->store_result();
+				$nr = $stmt->num_rows;
+				if ($nr == 0) {
+					$status = 1;
+				} else { 
+					$completed = true;
+					while ($stmt->fetch()) {
+						if ($ans == 0) $completed = false;
+					}
+					if ($completed) $status = 2;
+					else $status = 3;
 				}
-				if ($completed) $status = 2;
-				else $status = 3;
+				$stmt->close();
+			} else {
+				$message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
+				$message_ .= 'SQL: ' . $sql;
+				die($message_); 
 			}
-			$stmt->close();
-		} else {
-			$message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
-			$message_ .= 'SQL: ' . $sql;
-			die($message_); 
+
 		}
-		if ($selected) $status = $status * 10;
 	}
+	if ($colour == 0 ) $status = 1;
+	if ($selected) $status = $status * 10;	//to apply highlight to the row
+
 #  <!-- select page based on "$nextPage"  -->
 # should look like this: <tr onclick="window.document.location='commentPage.php?ID=339671216';" class="row0">
 # old code: echo "<tr onclick=".'"'."window.document.location='commentPage.php?ID=".$row['studentID'] ."';".'" class="row0">';

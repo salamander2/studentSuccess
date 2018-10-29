@@ -16,6 +16,14 @@ require_once('common.inc.php');
 
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
+/* get the colourscheme variable if this page was loaded via clicking on a radio button in studentFind.php */
+$colour = clean_input($_REQUEST["colourScheme"]);
+if (null === $colour || empty($colour)) {
+	$colour=0;
+} else {
+	$_SESSION["colourScheme"] = $colour;
+}
+
 //retrieve user info
 #$sql = "SELECT full_name, alpha, isTeam FROM users WHERE login_name = ?";
 $sql = "SELECT full_name, alpha FROM users WHERE login_name = ?";
@@ -96,7 +104,13 @@ function showHint(str) {
     <hr>
 </div>
 
+<!-- debugging, etc. here -->
 <?php echo $sql_user."=".$isTeam; ?>
+<?php
+if ($colour != 0) {
+	echo '<script type="text/javascript"> showHint(\'ACTIVATED\');</script>';
+}
+?>
 
 <form class="pure-form">
 <span class="white">Enter First Name, Last Name, or Student Number...</span>
