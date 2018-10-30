@@ -166,9 +166,9 @@ if ($activate && $colour == 2) {
 	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
 	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
 	echo '<tr>';
-	echo '<td style="color:#E0E;">purple = '.$mn1.' (this month)</td>';
+	echo '<td style="color:#4F7;">mint = '.$mn1.' (this month)</td>';
 	echo '<td style="color:#09F;">blue = '.$mn2.'</td>';
-	echo '<td style="color:#FA0;">orange = '.$mn3.'</td>';
+	echo '<td style="color:#E0E;">purple = '.$mn3.'</td>';
 	//echo '<td style="color:#D21;">red = '.$mn4.'</td>';
 	echo '<td style="color:#D21;">red = never</td>';
 	echo '</tr>';
@@ -288,7 +288,6 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	}
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']. "</td>";
-	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']." ".$lastMtg."</td>";
 	if ($activate) {
 		if (1==$isTeamAdmin) {
 			//			echo '<td onclick="toggleSelect('.$row['studentID'].','.$selected.')" >';
