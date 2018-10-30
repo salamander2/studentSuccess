@@ -53,8 +53,9 @@ $month=date('m');
 
 //make strings for the previous 4 months ($m1, $m2, $m3, $m4)
 //and store month names ($mn1, $mn2, $mn3, $mn4)
-$m1 = $year.'-'.$month.'-01';
-$dateObj   = DateTime::createFromFormat('!m', $month);
+#$dateObj   = DateTime::createFromFormat('m', $month);
+$dateObj   = DateTime::createFromFormat('Y-m-d',$year."-".$month."-01");
+$m1 = $dateObj->format('Y-m-d'); 
 $mn1 = $dateObj->format('F'); 
 
 
@@ -62,27 +63,28 @@ $month--;
 if ($month < 1) {
 	$month=12; $year--;
 }
-$m2 = $year.'-'.$month.'-01';
-$dateObj   = DateTime::createFromFormat('!m', $month);
+$dateObj   = DateTime::createFromFormat('Y-m-d',$year."-".$month."-01");
+$m2 = $dateObj->format('Y-m-d'); 
 $mn2 = $dateObj->format('F'); 
 
 $month--;
 if ($month < 1) {
 	$month=12; $year--;
 }
-$m3 = $year.'-'.$month.'-01';
-$dateObj   = DateTime::createFromFormat('!m', $month);
+$dateObj   = DateTime::createFromFormat('Y-m-d',$year."-".$month."-01");
+$m3 = $dateObj->format('Y-m-d'); 
 $mn3 = $dateObj->format('F'); 
 
 $month--;
 if ($month < 1) {
 	$month=12; $year--;
 }
-$m4 = $year.'-'.$month.'-01';
-$dateObj   = DateTime::createFromFormat('!m', $month);
+$dateObj   = DateTime::createFromFormat('Y-m-d',$year."-".$month."-01");
+$m4 = $dateObj->format('Y-m-d'); 
 $mn4 = $dateObj->format('F'); 
 
-// echo $m1." ".$m2." ".$m3." ".$m4;
+echo $m1." ".$m2." ".$m3." ".$m4."<br>";
+echo $mn1." ".$mn2." ".$mn3." ".$mn4;
 
 /************* Begin selecting all students by name/who are at risk. Store results in $resultArray (a name that I don't use for query results *****************/
 if ($activate) {
@@ -145,7 +147,7 @@ if ($activate) {
 	</form>
 	</div>';
 }
-echo "colour=".$colour;
+
 //print legend for colour scheme 1: by issue
 if ($activate && $colour == 1) {
 	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
@@ -173,11 +175,13 @@ if ($activate && $colour == 2) {
 	echo '</table>';
 }
 ?>
+
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
 <thead>
 <tr>
 <th>Student Name</th>
 <th>Student Number</th>
+
 <?php
 if ($activate && 1==$isTeamAdmin) {
 	echo "<th>Select?</th>";
@@ -253,6 +257,23 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 
 		}
 	}
+
+	/* $status variable for colour coding based on lastMtg
+	   0 = not at risk
+	   5 = current month (e.g February)
+	   6 = month-1 (January)
+	   7 = month-2 (December)
+	   8 = month-3 (November)
+	 */
+	if ($colour ==2) {
+		$lastMtg = $row['lastMtg']; 
+		if ($lastMtg < $m3) $status = 8;
+		else if ($lastMtg < $m2) $status = 7;
+		else if ($lastMtg < $m1) $status = 6;
+		else $status = 5;
+
+	}
+
 	if ($colour == 0 ) $status = 1;
 	if ($selected) $status = $status * 10;	//to apply highlight to the row
 
@@ -267,6 +288,7 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	}
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']. "</td>";
+	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']." ".$lastMtg."</td>";
 	if ($activate) {
 		if (1==$isTeamAdmin) {
 			//			echo '<td onclick="toggleSelect('.$row['studentID'].','.$selected.')" >';

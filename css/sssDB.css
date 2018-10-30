@@ -395,6 +395,26 @@ bottom:12px;right:20px;
 .row30 { color:#A00;background-color:#f4f85d;}
 .pure-table .row30 td { color:#A00;background-color:#f4f85d;}
 
+/* $status variable for colour coding based on lastMtg
+	   5 = current month (e.g February)
+	   6 = month-1 (January)
+	   7 = month-2 (December)
+	   8 = month-3 (November)
+	 */
+.row5 { color:#908;}
+.row50 { color:#908;background-color:#f4f85d;}
+.pure-table .row50 td { color:#908;background-color:#f4f85d;}
+.row6 { color:#05A;}
+.row60 { color:#05A;background-color:#f4f85d;}
+.pure-table .row60 td { color:#05A;background-color:#f4f85d;}
+.row7 { color:#E60;}
+.row70 { color:#E60;background-color:#f4f85d;}
+.pure-table .row70 td { color:#E60;background-color:#f4f85d;}
+.row8 { color:#D21;}
+.row80 { color:#D21;background-color:#f4f85d;}
+.pure-table .row80 td { color:#D21;background-color:#f4f85d;}
+
+
 .student-desc {
 }
 
