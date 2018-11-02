@@ -223,7 +223,7 @@ if (false === $sssInfoFound) {
    }
 ?>
 </table>
-<!-- <p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p> -->
+<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won't show up here</i></p>
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
