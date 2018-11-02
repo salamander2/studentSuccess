@@ -83,8 +83,9 @@ $dateObj   = DateTime::createFromFormat('Y-m-d',$year."-".$month."-01");
 $m4 = $dateObj->format('Y-m-d'); 
 $mn4 = $dateObj->format('F'); 
 
-echo $m1." ".$m2." ".$m3." ".$m4."<br>";
-echo $mn1." ".$mn2." ".$mn3." ".$mn4;
+//DEBUG
+//echo $m1." ".$m2." ".$m3." ".$m4."<br>";
+//echo $mn1." ".$mn2." ".$mn3." ".$mn4;
 
 /************* Begin selecting all students by name/who are at risk. Store results in $resultArray (a name that I don't use for query results *****************/
 if ($activate) {
@@ -117,18 +118,44 @@ if ($activate) {
 
 /***  HTML STARTS being written HERE ***/
 if ($activate && 1===$isTeam) {
-	echo "<p class='white centered'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
+	echo "<p class='white' style='text-align:center;'>Highlighted rows are students to be discussed at next month's TEAM meeting</p>";
+}
+
+
+//print legend for colour scheme 1: by issue
+if ($activate && $colour == 1) {
+	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
+	echo '<tr><th colspan=4 class="white">Colour coding &mdash; by issue</th></tr>';
+	echo '<tr>';
+	echo '<td class="row0" style="color:#000;">black = not AtRisk</td>';
+	echo '<td class="row1" style="color:#06D;">blue = AtRisk, no issues</td>';
+	echo '<td class="row2" style="color:#080;">green = AtRisk, all issues closed</td>';
+	echo '<td class="row3" style="color:#C21;">dark red = AtRisk, some open issues</td>';
+	echo '</tr>';
+	echo '</table>';
+}
+
+//print legend for colour scheme 2: by date
+if ($activate && $colour == 2) {
+	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
+	echo '<tr><th colspan=4 class="white">Colour coding &mdash; by date discussed</th></tr>';
+	echo '<tr>';
+	echo '<td style="color:#4F7;">mint = '.$mn1.' (this month)</td>';
+	echo '<td style="color:#09F;">blue = '.$mn2.'</td>';
+	echo '<td style="color:#E0E;">purple = '.$mn3.'</td>';
+	//echo '<td style="color:#D21;">red = '.$mn4.'</td>';
+	echo '<td style="color:#D21;">red = never</td>';
+	echo '</tr>';
+	echo '</table>';
 }
 
 //only show legend for ACTIVATED (ie. list AtRisk)
 if ($activate) {
 	echo '<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
-
 		<form class="white" action="home.php" method="POST" id="colourScheme">
 		<div style="text-align:left;color:white;">
 		<p><u>Select colour scheme</u></br>
 		';
-
 	echo '<input type="radio" name="colourScheme" id="none" value="99" onclick="this.form.submit();return false;" '; //none=99 because null also changes to be zero.
 	if ($colour==0) echo ' checked '; 
 	echo ' />
@@ -148,32 +175,7 @@ if ($activate) {
 	</div>';
 }
 
-//print legend for colour scheme 1: by issue
-if ($activate && $colour == 1) {
-	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
-	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
-	echo '<tr>';
-	echo '<td class="row0" style="color:#000;">black = not AtRisk</td>';
-	echo '<td class="row1" style="color:#06D;">blue = AtRisk, no issues</td>';
-	echo '<td class="row2" style="color:#080;">green = AtRisk, all issues closed</td>';
-	echo '<td class="row3" style="color:#D21;">red = AtRisk, some open issues</td>';
-	echo '</tr>';
-	echo '</table>';
-}
 
-//print legend for colour scheme 2: by date
-if ($activate && $colour == 2) {
-	echo '<table class="simpletable" style="xbackground-color:#777;font-size:80%;">';
-	echo '<tr><th colspan=4 class="white">Colour coding</th></tr>';
-	echo '<tr>';
-	echo '<td style="color:#4F7;">mint = '.$mn1.' (this month)</td>';
-	echo '<td style="color:#09F;">blue = '.$mn2.'</td>';
-	echo '<td style="color:#E0E;">purple = '.$mn3.'</td>';
-	//echo '<td style="color:#D21;">red = '.$mn4.'</td>';
-	echo '<td style="color:#D21;">red = never</td>';
-	echo '</tr>';
-	echo '</table>';
-}
 ?>
 
 <table class="pure-table pure-table-bordered table-canvas" style="border:none;">
