@@ -151,7 +151,7 @@ if ($activate && $colour == 2) {
 
 //only show legend for ACTIVATED (ie. list AtRisk)
 if ($activate) {
-	echo '<div style="float:right;margin-right:2em;font-size:80%;border:dotted 1px #555;border-radius:5px;padding:4px;">
+	echo '<div style="float:right;margin-right:2em;font-size:90%;border:dotted 1px #555;border-radius:5px;padding:4px;">
 		<form class="white" action="home.php" method="POST" id="colourScheme">
 		<div style="text-align:left;color:white;">
 		<p><u>Select colour scheme</u></br>
