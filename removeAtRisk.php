@@ -19,33 +19,59 @@ $sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 //With a regular backup, comments that have been deleted can be restored from it.
 
 //get commentID from URL parameter
-$commentID = $_GET['ID'];
+$studentID = $_GET['ID'];
 
-$date = date("Y-m-d");
-$sql = "UPDATE sssInfo SET selected='0', lastMtg='$date' WHERE studentID=?";
-
-die("NOT COMPLETED!!!");
-
-/*
-SELECT id FROM comments WITH studentID = $$
-this will give you a list of comment numbers
-
-delete all next steps that have that number
-
-Delete next_steps where commentID = $$
-
-delete sssInfo with studentID = $id
-
-*/
+//Get a list of all comment numbers for selected student
+$sql = "SELECT id FROM comments WHERE studentID = ?";
 
 if ($stmt = $sssDB->prepare($sql)) {
-   $stmt->bind_param("i", $commentID);
+   $stmt->bind_param("i", $studentID);
    $stmt->execute();
+   $result = $stmt->get_result();
    $stmt->close();
 } else {
    $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
    $message_ .= 'SQL: ' . $sql;
    die($message_); 
+}
+
+//for each comment
+while ($row = mysqli_fetch_row($result)){
+   $commentID = $row[0];
+
+	// Delete all next steps. If there are no next steps, no problem.
+	$sql = "DELETE FROM next_steps WHERE commentID = ?";
+	if ($stmt = $sssDB->prepare($sql)) {
+	   $stmt->bind_param("i", $commentID);
+	   $stmt->execute();
+	   $stmt->close();
+	}
+
+	/*
+	// now delete all of the comment records for that student
+	$sql = "DELETE FROM comments WHERE id = ?";
+	if ($stmt = $sssDB->prepare($sql)) {
+	   $stmt->bind_param("i", $commentID);
+	   $stmt->execute();
+	   $stmt->close();
+	}
+	*/
+}
+
+// now delete all of the comment records for that student
+$sql = "DELETE FROM comments WHERE studentID = ?";
+if ($stmt = $sssDB->prepare($sql)) {
+   $stmt->bind_param("i", $studentID);
+   $stmt->execute();
+   $stmt->close();
+}
+
+// Delete the sssInfo record
+$sql = "DELETE FROM sssInfo WHERE studentID = ?";
+if ($stmt = $sssDB->prepare($sql)) {
+   $stmt->bind_param("i", $studentID);
+   $stmt->execute();
+   $stmt->close();
 }
 
 //return to the comment page for that student
