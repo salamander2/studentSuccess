@@ -179,12 +179,21 @@ if (false === $sssInfoFound) {
 
 <!-- **************** Begin insert photo ***************** -->
     <?php
-    $filename1 = "$photoDir1/$studentID.jpg"; //absolute path
-    $filename2 = "$photoDir2/$studentID.jpg"; //relative path for public_html (browsers)
+	# We have to look for both JPG and BMP; for some reason the school has switched back to BMP. I don't know which is more recent. 
+	//1. check for JPG
+    $filename1 = "$photoDir1/$studentID.JPG"; //absolute path
+    $filename2 = "$photoDir2/$studentID.JPG"; //relative path for public_html (browsers)
     if (file_exists($filename1)) {
        echo "<img class=\"student-img\" src=$filename2>"; //echo "The file $filename exists";
     } else {
-       echo "<img class=\"student-img\" src=\"$photoDir2/user_blank.png\">"; //echo "The file $filename does not exist";
+		//2. check for BMP
+		$filename1 = "$photoDir1/$studentID.BMP";
+		$filename2 = "$photoDir2/$studentID.BMP";
+		if (file_exists($filename1)) {
+		   echo "<img class=\"student-img\" src=$filename2>";
+		} else {
+		   echo "<img class=\"student-img\" src=\"$photoDir2/user_blank.png\">";
+		}
     }
     ?>
 <!-- end insert photo -->
