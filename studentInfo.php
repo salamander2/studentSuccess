@@ -170,6 +170,7 @@ function formatCourse($course) {
 
 <!-- **************** Begin insert photo ***************** -->
     <?php
+	# Linux command to uppercase all files in a folder::>>>> for file in *; do mv -- "$file" "${file^^}"; done
     $filename1 = "$photoDir1/$studentID.JPG"; //absolute path
     $filename2 = "$photoDir2/$studentID.JPG"; //relative path for public_html (browsers)
     if (file_exists($filename1)) {
@@ -181,7 +182,7 @@ function formatCourse($course) {
 		if (file_exists($filename1)) {
 		   echo "<img class=\"student-img\" src=$filename2>";
 		} else {
-		   echo "<img class=\"student-img\" src=\"$photoDir2/user_blank.png\">";
+		   echo "<img class=\"student-img\" src=\"$photoDir2/USER_BLANK.PNG\">";
 		}
     }
     ?>
