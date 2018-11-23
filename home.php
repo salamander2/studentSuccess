@@ -15,6 +15,7 @@ require_once('../../DB-admin/php_includes/sssDB.inc.php');
 require_once('common.inc.php');
 
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
+$sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 
 /* get the colourscheme variable if this page was loaded via clicking on a radio button in studentFind.php */
 $colour = clean_input($_REQUEST["colourScheme"]);
@@ -46,6 +47,17 @@ $_SESSION["fullname"] = $fullname;
 $_SESSION["alpha"] = $alpha;
 
 #$_SESSION["isTeam"] = $isTeam;	-- done in index.php
+
+
+#count how man at-risk students there are
+$sql = "SELECT COUNT(*) FROM sssInfo";
+$result = mysqli_query($sssDB,$sql);
+if (!$result) {
+   die("Query to count rows in 'sssInfo' failed");
+}
+$numAtRisk = $result->fetch_row()[0];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -106,6 +118,7 @@ function showHint(str) {
 
 <!-- debugging, etc. here -->
 <?php echo $sql_user."=".$isTeam; ?>
+
 <?php
 if ($colour != 0) {
 	echo '<script type="text/javascript"> showHint(\'ACTIVATED\');</script>';
@@ -124,6 +137,7 @@ if ($colour != 0) {
 
 if (1 === $isTeam) {
 echo '<input class="pure-button" style="border:5px outset #999;font-size:16px;" type="button" value="List at-risk students" onclick="showHint(\'ACTIVATED\')" >';
+echo '<span class="gray smaller">'.$numAtRisk." students</span>";
 }
 ?>
 </fieldset>
