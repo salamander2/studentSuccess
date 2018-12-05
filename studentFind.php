@@ -143,8 +143,8 @@ if ($activate && $colour == 2) {
 	echo '<td style="color:#4F7;">mint = '.$mn1.' (this month)</td>';
 	echo '<td style="color:#09F;">blue = '.$mn2.'</td>';
 	echo '<td style="color:#E0E;">purple = '.$mn3.'</td>';
-	//echo '<td style="color:#D21;">red = '.$mn4.'</td>';
-	echo '<td style="color:#D21;">red = never</td>';
+	echo '<td style="color:#AAA;">black = '.$mn4.'</td>';
+	echo '<td style="color:#D21;">red = never/5 mo.</td>';
 	echo '</tr>';
 	echo '</table>';
 }
@@ -266,10 +266,12 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	   6 = month-1 (January)
 	   7 = month-2 (December)
 	   8 = month-3 (November)
+	   9 = never
 	 */
 	if ($colour ==2) {
 		$lastMtg = $row['lastMtg']; 
-		if ($lastMtg < $m3) $status = 8;
+		if ($lastMtg < $m4) $status = 9;
+		else if ($lastMtg < $m3) $status = 8;
 		else if ($lastMtg < $m2) $status = 7;
 		else if ($lastMtg < $m1) $status = 6;
 		else $status = 5;
