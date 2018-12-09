@@ -138,7 +138,6 @@ echo '<span class="gray smaller">'.$numAtRisk." students</span>";
 ?>
 </fieldset>
 
-<!-- the student table is created here at txtHint. There is also formatting for this in the css  -->
 <div id="txtHint"></div>
 </form>
 <?php
