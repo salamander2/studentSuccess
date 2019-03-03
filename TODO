@@ -13,11 +13,16 @@ commentHandler.php
 nextSteps.php
 completed.php
 sssDataHandler.php
-addStudent.php		** NOT PREPARED STATEMENTS yet
+addStudent.php
 
-TODO:
+DONE:
 * change to new users model
 * get addusers working
 
 * fix changePWD:  it must include both schoolDB and sssDB (connect to them first), and also change them to be prepared statements
 		  it must also remove default password flag
+
+
+TODO:
+look at apache2 error.log
+studentFind.php : $selected is trying to be set when $activated is not . For non-activated, there is no sssInfo.selected field in the SQL .: error

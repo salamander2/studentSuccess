@@ -14,11 +14,11 @@
 
 error_reporting(E_ALL);
 session_start();
-require_once('../../DB-admin/php_includes/sssDB.php');
-require_once('sssdb.php');
+require_once('../../DB-admin/php_includes/sssDB.inc.php');
+require_once('common.inc.php');
 
-$sssDB = connectToDB("sssDB",$username,$password);
-$schoolDB = connectToDB("schoolDB",$username,$password);
+$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
+$sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 
 $studentID = $_GET['ID'];
 $_SESSION["studentID"] = $studentID;
@@ -40,7 +40,6 @@ $sql = "SELECT firstname, lastname, studentID, gender, dob FROM students WHERE s
    die($message_); 
 }
 
-//TODO: why is there a studentID and a student_number ??
 
 //get timetable
 $sql = "SELECT courses.coursecode, teacher, period, room FROM courses INNER JOIN student_course ON courses.coursecode = student_course.coursecode WHERE studentID = ? ORDER BY period";
@@ -73,6 +72,7 @@ if ($sssInfoFound) {
         $grade = $row['grade'];
         $swID = $row['swID'];
         $staff = $row['staff'];
+		$lastMtg = $row['lastMtg'];
     }
 }
 
@@ -120,7 +120,7 @@ function formatCourse($course) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 -->
 <title>
-   <?php echo "Student Success Database -- ", $lastname, ", " , $firstname .  $isTeam;?>
+   <?php echo "Student Success Database -- ", $lastname, ", " , $firstname;?>
 </title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
@@ -164,7 +164,7 @@ if (false === $sssInfoFound) {
 
 <!-- standard header-->
 <div id="header">
-    <a class="fa fa-arrow-left nav-button fleft" href="home.php">  Go Back</a>
+    <a class="fa fa-arrow-left nav-button fleft" href="home.php" title="or press browser Back button">  Go Back</a>
     <h1>Student Success Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
     <hr color="black">        
@@ -179,12 +179,22 @@ if (false === $sssInfoFound) {
 
 <!-- **************** Begin insert photo ***************** -->
     <?php
-    $filename1 = "$photoDir1/$studentID.jpg"; //absolute path
-    $filename2 = "$photoDir2/$studentID.jpg"; //relative path for public_html (browsers)
+	# We have to look for both JPG and BMP; for some reason the school has switched back to BMP. I don't know which is more recent. 
+	# Linux command to uppercase all files in a folder::>>>> for file in *; do mv -- "$file" "${file^^}"; done
+	//1. check for JPG
+    $filename1 = "$photoDir1/$studentID.JPG"; //absolute path
+    $filename2 = "$photoDir2/$studentID.JPG"; //relative path for public_html (browsers)
     if (file_exists($filename1)) {
        echo "<img class=\"student-img\" src=$filename2>"; //echo "The file $filename exists";
     } else {
-       echo "<img class=\"student-img\" src=\"$photoDir2/user_blank.png\">"; //echo "The file $filename does not exist";
+		//2. check for BMP
+		$filename1 = "$photoDir1/$studentID.BMP";
+		$filename2 = "$photoDir2/$studentID.BMP";
+		if (file_exists($filename1)) {
+		   echo "<img class=\"student-img\" src=$filename2>";
+		} else {
+		   echo "<img class=\"student-img\" src=\"$photoDir2/USER_BLANK.PNG\">";
+		}
     }
     ?>
 <!-- end insert photo -->
@@ -201,19 +211,29 @@ if (false === $sssInfoFound) {
 <table class="timetable">
 <tr><th>Period</th><th>Course</th><th>Teacher</th><th>Room</th></tr>
 <?php
+   //This prints out the timetable if there is one. 
+   //If there is no timetable, we still have to print out 4 rows in order for the "mtgDate" to be positioned correctly on the page.
    if ($timetable->num_rows == 0) {
      echo "<tr><td colspan=4> no timetable </td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
    } else {
+	  $n=1;
       while ($row = mysqli_fetch_assoc($timetable)) {
         $coursecode = formatCourse($row['coursecode']);
 
         $text = "<td>".$row['period'] ."</td><td>". $coursecode ."</td><td>". $row['teacher'] ."</td><td>". $row['room'] . "</td>";
         echo "<tr>" . $text . "</tr>";
+		$n++;
+      }
+	  for(;$n<=4; $n++) {
+        echo "<tr><td colspan=4>&nbsp;</td></tr>";
       }
    }
 ?>
 </table>
-<p class="fontONE smaller fleft gray"><i>Timetables may not be completely accurate</i></p>
+<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won't show up here</i></p>
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
@@ -258,9 +278,11 @@ if ($fnmi) {
 }
 ?>
 </span>
+</p>
 <br clear="both">
+<p>
 <span class="fleft">
-    Grade: <input id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
+    Grade: <input style="text-align:center;" id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
 </span>
 <span class="fright">
     Social Worker: 
@@ -268,15 +290,20 @@ if ($fnmi) {
    <?php echo $sw_name_opt; ?>
 </select>
 </span>
+</p>
 <br clear="both" />
 <div>
-   Staff: <input type="text" size="22" name="staff" value="<?php echo $staff; ?>">
+   <!--Staff: <input type="text" size="22" name="staff" value="<?php #echo $staff; ?>"> -->
    
    <button type="submit" 
        <?php 
            if (0===$isTeam) echo " disabled ";
        ?>
-       class="pure-button fright">Update</button>
+       class="pure-button fright">
+       <?php if (true===$sssInfoFound) echo "Update";
+	     else echo "Activate AtRisk";
+       ?>
+   </button>
    <input type="hidden" name="dataExists" value="<?php echo $sssInfoFound; ?>">
 </div>
 <!-- drop down box
@@ -294,9 +321,37 @@ if ($fnmi) {
 <p>
 </form>
 
-</div><!-- ************ end ssData **************** -->
-</div><!-- ************ end of box2 *************** -->
 
+</div><!-- ************ end ssData **************** -->
+
+<!-- *********** Other admin buttons ************ -->
+<?php
+if (1===$isTeam && $sssInfoFound) {
+	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
+	echo '<div id="mtgDate">';
+	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
+	if ($isTeamAdmin == 1) {
+		$clickStr = "onclick=\"window.document.location='updateSSTdate.php?ID=$studentID';\"";
+		echo '&nbsp;&nbsp;<button class="Xpure-button" '.$clickStr.' style="margin:0;">Set to today</button>';
+	}
+	echo '</p>';
+	echo '</div>';
+
+	if ($isTeamAdmin == 1) {
+		$clickStr = "onclick=\"window.document.location='removeAtRisk.php?ID=$studentID';\"";
+		$clickStr = "removeAtRisk.php?ID=$studentID";
+		echo '<div id="resetBtn">';
+		echo '<p>';
+		echo '<a href="'.$clickStr.'"  onclick="return confirm(\'Are you sure you want to do this? All comments will be deleted!\');">';
+		echo '<button style="margin:0;">Reset At-Risk status</button>';
+		echo '</a>';
+		echo '</p>';
+		echo '</div>';
+	}
+}
+?>
+
+</div><!-- ************ end of box2 *************** -->
 
 </div><!-- ************ end of main-top *********** -->
 
@@ -321,11 +376,18 @@ if ($fnmi) {
     <?php 
     // sending query: get all comments for this student.
     //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, AES_DECRYPT(next_steps,'$masterkeyhash'), id, completed FROM comments WHERE student_number=$student_number ORDER BY timestamp DESC";
-    $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=$studentID ORDER BY timestamp DESC";
+    //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=$studentID ORDER BY timestamp DESC";
 
-    $result = mysqli_query($sssDB, $sql);
-    if (!$result) {
-        die("Query to show fields from comments table failed. commentPage.php<br>" . $sql);
+    $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=? ORDER BY timestamp DESC";
+    if ($stmt = $sssDB->prepare($sql)) {
+       $stmt->bind_param("i", $studentID);
+       $stmt->execute();
+       $result = $stmt->get_result();
+       $stmt->close();
+    } else {
+       $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
+       $message_ .= 'SQL: ' . $sql;
+       die($message_); 
     }
     $row_cnt = mysqli_num_rows($result);
     if ($row_cnt == 0) {
@@ -348,12 +410,19 @@ while ($row = mysqli_fetch_row($result)){
    if ($row[4] == 1) $completed = true;
 
    //now select the next steps for each comment 
-   $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID='$row[3]' ORDER BY timestamp ASC";
+   //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID='$row[3]' ORDER BY timestamp ASC";
+   $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID=? ORDER BY timestamp ASC";
    // for NS table [0] is decrypted notes, [1] is timestamp. [2] is login_name
-   $resultNS = mysqli_query($sssDB, $sql);
-   if (!$resultNS) {
-        die("Query to show fields from next_steps table failed. commentPage.php<br>" . $sql);
-   }
+    if ($stmt = $sssDB->prepare($sql)) {
+       $stmt->bind_param("i", $row[3]);
+       $stmt->execute();
+       $resultNS = $stmt->get_result();
+       $stmt->close();
+    } else {
+       $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
+       $message_ .= 'SQL: ' . $sql;
+       die($message_);
+    }
    $row_cntNS = mysqli_num_rows($resultNS);
 
 ?>
@@ -368,7 +437,7 @@ while ($row = mysqli_fetch_row($result)){
    	 echo "<td align=\"left\" class=\"topcell\">";
 	}
    ?>
-<textarea readonly rows="2" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
+<textarea readonly rows="4" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
    </td>
 
    <td valign="center" class="rightcell"><?php echo $row[1],"<br>",$row[2]; ?></td>
