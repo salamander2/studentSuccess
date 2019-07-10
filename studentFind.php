@@ -21,6 +21,11 @@ if (1 === $isTeam) {
 	$nextPage = "studentInfo.php";
 }
 
+/*************************
+$isTeam means that the user is a member of the at-risk team
+$activate means that this search function was called by pressing the button "list all at-risk students"
+***************************/
+
 // get the q parameter from URL
 $q = clean_input($_REQUEST["q"]);
 $activate = false;
@@ -177,25 +182,21 @@ if ($activate) {
 }
 
 
-?>
+//general HTML now being written
+echo '<table class="pure-table pure-table-bordered table-canvas" style="border:none;">';
+echo '<thead>';
+echo '<tr>';
+echo '<th>Student Name</th>';
+if($activate) echo '<th>Grade</th>';
+echo '<th>Student Number</th>';
 
-<table class="pure-table pure-table-bordered table-canvas" style="border:none;">
-<thead>
-<tr>
-<th>Student Name</th>
-<th>Grade</th>
-<th>Student Number</th>
-
-<?php
 if ($activate && 1==$isTeamAdmin) {
 	echo "<th>Select?</th>";
 }
-?>
-</tr>
-</thead>
-<tbody>
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
 
-<?php
 // printing table rows: student name, student number, selected (if isTeamAdmin)
 while ($row = mysqli_fetch_assoc($resultArray)){ 
 
@@ -293,7 +294,9 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 		echo "<tr>";
 	}
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
-	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['grade']. "</td>";
+    if($activate) {
+		echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['grade']. "</td>";
+	}
 	echo "<td onclick=\"window.document.location='$nextPage?ID=". $row['studentID'] . "';\" >".$row['studentID']. "</td>";
 	if ($activate) {
 		if (1==$isTeamAdmin) {
@@ -308,12 +311,10 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	echo "</tr>";
 
 } //this is the end of the while loop
-?>
 
-</tbody>
-</table>
+echo '</tbody>';
+echo '</table>';
 
-<?php
 // mysqli_free_result($resultArray);
 ?>
 
