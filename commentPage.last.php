@@ -129,7 +129,7 @@ function formatCourse($course) {
 <link rel="stylesheet" href="css/sssDB.css">
 <?php
 if (false === $sssInfoFound) {
-    echo "<style>#main-lower{display:none;}#ssData{border-color:red;}.pure-button{color:red;}</style>";
+    echo "<style>#main-lower{display:none;}#ssData{border-color:red;display:none;}.pure-button{color:red;}</style>";
 } else {
     if (0 === $isTeam) {
        echo "<style>#main-lower{display:none;}</style>";
@@ -203,7 +203,7 @@ if (false === $sssInfoFound) {
 <!-- end insert photo -->
 
 <!-- **************** Begin markbook section [left box in main-top section] ***************** -->
-<div class="box2">       
+<div class="box2_last">       
 <div id="mkbk">
 <p style="border:1px solid gray;padding:2px 4px;">
     Student Number: <span class="white"><?php echo $studentID; ?></span>
@@ -211,32 +211,6 @@ if (false === $sssInfoFound) {
     Birthdate: <span class="white"><?php echo $dob; ?></span>
     <span class="fright">Age: <span class="white"><?php echo getAge($dob); ?></span></span>
 </p>
-<table class="timetable">
-<tr><th>Period</th><th>Course</th><th>Teacher</th><th>Room</th></tr>
-<?php
-   //This prints out the timetable if there is one. 
-   //If there is no timetable, we still have to print out 4 rows in order for the "mtgDate" to be positioned correctly on the page.
-   if ($timetable->num_rows == 0) {
-     echo "<tr><td colspan=4> no timetable </td></tr>";
-     echo "<tr><td colspan=4>&nbsp;</td></tr>";
-     echo "<tr><td colspan=4>&nbsp;</td></tr>";
-     echo "<tr><td colspan=4>&nbsp;</td></tr>";
-   } else {
-	  $n=1;
-      while ($row = mysqli_fetch_assoc($timetable)) {
-        $coursecode = formatCourse($row['coursecode']);
-
-        $text = "<td>".$row['period'] ."</td><td>". $coursecode ."</td><td>". $row['teacher'] ."</td><td>". $row['room'] . "</td>";
-        echo "<tr>" . $text . "</tr>";
-		$n++;
-      }
-	  for(;$n<=4; $n++) {
-        echo "<tr><td colspan=4>&nbsp;</td></tr>";
-      }
-   }
-?>
-</table>
-<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won't show up here</i></p>
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
@@ -293,18 +267,7 @@ if ($fnmi) {
 </select>
 </span>
 </p>
-<br clear="both" />
-<div>
-   <!--Staff: <input type="text" size="22" name="staff" value="<?php #echo $staff; ?>"> -->
-   
-   <button type="submit" disabled class="pure-button fright">
-      Update
-   </button>
-</div>
-<p>
-
 </div><!-- ************ end ssData **************** -->
-<br clear="both">
 <p class="fontONE smaller fleft">Guardian Phone: <?php echo $guardianPhone; ?><br>
 Guardian Email: <?php echo str_replace(';','; ',$guardianEmail); ?></p>
 
@@ -316,9 +279,7 @@ Guardian Email: <?php echo str_replace(';','; ',$guardianEmail); ?></p>
 
 <!-- ********** start maim-lower section [continues til footer] ******************* -->
 <div id="main-lower">
-
 <div id="repeatingComments">
-<hr>
     <h3 class="white centered"><span class="fa fa-chevron-down"></span>  Previous Comments / Issues  <span class="fa fa-chevron-down"></span></h3>
 
     <?php echo $message; ?>

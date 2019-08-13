@@ -314,6 +314,17 @@ bottom:12px;right:20px;
   position:relative;
   padding-bottom:55px; /* this is to allow space for the admin buttons */
 }
+.box2_last {
+/*  background-color:#999; */
+  border: 1px solid #666;
+  text-align:left;
+  overflow:hidden;
+  padding:10px;
+  border-radius: 4px;
+  vertical-align:middle;
+  position:relative;
+  padding-bottom:10px;
+}
 
 .box-repeat .topcell {
   background-color:#ADD;
