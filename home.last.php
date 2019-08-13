@@ -15,7 +15,7 @@ require_once('../../DB-admin/php_includes/sssDB.inc.php');
 require_once('common.inc.php');
 
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
-$sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
+$sssDB = connectToDB("sssDB_last", $sql_user, $sql_pass);
 
 /* get the colourscheme variable if this page was loaded via clicking on a radio button in studentFind.php */
 $colour = clean_input($_REQUEST["colourScheme"]);
@@ -96,29 +96,23 @@ function showHint(str) {
                 document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
             }
         }
-        xmlhttp.open("GET", "studentFind.php?q=" + str, true);
+        xmlhttp.open("GET", "studentFind.last.php?q=" + str, true);
         xmlhttp.send();
     }
 }
 </script>
 </head>
 
-<body>
+<body id="last">
 <div id="header">
-<a class="fa fa-sign-out nav-button fleft" href="logout.php">  Logout</a>
-<span class="fright">
-<a class="fa fa-cogs nav-button" href="admin.php">  Administer</a>
-<a class="fa fa-plus-circle nav-button" 
-   <?php if (0===$isTeam) echo 'style="display:none;"'; ?>
-   href="addstudent.php">  Add Student</a>
+<a class="fa fa-arrow-left nav-button fleft" href="home.php">  Go Back<br>to current year</a>
 </span>
-    <h1>Student Success Database</h1>
+    <h1>Student Success Database &mdash; LAST YEAR'S COMMENTS</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
     <hr>
 </div>
 
 <!-- debugging, etc. here -->
-<?php echo $sql_user."=".$isTeam; ?>
 <?php
 if ($colour != 0) {
 	echo '<script type="text/javascript"> showHint(\'ACTIVATED\');</script>';
@@ -144,10 +138,6 @@ echo '<span class="gray smaller">'.$numAtRisk." students</span>";
 
 <div id="txtHint"></div>
 </form>
-<?php
-#  echo "===".$isTeam."===";
-echo base64_encode(random_bytes(32));
-?>
 </body>
 </html>
 

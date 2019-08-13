@@ -47,24 +47,17 @@ if (1==$isTeam) {
 	echo '<li><a style="font-size:larger;" href=""><s>Change your own login password</s></a><br><br></li>';
 }
 
-echo '<li><a style="font-size:larger;" class="white" href="listUsers.php">List database users</a><br><br></li>';
+echo '<li><a style="font-size:larger;" class="white" href="listUsers.php">List database users</a><br><br></li>'.PHP_EOL;
 
 if (1==$isTeamAdmin) {
+	echo '<a href="home.last.php"><button class="nav-button pure-button fright" style="border:solid 3px deeppink;">Last Year\'s Comments</button></a>'.PHP_EOL;
 	echo '<li><a style="font-size:larger;" href="userMaint.php">Add, modify, delete users</a><br><br></li>';
 }
+echo "</ul>";
+
 ?>
-</ul>
 <hr>
 <p>&nbsp;</p>
-<?php
-//if ($username == "DB-admin") {
-//   echo "<div id=\"admin_options\"><ul>";
-//   echo "<li class=\"majorlinks\"><a href=\"userAdmin.php\">Add database users</a></li>";
-//   echo "<li class=\"majorlinks\"><a href=\"userAdmin.php\">Inactivate database users</a></li>";
-//   echo "<li class=\"majorlinks\"><a href=\"userAdmin.php\">Delete database users</a></li>";
-//   echo "</ul> </div>";
-//}
-?>
 </div>
 
 <div id="footer" class="centered">

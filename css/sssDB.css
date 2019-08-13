@@ -17,6 +17,17 @@ body {
   text-align: center;
 }
 
+/* special colours for last year's data */
+body#last {
+  background-color: #246;
+  color:#e8edf3;
+  color:#22264B;
+  margin:10px 5px 5px 5px;
+  text-align: center;
+  border:3px solid deeppink;
+  padding:5px;
+}
+
 p {
   padding: 3px;
   text-align:left;
