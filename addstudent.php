@@ -47,7 +47,7 @@ if(isset($_POST['submit'])) {
 		if (isDuplicate_studentNum($studentNum, $schoolDB)) $error_message = "This student number already exists!";
 	}
 
-	if ($studentNum[0] <> "3") $error_message = "Student number must begin with a '3'";
+	//if ($studentNum[0] <> "3") $error_message = "Student number must begin with a '3'";
 	if (strlen($studentNum) <> 9 ) $error_message = "Student numbers must be 9 digits";
 	if (!is_digit($studentNum)) $error_message = "Non-numeric data in student number: $studentNum";
 	if (empty($studentNum))  $error_message = "Please enter a student number";

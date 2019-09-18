@@ -51,7 +51,7 @@ echo '<li><a style="font-size:larger;" class="white" href="listUsers.php">List d
 
 if (1==$isTeamAdmin) {
 	echo '<a href="home.last.php"><button class="nav-button pure-button fright" style="border:solid 3px deeppink;">Last Year\'s Comments</button></a>'.PHP_EOL;
-	echo '<li><a style="font-size:larger;" href="userMaint.php">Add, modify, delete users</a><br><br></li>';
+	echo '<li><a style="font-size:larger;color:red;padding:5px 10px;border:1px solid gray;" href="userMaint.php">Add, modify, delete users</a><br><br></li>';
 }
 echo "</ul>";
 
