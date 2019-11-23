@@ -410,6 +410,7 @@ function validateNextSteps() {
     //table rows [0] is decrypted comment. [1] is timestamp.  [2] is loginname, [3] is comment id, [4] completed
 
 while ($row = mysqli_fetch_row($result)){ 
+   $comment = stripslashes($row[0]); //to undo the addslashes from clean_input()
    $completed = false;
    if ($row[4] == 1) $completed = true;
 
@@ -441,7 +442,7 @@ while ($row = mysqli_fetch_row($result)){
    	 echo "<td align=\"left\" class=\"topcell\">";
 	}
    ?>
-<textarea readonly rows="4" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
+<textarea readonly rows="5" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($comment, ENT_QUOTES, 'UTF-8'); ?></textarea>
    </td>
 
    <td valign="center" class="rightcell"><?php echo $row[1],"<br>",$row[2]; ?></td>
@@ -465,7 +466,7 @@ while ($row = mysqli_fetch_row($result)){
   ?>
   <tr>
   <td class="leftcell2">
-     <textarea readonly rows="3" cols="50" class="comment-text fontONE"><?php echo htmlspecialchars($rowNS[0], ENT_QUOTES, 'UTF-8'); ?></textarea>
+     <textarea readonly rows="3" cols="50" class="comment-text fontONE"><?php echo htmlspecialchars(stripslashes($rowNS[0]), ENT_QUOTES, 'UTF-8'); ?></textarea>
   </td>
 <td valign="center" class="rightcell2">
 <?php echo $rowNS[1],"<br>",$rowNS[2]; ?>
