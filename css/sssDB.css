@@ -434,9 +434,10 @@ bottom:12px;right:20px;
 .pure-table .row70 td { color:#908;background-color:#f4f85d;}
 .row8 { color:#111;} /* black */
 .row80 { color:#111;background-color:#f4f85d;}
+.pure-table .row80 td { color:#111;background-color:#f4f85d;}
 .row9 { color:#D21;} /* red */
 .row90 { color:#D21;background-color:#f4f85d;}
-.pure-table .row80 td { color:#D21;background-color:#f4f85d;}
+.pure-table .row90 td { color:#D21;background-color:#f4f85d;}
 
 
 .student-desc {
