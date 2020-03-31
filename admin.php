@@ -18,6 +18,7 @@ require_once('common.inc.php');
 <html>
 
 <head lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>
 Student Success Database -- administrative options

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Please enter passphrase"
+AuthUserFile /home/databases/DB-admin/.htpasswd
+require valid-user

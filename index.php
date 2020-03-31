@@ -140,6 +140,7 @@ function clean_input($string) {
 <!-- The login page-->
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css" type="text/css">
 <!-- for mobile devices
@@ -150,7 +151,7 @@ function clean_input($string) {
 
 <body>
 <div id="header">
-<a class="fa fa-arrow-left nav-button fleft" href="http://bealinfo.tvdsb.ca">  Go Back</a>
+<a class="fa fa-arrow-left nav-button fleft" href="http://iquark.ca">  Go Back</a>
 <h1>Student Success Database</h1>
 <h2>Enter your credentials</h2>
 

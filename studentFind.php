@@ -16,9 +16,11 @@ $sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 if (1 === $isTeam) {
-	$nextPage = "commentPage.php";
+	#$nextPage = "commentPage.php";
+	$nextPage = "showContacts.php";
 } else {
-	$nextPage = "studentInfo.php";
+	#$nextPage = "studentInfo.php";
+	$nextPage = "showContacts.php";
 }
 
 /*************************

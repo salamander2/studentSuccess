@@ -181,11 +181,21 @@ th {
   margin-right:10px;
 }
 
+#atRiskBtn {
+border:2px solid orange;
+padding:10px;
+position:absolute;
+bottom:12px;left:20px;
+color:red;
+}
 #resetBtn {
 border:2px solid #E22;
 padding:2px 10px;
 position:absolute;
-bottom:12px;left:20px;
+bottom:12px;
+/*left:20px;*/
+left:35%;
+display:inline;
 }
 #resetBtn p {
   margin:0;
@@ -237,7 +247,7 @@ bottom:12px;right:20px;
   text-align: center;
 }
 
-.prevComment, .comment-text, .comment-text2 {
+.prevComment, .comment-text, .comment-text2, .note-text {
   color:black; 
 /*  max-width: 80%;
   width:80%;
@@ -246,12 +256,16 @@ bottom:12px;right:20px;
   border: 2px solid gray;
   border-radius: 5px;
   padding: 1em;
+  margin-bottom:1em;
 }
 .prevComment {
   background-color:transparent;
 }
 .comment-text2 {
   width:95%;
+}
+.note-text {
+  width:85%;
 }
 
 .fontONE {
@@ -540,6 +554,19 @@ bottom:12px;right:20px;
     font-weight:bold;
 }
 
+/* alternate styling */
+.pure-button2 {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    padding: .5em;
+    border: 1px solid #999;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 1% 0.5%;
+    background-color:white;
+}
+
 .pure-form .pure-input-2-3 {
     width: 66%
 }
@@ -553,6 +580,10 @@ bottom:12px;right:20px;
     margin: 0;
     padding: .35em 0 .75em;
     border: 0
+}
+
+.group{
+    display: inline-block;
 }
 
 .pure-control-group{
@@ -593,7 +624,8 @@ bottom:12px;right:20px;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    border: 1px solid #cbcbcb
+    border: 1px solid #cbcbcb;
+    color: #22264B; /* MH shouldhave done this a long time ago. Table fonts are white on white otherwise */
 }
 .pure-table caption {
     color: #000;

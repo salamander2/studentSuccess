@@ -1,11 +1,11 @@
 <?php 
 //This is the page where the Counsellors can view their created comments
 /*******************************************************************************
-   Name: commentPage.php
+   Name: showContacts.php
    Called from: home.php / studentFind.php
    Purpose: 
    Tables used: schoolDB/students, sssDB/sssInfo, sssDB/social_workers
-	sssDB/comment, ssssDB/next_steps
+	   sssDB/comment, ssssDB/next_steps, sssDB/tcontact
    Calls: sssDataHandler.php (when activating a student)
 	nextSteps.php (when a 'next step' is added)
 	completed.php (when a comment is completed)
@@ -118,24 +118,70 @@ function formatCourse($course) {
 
 <head lang="en">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <title>
    <?php echo "Student Success Database -- ", $lastname, ", " , $firstname;?>
 </title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
-<?php
-if (false === $sssInfoFound) {
-    echo "<style>#main-lower{display:none;}#ssData{border-color:red;}.pure-button{color:red;}</style>";
-} else {
-    if (0 === $isTeam) {
-       echo "<style>#main-lower{display:none;}</style>";
-    }
+
+<script>
+function addText(text) {
+  oldtext = document.getElementById("contactMethod").value;
+  if (oldtext.trim().length > 0) {
+      text = oldtext + ", " + text;
+  } 
+  document.getElementById("contactMethod").value = text;
+  document.getElementById("contactMethod").focus;
 }
-?>
+</script>
+
 </head>
 
 <body>
+<script>
+// for at-risk data form
+function validateData() {
+    var x, text;
+
+    // Get the value of the input field with id="grade"
+    x = document.getElementById("grade").value;
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 9 || x > 13) {
+        text = "Grade must be between 9 and 13";
+        text = "<div class=\"error\">" + text + "</div>";
+        document.getElementById("error_message").innerHTML = text;
+        return false;
+    } 
+    return true;
+}
+// for teacher contact form 
+function validateData2() {
+   data = document.getElementById("teacherName").value;
+   if (data.trim().length == 0) {
+      alert("You must enter your name in the teacher field");
+      return false;
+   }
+   data = document.getElementById("contactMethod").value;
+   if (data.trim().length == 0) {
+      alert("You must enter something in Contact Method");
+      return false;
+   }
+   data = document.getElementById("personContacted").value;
+   if (data.trim().length == 0) {
+      alert("You must enter the person contacted (student, parent, ...)");
+      return false;
+   }
+   data = document.getElementById("dateContacted").value;
+   if (data.trim().length == 0) {
+      alert("You must enter the date contacted");
+      return false;
+   }
+   return true;
+}
+
+</script>
+
 <!--  ################ Structure of page #################
 * header
   hr
@@ -227,36 +273,20 @@ if (false === $sssInfoFound) {
         echo "<tr>" . $text . "</tr>";
 		$n++;
       }
-	  for(;$n<=4; $n++) {
-        echo "<tr><td colspan=4>&nbsp;</td></tr>";
+      for(;$n<=4; $n++) {
+           echo "<tr><td colspan=4>&nbsp;</td></tr>";
       }
    }
+   echo "</table>";
+   echo '<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won\'t show up here</i></p>';
+   if ($timetable->num_rows == 0) {
+     echo '<p class="fontONE smaller fleft gray">If there are no courses in the timetable, the student might be off roll.</p>';
+   }
 ?>
-</table>
-<br clear="both" />
-<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won't show up here</i></p>
 </div> <!-- end mkbk section -->
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
-<script>
-function validateData() {
-    var x, text;
-
-    // Get the value of the input field with id="grade"
-    x = document.getElementById("grade").value;
-    // If x is Not a Number or less than one or greater than 10
-    if (isNaN(x) || x < 9 || x > 13) {
-        text = "Grade must be between 9 and 13";
-        text = "<div class=\"error\">" + text + "</div>";
-        document.getElementById("error_message").innerHTML = text;
-        return false;
-    } 
-    return true;
-}
-</script>
-
 <div id="ssData">
-<form action="sssDataHandler.php" method="post" onsubmit="return validateData();">
 <p>
 <span class="fleft">
 <?php 
@@ -293,20 +323,7 @@ if ($fnmi) {
 </span>
 </p>
 <br clear="both" />
-<div>
-   <!--Staff: <input type="text" size="22" name="staff" value="<?php #echo $staff; ?>"> -->
-   
-   <button type="submit" 
-       <?php 
-           if (0===$isTeam) echo " disabled ";
-       ?>
-       class="pure-button fright">
-       <?php if (true===$sssInfoFound) echo "Update";
-	     else echo "Activate AtRisk";
-       ?>
-   </button>
-   <input type="hidden" name="dataExists" value="<?php echo $sssInfoFound; ?>">
-</div>
+</p>
 <!-- drop down box
 <select name="cars">
  <optgroup label="Swedish Cars">
@@ -320,44 +337,21 @@ if ($fnmi) {
   </select>
 -->
 <p>
-</form>
 
 </div><!-- ************ end ssData **************** -->
 <br clear="both">
 <p class="fontONE smaller fleft">Guardian Phone: <?php echo $guardianPhone; ?><br>
 Guardian Email: <?php echo str_replace(';','; ',$guardianEmail); ?></p>
 
-<br clear="both" />
 <!-- *********** Other admin buttons ************ -->
 <?php
-if (1===$isTeam && $sssInfoFound) {
-	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
-	echo '<div id="mtgDate">';
-	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
-	if ($isTeamAdmin == 1) {
-		$clickStr = "onclick=\"window.document.location='updateSSTdate.php?ID=$studentID';\"";
-		echo '&nbsp;&nbsp;<button class="Xpure-button" '.$clickStr.' style="margin:0;">Set to today</button>';
-	}
-	echo '</p>';
-	echo '</div>';
-}
-
 if (1===$isTeam) {
-	echo '<div id="atRiskBtn" style="padding:2px 10px;">';
-	$clickStr = "onclick=\"window.document.location='showContacts.php?ID=$studentID';\"";
-	echo '<button '.$clickStr.'" style="margin:2px 0;">Go to Teacher Contact form</button>';
-	echo '</div>';
-}
-if (1===$isTeam && $sssInfoFound) {
+
+	//Date Discussed and Set to today button
 	if ($isTeamAdmin == 1) {
-		$clickStr = "onclick=\"window.document.location='removeAtRisk.php?ID=$studentID';\"";
-		$clickStr = "removeAtRisk.php?ID=$studentID";
-		echo '<div id="resetBtn">';
-		echo '<p>';
-		echo '<a href="'.$clickStr.'"  onclick="return confirm(\'Are you sure you want to do this? All comments will be deleted!\');">';
-		echo '<button style="margin:0;">Reset At-Risk status</button>';
-		echo '</a>';
-		echo '</p>';
+		echo '<div id="atRiskBtn">';
+		$clickStr = "onclick=\"window.document.location='commentPage.php?ID=$studentID';\"";
+		echo '<button class="pure-button" '.$clickStr.'" style="margin:0;background:orange">Go to AtRisk pages</button>';
 		echo '</div>';
 	}
 }
@@ -371,17 +365,51 @@ if (1===$isTeam && $sssInfoFound) {
 
 <!-- ********** start maim-lower section [continues til footer] ******************* -->
 <div id="main-lower">
+
 <div id="newComment">
-<form action="commentHandler.php" method="POST">
-        <textarea name="comment" class="comment-text fontONE" rows="8" placeholder="Enter new comment/issue..." autofocus></textarea><br>
-        <button type="submit" class="pure-button">Submit</button>
-        <label class="subhead">Date and Time will be recorded automatically</label>
+
+<!-- ************* teacher contact form ************* -->
+<table class="pure-table pure-table-bordered">
+<tr><td>
+<form class="pure-form" method="post" action="contactHandler.php" onsubmit="return validateData2()">
+
+<div class="group">
+<fieldset>
+<label for="teacherName" class="pure-button2" style="color:darkgreen;border:0;">Teacher (Lastname, Firstname):</label><br>
+<input id="teacherName" name="teacherName" type="text" size="35" style="background:#CFD;">
+</fieldset>
+</div>
+
+<div class="group">
+<fieldset>
+<span class="navy">Contact Method:</span>
+<span class="pure-button2 " onclick="addText('Email');" >Email</span>
+<span class="pure-button2 navy"  onclick="addText('Phone');">Phone</span>
+<span class="pure-button2 navy"  onclick="addText('Translator');">Translator</span>
+<br>
+<input style="background-color:#DEF;width:100%" id="contactMethod" name="contactMethod" type=text size=35>
+</fieldset>
+</div>
+
+<fieldset>
+<div class="group">
+<label for="dateContacted" class="" style="color:#518;">Date contacted:</label>
+<input id="dateContacted" name="dateContacted" type="date" size="15" style="background:#CAF;">
+<label for="personContacted" class="" style="color:#620;">&nbsp;&nbsp;&nbsp;&nbsp;Person contacted:</label>
+<input id="personContacted" name="personContacted" type="text" size="15" style="background:#FFA;"> 
+</div>
+<div class="fright smaller">(student, father, <br>mother, guardian, ...)</div>
+</fieldset>
+<textarea name="notes" class="note-text fontONE" rows="5" placeholder="Enter any notes (optional)"></textarea>
+<button type="submit" name="submit" class="pure-button" style="margin:0 0.75em;font-weight:bold;">Submit</button>
 </form>
+</td></tr>
+</table>
+
 </div> <!-- end of newComment -->
 
 <div id="repeatingComments">
 <hr>
-    <h3 class="white centered"><span class="fa fa-chevron-down"></span>  Previous Comments / Issues  <span class="fa fa-chevron-down"></span></h3>
 
     <?php echo $message; ?>
 
@@ -390,10 +418,11 @@ if (1===$isTeam && $sssInfoFound) {
     //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, AES_DECRYPT(next_steps,'$masterkeyhash'), id, completed FROM comments WHERE student_number=$student_number ORDER BY timestamp DESC";
     //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=$studentID ORDER BY timestamp DESC";
 
-    $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, id, completed FROM comments WHERE studentID=? ORDER BY timestamp DESC";
+    $sql = "SELECT teacher, contactMethod, date, notes, timestamp, personContacted FROM tcontact WHERE studentID=? ORDER BY timestamp DESC";
     if ($stmt = $sssDB->prepare($sql)) {
        $stmt->bind_param("i", $studentID);
        $stmt->execute();
+	   //this is going to be a bunch of rows of data, so I don't think we'll do $stmt->bind_result($firstname,$lastname); $stmt->fetch()
        $result = $stmt->get_result();
        $stmt->close();
     } else {
@@ -403,119 +432,37 @@ if (1===$isTeam && $sssInfoFound) {
     }
     $row_cnt = mysqli_num_rows($result);
     if ($row_cnt == 0) {
-      echo "You have not entered any comments for this student yet.";
+      echo "<p class=\"tan\">No contact has been made with this student yet.</p>";
     }
-    ?>
-<!-- starting displaying the comments and next steps for this student -->    
 
-<script>
-function validateNextSteps() {
-// do not allow submussion if nextSteps field is empty. TODO : why is this here?
-}
-</script>
+	#starting displaying the comments and next steps for this student -->    
 
-<?php
-    //table rows [0] is decrypted comment. [1] is timestamp.  [2] is loginname, [3] is comment id, [4] completed
+    //table rows [0] is teacher. [1] is contactMethod.  [2] is date, [3] is notes, [4] timestamp, [5] is personContacted
 
 while ($row = mysqli_fetch_row($result)){ 
-   $comment = stripslashes($row[0]); //to undo the addslashes from clean_input()
-   $completed = false;
-   if ($row[4] == 1) $completed = true;
-
-   //now select the next steps for each comment 
-   //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID='$row[3]' ORDER BY timestamp ASC";
-   $sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'), timestamp, login_name FROM next_steps WHERE commentID=? ORDER BY timestamp ASC";
-   // for NS table [0] is decrypted notes, [1] is timestamp. [2] is login_name
-    if ($stmt = $sssDB->prepare($sql)) {
-       $stmt->bind_param("i", $row[3]);
-       $stmt->execute();
-       $resultNS = $stmt->get_result();
-       $stmt->close();
-    } else {
-       $message_  = 'Invalid query: ' . mysqli_error($sssDB) . "\n<br>";
-       $message_ .= 'SQL: ' . $sql;
-       die($message_);
-    }
-   $row_cntNS = mysqli_num_rows($resultNS);
+   $notes = stripslashes($row[3]); //to undo the addslashes from clean_input()
 
 ?>
 
 <div class="box-repeat">
    <table width="100%" class="pure-table">
    <tr>
-   <?php 
-	if ($completed) {
-	 echo  "<td align=\"left\" class=\"topcell completed\">";
-	} else {
-   	 echo "<td align=\"left\" class=\"topcell\">";
-	}
-   ?>
-<textarea readonly rows="5" cols="50" class="prevComment fontONE"><?php echo htmlspecialchars($comment, ENT_QUOTES, 'UTF-8'); ?></textarea>
+	<td align="left" class="topcell">
+
+	Teacher: <label class="pure-button2" style="color:darkgreen;border:0;"><?php echo $row[0]?></label>
+	Date: <label class="pure-button2" style="color:darkgreen;border:0;"><?php echo $row[2]?></label>
+	Contact Method: <label class="pure-button2" style="color:darkgreen;border:0;"><?php echo $row[1]?></label>
+	Person Contacted: <label class="pure-button2" style="color:darkgreen;border:0;"><?php echo $row[5]?></label>
+
+	<?php
+	if ($notes != "") {
+	   echo "<textarea readonly cols=\"50\" class=\"prevComment fontONE\">";
+       echo htmlspecialchars($notes, ENT_QUOTES, 'UTF-8')."</textarea>";
+    }
+    ?>
+
+   <p class="gray"><?php echo $row[4]; ?></p>
    </td>
-
-   <td valign="center" class="rightcell"><?php echo $row[1],"<br>",$row[2]; ?></td>
-   </tr>
-   <tr>
-   <!-- change colour of completed comments -->
-   <?php 
-	if ($completed) {
-	 echo  "<td colspan=2 align=\"left\" class=\"bottomcell completed\">";
-	} else {
-   	 echo "<td colspan=2 align=\"left\" class=\"bottomcell\">";
-	}
-   ?>
-<!-- TODO: also don't let next_steps be updated if it is completed. prevent the text area from being edited and make the update button non-working -->
-
-<!-- in the bottomcell we are putting a table of all of the next steps -->
-  <table width="100%" class="pure-table">
-
- <?php
-  while($rowNS = mysqli_fetch_row($resultNS)) {
-  ?>
-  <tr>
-  <td class="leftcell2">
-     <textarea readonly rows="3" cols="50" class="comment-text fontONE"><?php echo htmlspecialchars(stripslashes($rowNS[0]), ENT_QUOTES, 'UTF-8'); ?></textarea>
-  </td>
-<td valign="center" class="rightcell2">
-<?php echo $rowNS[1],"<br>",$rowNS[2]; ?>
-</td>
-  </tr>
-  <?php
-  }
-  ?>
-
-  <!-- add a blank form to add next steps -->
-  <!-- TODO: do not allow submission if the nextSteps field is empty. USe JS to check. This is already done in nextSteps.php -->
-  <?php
-  if ($completed) {
-    echo "<tr style=\"display:none;\">";
-  } else { 
-    echo "<tr>";
-  }
-  ?>
-
-  <td>
-  <form action="nextSteps.php" method="POST">
-  <table width=100%>
-  <tr>
-     <td>
-         <textarea rows="2" cols="50" name="nextSteps" class="comment-text2 fontONE" placeholder="Next steps ..."></textarea>
-     </td>
-     <td class="noborder">
-         <input type="hidden" name="commentID" value="<?php echo $row[3] ?>">
-         <button type="submit" name="submit" class="pure-button rightcell3">Update</button>
-     </td>
-   </tr>
-   </table>
-   </form> 
-   </td>
-   <td class="noborder">
-      <a href="completed.php?ID=<?php echo $row[3]; ?>"><button type="submit" name="submit2" class="pure-button rightcell3">Completed</button></a>
-   </td></tr>
-  <!-- end of table for next steps -->
-  </table> 
-
-   </td> 
    </tr>
 </table>
 </div> <!-- end box-repeat -->
@@ -530,7 +477,7 @@ while ($row = mysqli_fetch_row($result)){
 <hr>
 </div> <!-- end main-lower-->
 
-<div id="footer" class="centered"> Created by Michael Harwood &copy; 2017.  </div>
+<div id="footer" class="centered"> Created by Michael Harwood &copy; 2020.  </div>
 
 </div> <!-- end main -->
 <?php

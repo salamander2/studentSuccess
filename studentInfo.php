@@ -121,6 +121,7 @@ function formatCourse($course) {
 <title>
    <?php echo "Student Success Database -- ", $lastname, ", " , $firstname;?>
 </title>
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
 <?php
@@ -173,8 +174,8 @@ function formatCourse($course) {
 <!-- **************** Begin insert photo ***************** -->
     <?php
 	# Linux command to uppercase all files in a folder::>>>> for file in *; do mv -- "$file" "${file^^}"; done
-    $filename1 = "$photoDir1/$studentID.JPG"; //absolute path
-    $filename2 = "$photoDir2/$studentID.JPG"; //relative path for public_html (browsers)
+    $filename1 = "$photoDir1/$studentID.BMP"; //absolute path
+    $filename2 = "$photoDir2/$studentID.BMP"; //relative path for public_html (browsers)
     if (file_exists($filename1)) {
        echo "<img class=\"student-img\" src=$filename2>"; //echo "The file $filename exists";
     } else {
@@ -204,6 +205,9 @@ function formatCourse($course) {
 <?php
    if ($timetable->num_rows == 0) {
      echo "<tr><td colspan=4> no timetable </td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
+     echo "<tr><td colspan=4>&nbsp;</td></tr>";
    } else {
       while ($row = mysqli_fetch_assoc($timetable)) {
         $coursecode = formatCourse($row['coursecode']);
@@ -285,7 +289,6 @@ if ($fnmi) {
   </select>
 -->
 <p>
-</form>
 
 </div><!-- ************ end ssData **************** -->
 <p class="fontONE smaller fleft">Guardian Phone: <?php echo $guardianPhone; ?><br>
