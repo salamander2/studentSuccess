@@ -211,7 +211,7 @@ function validateData2() {
 <!-- standard header-->
 <div id="header">
     <a class="fa fa-arrow-left nav-button fleft" href="home.php" title="or press browser Back button">  Go Back</a>
-    <h1>Student Success Database</h1>
+    <h1>Beal Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
     <hr color="black">        
 </div>
@@ -336,8 +336,8 @@ if ($fnmi) {
   </optgroup>
   </select>
 -->
-<p>
 
+<p class="fontONE smaller fleft gray"><i>This box is only filled in for At-Risk students</i></p>
 </div><!-- ************ end ssData **************** -->
 <br clear="both">
 <p class="fontONE smaller fleft">Guardian Phone: <?php echo $guardianPhone; ?><br>
@@ -399,10 +399,14 @@ if (1===$isTeam) {
 <input id="personContacted" name="personContacted" type="text" size="15" style="background:#FFA;"> 
 </div>
 <div class="fright smaller">(student, father, <br>mother, guardian, ...)</div>
+<div class="fontONE smaller gray">Date format: YYYY-MM-DD</div>
 </fieldset>
 <textarea name="notes" class="note-text fontONE" rows="5" placeholder="Enter any notes (optional)"></textarea>
 <button type="submit" name="submit" class="pure-button" style="margin:0 0.75em;font-weight:bold;">Submit</button>
 </form>
+<noscript>
+Please enable Javascript if this form is not working.
+</noscript>
 </td></tr>
 </table>
 

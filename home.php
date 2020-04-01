@@ -48,20 +48,28 @@ $_SESSION["alpha"] = $alpha;
 
 #$_SESSION["isTeam"] = $isTeam;	-- done in index.php
 
-#count how man at-risk students there are
+#count how many at-risk students there are
  $sql = "SELECT COUNT(*) FROM sssInfo";
  $result = mysqli_query($sssDB,$sql);
  if (!$result) {
     die("Query to count rows in 'sssInfo' failed");
  }
  $numAtRisk = $result->fetch_row()[0];
+
+#count how many student contacts have been made
+ $sql = "SELECT COUNT(*) FROM tcontact";
+ $result = mysqli_query($sssDB,$sql);
+ if (!$result) {
+    die("Query to count rows in 'tcontact' failed");
+ }
+ $numContacts = $result->fetch_row()[0];
 ?>
 
 <!DOCTYPE html>
 <!--This is the page used to search for students -->
 <html>
 <head>
-<title>Student Success Database: <?php echo $username; ?></title>
+<title>Beal Student Database: <?php echo $username; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
@@ -113,8 +121,11 @@ function showHint(str) {
    <?php if (0===$isTeam) echo 'style="display:none;"'; ?>
    href="addstudent.php">  Add Student</a>
 </span>
-    <h1>Student Success Database</h1>
+    <h1>Beal Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
+<br clear="both">
+<div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>
+<br clear="both">
     <hr>
 </div>
 

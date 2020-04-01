@@ -146,13 +146,13 @@ function clean_input($string) {
 <!-- for mobile devices
 <meta name="viewport" content="width=device-width, initial-scale=1">
 -->
-<title>Student Success Database: login</title>
+<title>Beal Student Database: login</title>
 </head>
 
 <body>
 <div id="header">
 <a class="fa fa-arrow-left nav-button fleft" href="http://iquark.ca">  Go Back</a>
-<h1>Student Success Database</h1>
+<h1>Beal Student Database</h1>
 <h2>Enter your credentials</h2>
 
 <?php print $error_message ?>
@@ -161,9 +161,10 @@ function clean_input($string) {
 <tr>
 <td width="30%">
 <p class="prevComment">
-This database shows you students' timetables and photos.<br><br>
-If you're part of the "students at-risk team" you can also read comments and enter comments
-about students to facilitate communication and follow-up regarding at-risk students
+This database shows you students' timetables and photos. 
+<span class="red">It is now also being used as a handy record of teacher contacts with students during the pandemic.</span><br><br>
+If you're part of the "students at-risk team" you can also read and update the comments that the At-Risk Team makes 
+about students. These will not be visible to the teachers in general.
 </p>
 </td><td>
 <form class="pure-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
