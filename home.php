@@ -57,12 +57,13 @@ $_SESSION["alpha"] = $alpha;
  $numAtRisk = $result->fetch_row()[0];
 
 #count how many student contacts have been made
- $sql = "SELECT COUNT(*) FROM tcontact";
+# $sql = "SELECT COUNT(*) FROM tcontact";
+$sql = "SELECT COUNT(DISTINCT studentID) FROM tcontact;";
  $result = mysqli_query($sssDB,$sql);
  if (!$result) {
     die("Query to count rows in 'tcontact' failed");
  }
- $numContacts = $result->fetch_row()[0];
+$numContacts = $result->fetch_row()[0];
 ?>
 
 <!DOCTYPE html>
@@ -117,15 +118,17 @@ function showHint(str) {
 <a class="fa fa-sign-out nav-button fleft" href="logout.php">  Logout</a>
 <span class="fright">
 <a class="fa fa-cogs nav-button" href="admin.php">  Administer</a>
+
 <a class="fa fa-plus-circle nav-button" 
    <?php if (0===$isTeam) echo 'style="display:none;"'; ?>
-   href="addstudent.php">  Add Student</a>
+   href="reports.php">  Reports</a>
 </span>
     <h1>Beal Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
 <br clear="both">
 <div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>
 <br clear="both">
+<div class="smaller" style="text-align:left;">Apr 6. Minor error corrected:<br> I had counted all contacts, but some students have multiple contacts</div>
     <hr>
 </div>
 

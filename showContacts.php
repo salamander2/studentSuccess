@@ -27,11 +27,11 @@ $_SESSION["studentID"] = $studentID;
 // if (empty($lastname))  $error_message = "You must enter a lastname";
 // if ($error_message != "") $error_message = "<div class=\"error\">" . $error_message . "</div>";
 
-$sql = "SELECT firstname, lastname, studentID, gender, dob, guardianPhone, guardianEmail FROM students WHERE studentID = ?";
+$sql = "SELECT firstname, lastname, studentID, gender, dob, guardianPhone, guardianEmail, loginID FROM students WHERE studentID = ?";
   if ($stmt = $schoolDB->prepare($sql)) {
     $stmt->bind_param("i", $studentID);
     $stmt->execute();
-    $stmt->bind_result($firstname, $lastname, $studentID, $gender, $dob, $guardianPhone, $guardianEmail);
+    $stmt->bind_result($firstname, $lastname, $studentID, $gender, $dob, $guardianPhone, $guardianEmail, $loginID);
     $stmt->fetch();
     $stmt->close();
 } else {
@@ -287,6 +287,11 @@ function validateData2() {
 
 <!-- **************** Begin ssData section [right box in main-top section] ***************** -->
 <div id="ssData">
+<?php 
+   if ($sssInfoFound) {
+	  echo '<div class="fright row90"><b>&nbsp;At-Risk&nbsp;</b></div><br clear=all>';
+   }
+?>
 <p>
 <span class="fleft">
 <?php 
@@ -340,8 +345,9 @@ if ($fnmi) {
 <p class="fontONE smaller fleft gray"><i>This box is only filled in for At-Risk students</i></p>
 </div><!-- ************ end ssData **************** -->
 <br clear="both">
-<p class="fontONE smaller fleft">Guardian Phone: <?php echo $guardianPhone; ?><br>
-Guardian Email: <?php echo str_replace(';','; ',$guardianEmail); ?></p>
+<p class="fontONE smaller fleft">Guardian Phone: <span class="tan"><?php echo $guardianPhone; ?></span><br>
+Guardian Email: <span class="tan"><?php echo str_replace(';','; ',$guardianEmail); ?></span><br>
+Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span></p>
 
 <!-- *********** Other admin buttons ************ -->
 <?php
