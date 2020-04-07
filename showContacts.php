@@ -27,11 +27,11 @@ $_SESSION["studentID"] = $studentID;
 // if (empty($lastname))  $error_message = "You must enter a lastname";
 // if ($error_message != "") $error_message = "<div class=\"error\">" . $error_message . "</div>";
 
-$sql = "SELECT firstname, lastname, studentID, gender, dob, guardianPhone, guardianEmail, loginID FROM students WHERE studentID = ?";
+$sql = "SELECT firstname, lastname, studentID, gender, dob, guardianPhone, guardianEmail, loginID, timetable FROM students WHERE studentID = ?";
   if ($stmt = $schoolDB->prepare($sql)) {
     $stmt->bind_param("i", $studentID);
     $stmt->execute();
-    $stmt->bind_result($firstname, $lastname, $studentID, $gender, $dob, $guardianPhone, $guardianEmail, $loginID);
+    $stmt->bind_result($firstname, $lastname, $studentID, $gender, $dob, $guardianPhone, $guardianEmail, $loginID, $rawTimeTable);
     $stmt->fetch();
     $stmt->close();
 } else {
@@ -278,8 +278,10 @@ function validateData2() {
       }
    }
    echo "</table>";
-   echo '<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won\'t show up here</i></p>';
-   if ($timetable->num_rows == 0) {
+   echo '<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won\'t show up here</i><br>';
+   echo 'Raw timetable data: '.$rawTimeTable.'</p>';
+   if ($rawTimeTable = "") {
+#   if ($timetable->num_rows == 0) {
      echo '<p class="fontONE smaller fleft gray">If there are no courses in the timetable, the student might be off roll.</p>';
    }
 ?>
