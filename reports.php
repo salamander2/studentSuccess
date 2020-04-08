@@ -40,9 +40,11 @@ Student Contact Database -- Reports
 
 <div id="main">
 <p>&nbsp;</p>
-<p class="majorlinks">1. <a href="printNoContact.php">Students who have not been contacted</a> Sorted by name</p>
-<p class="majorlinks">2. <a href="printAll.php">Print complete database</a> All students, sorted by name</p>
-<p class="majorlinks">3. <a href="printAllByDate.php">Print complete database</a> All students, most recent entries at top</p>
+<p>1. <a href="printNoContact.php" class="lightblue">Students who have not been contacted</a> Sorted by name</p>
+<p>2. <a href="printAll.php">Print complete database</a> All students, sorted by name</p>
+<p>3. <a href="printAllByDate.php">Print complete database</a> All students, most recent entries at top</p>
+<p>4. <a href="exportCSV.php">CSV download</a> of complete database. Sorted by student name</p>
+<p class="tan"><i>If you want any other fields in the CSV download, let me know</i></p>
 </div>
 <p>&nbsp;</p>
 

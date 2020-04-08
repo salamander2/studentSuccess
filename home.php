@@ -128,7 +128,7 @@ function showHint(str) {
 <br clear="both">
 <div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>
 <br clear="both">
-<div class="smaller" style="text-align:left;">Apr 6. Minor error corrected:<br> I had counted all contacts, but some students have multiple contacts</div>
+<!-- <div class="smaller" style="text-align:left;">Apr 6. Minor error corrected:<br> I had counted all contacts, but some students have multiple contacts</div> -->
     <hr>
 </div>
 
