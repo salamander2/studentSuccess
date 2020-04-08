@@ -15,11 +15,9 @@ require_once('common.inc.php');
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
 $error_message="";
-
 $firstname = $lastname = $studentNum = $gender = $dob = "";
 //if the submit button has been pressed:
 if(isset($_POST['submit'])) {  
-
 
 	/* Check all input.
 	   Do this here instead of using functions because there are too many variables
@@ -31,7 +29,6 @@ if(isset($_POST['submit'])) {
 	$gender = clean_input($_POST['gender']);
 	$gender = strtoupper($gender);
 	if ($gender <> "M" and $gender <> "F")  $error_message = "Invalid gender";
-
 	//date-of-birth
 	//check if A-Z, 0-9:  preg_match('/^[a-zA-Z0-9]+$/', $var)
 	$dob = clean_input($_POST['dob']);
@@ -59,7 +56,6 @@ if(isset($_POST['submit'])) {
 	if (empty($lastname))  $error_message = "You must enter a lastname";
 
 	if ($error_message != "") $error_message = "<div class=\"error\">" . $error_message . "</div>";
-
 	//if corrent, then add to database
 	if (empty($error_message)) {
 /*
@@ -126,8 +122,8 @@ function validate_Date($mydate, $format = 'YYYY-MM-DD') {
 }         
 
 function isDuplicate_studentNum($studentNum, $schoolDB) {
-	$sql = "SELECT firstname FROM students WHERE student_number = ?";
-	if ($stmt = $choolDB->prepare($sql)) {
+	$sql = "SELECT firstname FROM students WHERE studentID = ?";
+	if ($stmt = $schoolDB->prepare($sql)) {
     	$stmt->bind_param("i", $studentNum);
 	    $stmt->execute();
 		$stmt->store_result();

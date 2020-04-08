@@ -118,8 +118,10 @@ function showHint(str) {
 <a class="fa fa-sign-out nav-button fleft" href="logout.php">  Logout</a>
 <span class="fright">
 <a class="fa fa-cogs nav-button" href="admin.php">  Administer</a>
-
 <a class="fa fa-plus-circle nav-button" 
+<?php if (0===$isTeam) echo 'style="display:none;"'; ?>
+  href="addstudent.php">  Add Student</a>
+<a class="fa fa-file-text nav-button" 
    <?php if (0===$isTeam) echo 'style="display:none;"'; ?>
    href="reports.php">  Reports</a>
 </span>
