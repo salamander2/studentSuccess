@@ -13,7 +13,6 @@ error_reporting(E_ALL);
 session_start();
 require_once('../../DB-admin/php_includes/sssDB.inc.php');
 require_once('common.inc.php');
-
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 $sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 

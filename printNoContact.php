@@ -61,10 +61,12 @@ $count = mysqli_num_rows($result2);
 $numRows = mysqli_num_rows($result);
 $fields_num = mysqli_num_fields($result);
 
-echo "<p>$numRows students have NOT been contacted so far.</p>";
 echo '<table cellpadding=5><tr><td class="border">';
-echo "<p><i>But some of these might have left Beal after semester 1 so the number is inflated.</i><br>Students with no timetable are most likely to have graduated or be off-roll.</p>";
-echo "<p>$count students have no timetable</p>";
+echo "<p>$numRows students have NOT been contacted so far.</p>";
+echo "<p>$count students have no timetable.</p>";
+echo "<hr>";
+echo "<p>Note: the timetable data here is what shows up as 'Raw timetable data' on the student contact page.</p>";
+echo "<p>Reasons for no timetable: <br>&bull; left Beal after semester 1, <br>&bull; ? </p>";
 echo '</td></tr></table>';
 echo "<p></p>";
 

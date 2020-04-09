@@ -38,8 +38,13 @@ function connectToDB($database, $username, $password) {
    $servername = getenv('IP');
    $db = mysqli_connect($servername, $username, $password, $database);
    if (mysqli_connect_errno($db)) {
-       echo "Failed to connect to MySQL database $database : " . mysqli_connect_error();
-       die("Program terminated");
+        echo "<script>";
+        echo 'alert("Error connecting to $database. Your connection has probably timed out. Please log in again");';
+        echo "window.location='index.php';";
+        echo "</script>";
+       // header("Location: index.php"); 
+#       echo "Failed to connect to MySQL database $database : " . mysqli_connect_error();
+#       die("Program terminated");
    }
    return $db;
 }

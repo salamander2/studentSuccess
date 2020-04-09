@@ -72,7 +72,7 @@ if(isset($_POST['submit'])) {
 
 */
 //		$sql = "INSERT INTO students (student_number, firstname, lastname,  gender, dob) VALUES ('$studentNum', '$firstname', '$lastname', '$gender', '$dob')";
-		$sql = "INSERT INTO students (studentID, firstname, lastname,  gender, dob) VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO students (studentID, firstname, lastname,  gender, dob, timetable) VALUES (?, ?, ?, ?, ?, 'newly added')";
 		if ($stmt = $schoolDB->prepare($sql)) {
 		   $stmt->bind_param("issss", $studentNum, $firstname, $lastname, $gender, $dob);
 		   $stmt->execute();
