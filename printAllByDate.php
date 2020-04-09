@@ -21,7 +21,8 @@ $sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 //INNER JOIN
 //$sql="SELECT schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.contactMethod, tcontact.personContacted, tcontact.date, tcontact.notes FROM tcontact INNER JOIN schoolDB.students ON tcontact.studentID=schoolDB.students.studentID ORDER BY schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.timestamp;";
 //LEFT JOIN .... all students --> contact + no contact
-$sql="SELECT tcontact.timestamp, schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.contactMethod, tcontact.personContacted, tcontact.date, tcontact.notes FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID ORDER BY tcontact.timestamp DESC, schoolDB.students.lastname, schoolDB.students.firstname ;";
+#working $sql="SELECT tcontact.timestamp, schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.contactMethod, tcontact.personContacted, tcontact.date, tcontact.notes FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID ORDER BY tcontact.timestamp DESC, schoolDB.students.lastname, schoolDB.students.firstname ;";
+$sql="SELECT tcontact.timestamp, schoolDB.students.studentID, CONCAT_WS(', ', schoolDB.students.lastname, schoolDB.students.firstname) AS studentName, tcontact.teacher, tcontact.contactMethod, tcontact.personContacted, tcontact.date, tcontact.notes FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID ORDER BY tcontact.timestamp DESC, schoolDB.students.lastname, schoolDB.students.firstname ;";
 // sending query
 $result = mysqli_query($sssDB, $sql);
 if (!$result) {

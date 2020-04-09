@@ -21,7 +21,8 @@ $sql="SELECT tcontact.teacher, tcontact.contactMethod, tcontact.personContacted,
 //INNER JOIN
 //$sql="SELECT schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.contactMethod, tcontact.personContacted, tcontact.date, tcontact.notes FROM tcontact INNER JOIN schoolDB.students ON tcontact.studentID=schoolDB.students.studentID ORDER BY schoolDB.students.lastname, schoolDB.students.firstname, tcontact.teacher, tcontact.timestamp;";
 //LEFT JOIN .... all students --> contact + no contact
-$sql="SELECT schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, schoolDB.students.timetable FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID WHERE tcontact.studentID IS NULL ORDER BY schoolDB.students.lastname, schoolDB.students.firstname;";
+#Working. $sql="SELECT schoolDB.students.studentID, schoolDB.students.lastname, schoolDB.students.firstname, schoolDB.students.timetable FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID WHERE tcontact.studentID IS NULL ORDER BY schoolDB.students.lastname, schoolDB.students.firstname;";
+$sql="SELECT schoolDB.students.studentID, CONCAT_WS(', ', schoolDB.students.lastname, schoolDB.students.firstname) AS studentName, schoolDB.students.timetable FROM schoolDB.students LEFT JOIN tcontact ON tcontact.studentID=schoolDB.students.studentID WHERE tcontact.studentID IS NULL ORDER BY schoolDB.students.lastname, schoolDB.students.firstname;";
 // sending query
 $result = mysqli_query($sssDB, $sql);
 if (!$result) {
@@ -65,7 +66,7 @@ echo '<table cellpadding=5><tr><td class="border">';
 echo "<p>$numRows students have NOT been contacted so far.</p>";
 echo "<p>$count students have no timetable.</p>";
 echo "<hr>";
-echo "<p>Note: the timetable data here is what shows up as 'Raw timetable data' on the student contact page.</p>";
+echo "<p><b>Note:</b> the timetable data here is what shows up as 'Raw timetable data' on the student contact page.<br> It is the data from Markbook.<br> The timetables in the box (with teachers and periods) on the main student contact pages is created<br> by trying to match Markbook data with teacher schedules. It fails notably for co-op and alt courses.</p>";
 echo "<p>Reasons for no timetable: <br>&bull; left Beal after semester 1, <br>&bull; ? </p>";
 echo '</td></tr></table>';
 echo "<p></p>";
