@@ -211,6 +211,10 @@ function validateData2() {
 <!-- standard header-->
 <div id="header">
     <a class="fa fa-arrow-left nav-button fleft" href="home.php" title="or press browser Back button">  Go Back</a>
+<?php if (1===$isTeam) {
+	echo '<a class="fa fa-plus-circle nav-button fright" href="editStudent.php?ID='.$studentID.'">  Edit Student</a>';
+}
+?>
     <h1>Beal Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
     <hr color="black">        

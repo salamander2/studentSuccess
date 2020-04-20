@@ -117,18 +117,20 @@ function showHint(str) {
 <a class="fa fa-sign-out nav-button fleft" href="logout.php">  Logout</a>
 <span class="fright">
 <a class="fa fa-cogs nav-button" href="admin.php">  Administer</a>
-<a class="fa fa-plus-circle nav-button" 
-<?php if (0===$isTeam) echo 'style="display:none;"'; ?>
-  href="addstudent.php">  Add Student</a>
-<a class="fa fa-file-text nav-button" 
-   <?php if (0===$isTeam) echo 'style="display:none;"'; ?>
-   href="reports.php">  Reports</a>
+<?php
+if (1===$isTeamAdmin) {
+	echo '<a class="fa fa-plus-circle nav-button" href="addstudent.php">  Add Student</a>';
+}
+if (1===$isTeam) {
+	echo '<a class="fa fa-file-text nav-button" href="reports.php">  Reports</a><br>';
+}
+?>
 </span>
     <h1>Beal Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
 <br clear="both">
-<div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>
-<br clear="both">
+<!-- <div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>
+<br clear="both"> -->
 <!-- <div class="smaller" style="text-align:left;">Apr 6. Minor error corrected:<br> I had counted all contacts, but some students have multiple contacts</div> -->
     <hr>
 </div>

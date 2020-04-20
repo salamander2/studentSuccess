@@ -64,11 +64,11 @@ $fields_num = mysqli_num_fields($result);
 
 echo '<table cellpadding=5><tr><td class="border">';
 echo "<p>$numRows students have NOT been contacted so far.</p>";
-echo "<p>$count students have no timetable.</p>";
-echo "<hr>";
-echo "<p><b>Note:</b> the timetable data here is what shows up as 'Raw timetable data' on the student contact page.<br> It is the data from Markbook.<br> The timetables in the box (with teachers and periods) on the main student contact pages is created<br> by trying to match Markbook data with teacher schedules. It fails notably for co-op and alt courses.</p>";
-echo "<p>Reasons for no timetable: <br>&bull; left Beal after semester 1, <br>&bull; ? </p>";
-echo '</td></tr></table>';
+echo "<p>$count students have no timetable, but may have been contacted in which case they won't show up here.</p>";
+//echo "<hr>";
+//echo "<p><b>Note:</b> the timetable data here is what shows up as 'Raw timetable data' on the student contact page.<br> It is the data from Markbook.<br> The timetables in the box (with teachers and periods) on the main student contact pages is created<br> by trying to match Markbook data with teacher schedules. It fails notably for co-op and alt courses.</p>";
+//echo "<p>Reasons for no timetable: <br>&bull; left Beal after semester 1, <br>&bull; ? </p>";
+//echo '</td></tr></table>';
 echo "<p></p>";
 
 echo "<table class='border' cellspacing='0' cellpadding='3'><tr>";

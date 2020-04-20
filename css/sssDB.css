@@ -619,6 +619,9 @@ bottom:12px;right:20px;
    margin-right:4px;
    font-size:80%;
 }
+.pure-form .ip2 {
+   padding:0 .5em 2px .2em;
+}
 /******************************************************/
 /* Pure table stuff */
 .pure-table {

@@ -1,8 +1,8 @@
 <?php
 /*******************************************************************************
-   Name: addStudent
-   Called from: commentPage
-   Purpose: add a student to the schoolDB database
+   Name: editStudent
+   Called from: commentPage, home
+   Purpose: edit a student to the schoolDB database
    Tables used: schoolDB/students
    Calls: 
    Transfers control to: logout.php, admin.php, addstudent.php 
@@ -14,11 +14,33 @@ require_once('common.inc.php');
 
 $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 
+//$studentID = $_GET['ID'];
+//$_SESSION["studentID"] = $studentID;
+
+//$error_message="";
+// if (empty($lastname))  $error_message = "You must enter a lastname";
+// if ($error_message != "") $error_message = "<div class=\"error\">" . $error_message . "</div>";
+
+$sql = "SELECT firstname, lastname, gender, dob, guardianPhone, guardianEmail, loginID, timetable FROM students WHERE studentID = ?";
+  if ($stmt = $schoolDB->prepare($sql)) {
+    $stmt->bind_param("i", $studentID);
+    $stmt->execute();
+    $stmt->bind_result($firstname, $lastname, $gender, $dob, $guardianPhone, $guardianEmail, $loginID, $timetable);
+    $stmt->fetch();
+    $stmt->close();
+} else {
+   $message_  = 'Invalid query: ' . mysqli_error($schoolDB) . "\n<br>";
+   $message_ .= 'SQL: ' . $sql;
+   die($message_); 
+}
+
+$guardianPhone = clean_input($guardianPhone);
+$guardianEmail = clean_input($guardianEmail);
+
 
 
 /******************** if the submit button has been pressed *******************/
 $error_message="";
-$firstname = $lastname = $studentNum = $gender = $dob = $timetable = "";
 if(isset($_POST['submit'])) {  
 
 	/* Check all input.
@@ -39,23 +61,14 @@ if(isset($_POST['submit'])) {
 	list($year, $month, $day) = explode('-', $dob);
 	if ($year < 1990 or $year > 2015) $error_message = "Invalid range for year: (1990-2015)";
 
-	//student number. Don't use the same variable name as in db.php ($student_number)
-	$studentNum = clean_input($_POST['studentNum']);
-	//check if number already exists. If it does the query will die with an error.
-	if (!empty($studentNum)) {
-		if (isDuplicate_studentNum($studentNum, $schoolDB)) $error_message = "This student number already exists!";
-	}
-
-	//if ($studentNum[0] <> "3") $error_message = "Student number must begin with a '3'";
-	if (strlen($studentNum) <> 9 ) $error_message = "Student numbers must be 9 digits";
-	if (!is_digit($studentNum)) $error_message = "Non-numeric data in student number: $studentNum";
-	if (empty($studentNum))  $error_message = "Please enter a student number";
-
 	$firstname = clean_input($_POST["firstname"]);
 	if (empty($firstname ))  $error_message = "You must enter a firstname";
 
 	$lastname = clean_input($_POST['lastname']);
 	if (empty($lastname))  $error_message = "You must enter a lastname";
+
+	$guardianEmail = clean_input($_POST['guardianEmail']);
+	$guardianPhone = clean_input($_POST['guardianPhone']);
 
 	$timetable = clean_input($_POST['timetable']);
 	$timetable = strtoupper($timetable);
@@ -78,10 +91,10 @@ if(isset($_POST['submit'])) {
 +-----------+------------------+------+-----+---------+-------+
 
 */
-//		$sql = "INSERT INTO students (student_number, firstname, lastname,  gender, dob) VALUES ('$studentNum', '$firstname', '$lastname', '$gender', '$dob')";
-		$sql = "INSERT INTO students (studentID, firstname, lastname,  gender, dob, timetable) VALUES (?, ?, ?, ?, ?, ?)";
+
+		$sql = "UPDATE students SET firstname=?, lastname=?, gender=?, dob=?, timetable=?, guardianEmail=?, guardianPhone=? WHERE studentID=?";
 		if ($stmt = $schoolDB->prepare($sql)) {
-		   $stmt->bind_param("isssss", $studentNum, $firstname, $lastname, $gender, $dob, $timetable);
+		   $stmt->bind_param("sssssssi", $firstname, $lastname, $gender, $dob, $timetable, $guardianEmail, $guardianPhone, $studentID);
 		   $stmt->execute();
 //echo var_dump($stmt);
 		   $stmt->close();
@@ -93,7 +106,7 @@ if(isset($_POST['submit'])) {
 
 		$firstname = $lastname = $studentNum = $gender = $dob = $timetable = "";
 		$error_message = "<div class=\"error green\">" . "Student successfully added." . "</div>";
-		//header("Location: home.php");
+		header("Location: showContacts.php?ID=$studentID");
 		//die();
 	}
 }
@@ -143,10 +156,9 @@ function isDuplicate_studentNum($studentNum, $schoolDB) {
 ?>
 
 <!DOCTYPE html>
-<!--This is the page used to search for students -->
 <html>
 <head>
-<title>Student Comment Database: Add new student</title>
+<title>Student Comment Database: Edit student info</title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
 <!-- for mobile devices
@@ -156,60 +168,49 @@ function isDuplicate_studentNum($studentNum, $schoolDB) {
 
 <body>
 <div id="header">
-<a class="fa fa-arrow-left nav-button fleft" href="home.php">  Go Back</a>
-<h3>&nbsp;</h3>
+<a class="fa fa-arrow-left nav-button fleft" href="showContacts.php?ID=<?php echo $studentID;?>">  Go Back</a>
+    <h1>Beal Student Database</h1>
 <?php printHeader($fullname, $alpha, $isTeam); ?>
 <hr color="black">
 </div>
 
-<h2 class="white">Add a new student</h2>
-<!-- <form class="pure-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post"> -->
+<h1 class="tan centered"><?php echo $lastname, ", ", $firstname."<br> <span class=\"smaller gray\">".$studentID."</span>";?></h1>
+<h2 class="white">Edit student info</h2>
+
 <form class="pure-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-<fieldset>
-<legend style="font-size:100%;">
+
+<div style="border-top:1px solid gray;padding:15px;margin:0,5px;color:white;text-align:left">
 
 <?php echo $error_message; ?>
 
-<table>
+<table style="margin:0 2px;">
 <tr>
-<td class="tcol1">
-<p>Student Name:</p>
-</td><td class="tcol2">
-<input name="lastname" type="text" placeholder="Last name" value="<?php echo $lastname;?>">
-<input name="firstname" type="text" placeholder="First name" value="<?php echo $firstname;?>">
-</td>
-</tr>
-<tr>
-<td class="tcol1">
-<p>Student Number:</p>
-</td><td class="tcol2">
-<input name="studentNum" type="text" size="9" maxlength="9" value="<?php echo $studentNum;?>">
-&nbsp;&nbsp;&nbsp;&nbsp;Gender: <input name="gender" type="text" size="1" maxlength="1" >
-</td>
-</tr>
-<tr>
-<td class="tcol1">
-<p>Date of Birth:</p>
-</td><td class="tcol2">
-<input name="dob" type="text" placeholder="YYYY-MM-DD" value="<?php echo $dob;?>"><br>
-</td>
+<td class="tcol1"><p>Last Name:</p></td><td class="tcol2"> <input class="ip2" name="lastname" type="text" value="<?php echo $lastname;?>"></td>
 </tr><tr>
-<td class="tcol1">
-<p>Timetable:</p>
-</td><td class="tcol2">
-<input name="timetable" type="text" size="40" value="newly added"><br>
+<td class="tcol1"><p>First Name:</p></td><td class="tcol2"><input class="ip2" name="firstname" type="text" placeholder="First name" value="<?php echo $firstname;?>"></td>
+</tr><tr>
+<td class="tcol1"><p>Gender</p></td><td class="tcol2"><input class="ip2" name="gender" type="text" size="1" maxlength="1" value="<?php echo $gender;?>"></td>
+</tr><tr>
+<td class="tcol1"><p>Date of Birth:</p></td><td class="tcol2"><input class="ip2" name="dob" type="text" placeholder="YYYY-MM-DD" value="<?php echo $dob;?>"></td>
+</tr><tr>
+<td class="tcol1"><p>Guardian Phone:</p> </td><td class="tcol2"> <input class="ip2" name="guardianPhone" type="text" size="40" value="<?php echo $guardianPhone;?>"></td>
+</tr><tr>
+<td class="tcol1"><p>Guardian Email:</p> </td><td class="tcol2"> <input class="ip2" name="guardianEmail" type="text" size="100" value="<?php echo $guardianEmail;?>"></td>
+</tr><tr>
+<td class="tcol1" style="vertical-align:top;"><p>Timetable:</p> </td><td class="tcol2"> <input class="ip2" name="timetable" type="text" size="60" value="<?php echo $timetable;?>"><br>
+
+<p class="tan nomargin">Enter timetable as: AMV1O102 CGC1P102 ENG1P105 FSF1P102 SNC1P102<br>
+<span class="smaller">It will be made all caps, and - will be stripped out, so "snc1d1-06" will also work, but courses MUST be separated by 1 space.</span></p>
 </td>
 </tr>
 </table>
-</legend>
-<p class="tan nomargin">Enter timetable as: AMV1O102 CGC1P102 ENG1P105 FSF1P102 SNC1P102</p>
-<p class="timetable fleft tan smaller">It will be made all caps, and - will be stripped out, so snc1d1-06 will also work,<br>
-but courses must be separated by 1 space.</p>
+</div>
 <br clear="both">
-<button type="submit" name="submit" class="pure-button fleft" style="margin:0 0.75em;font-weight:bold;">Submit</button>
-</fieldset>
+<div class="fleft">
+<button type="submit" name="submit" class="pure-button" style="margin:0 0.75em;font-weight:bold;">Submit</button>
+</div>
+<br clear="both">
 </form>
-<!-- <h2 class="tan">Warning: this does not add a timetable for the student<br>&nbsp;</h2> -->
 </div>
 </body>
 </html>
