@@ -360,7 +360,8 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
 if (1===$isTeam) {
 
 	//Date Discussed and Set to today button
-	if ($isTeamAdmin == 1) {
+	//if ($isTeamAdmin == 1) {
+	if ($isTeam == 1) {
 		echo '<div id="atRiskBtn">';
 		$clickStr = "onclick=\"window.document.location='commentPage.php?ID=$studentID';\"";
 		echo '<button class="pure-button" '.$clickStr.'" style="margin:0;background:orange">Go to AtRisk pages</button>';
