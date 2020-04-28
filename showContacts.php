@@ -177,6 +177,13 @@ function validateData2() {
       alert("You must enter the date contacted");
       return false;
    }
+   data = document.getElementById("notes").value;
+//   alert("notes=|"+data+"|");
+   if (data.trim().length == 0) {
+      var ans = confirm("You have not entered any notes. Are you sure that you want to proceed?");
+	  if (ans == true) return true;
+      return false;
+   }
    return true;
 }
 
@@ -396,9 +403,10 @@ if (1===$isTeam) {
 <div class="group">
 <fieldset>
 <span class="navy">Contact Method:</span>
-<span class="pure-button2 " onclick="addText('Email');" >Email</span>
-<span class="pure-button2 navy"  onclick="addText('Phone');">Phone</span>
-<span class="pure-button2 navy"  onclick="addText('Translator');">Translator</span>
+<span class="pure-button2 smaller" onclick="addText('Email');" >Email</span>
+<span class="pure-button2 smaller"  onclick="addText('Phone');">Phone</span>
+<span class="pure-button2 smaller"  onclick="addText('Translator');">Translator</span>
+<span class="pure-button2 smaller"  onclick="addText('Online Course');">Online Course</span>
 <br>
 <input style="background-color:#DEF;width:100%" id="contactMethod" name="contactMethod" type=text size=35>
 </fieldset>
@@ -414,7 +422,7 @@ if (1===$isTeam) {
 <div class="fright smaller">(student, father, <br>mother, guardian, ...)</div>
 <div class="fontONE smaller gray">Date format: YYYY-MM-DD</div>
 </fieldset>
-<textarea name="notes" class="note-text fontONE" rows="5" placeholder="Enter any notes (optional)"></textarea>
+<textarea id="notes"  name="notes" class="note-text fontONE" rows="5" placeholder="Please enter notes that would be helpful for admin, SST, other teachers"></textarea>
 <button type="submit" name="submit" class="pure-button" style="margin:0 0.75em;font-weight:bold;">Submit</button>
 </form>
 <noscript>

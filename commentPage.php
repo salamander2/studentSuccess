@@ -257,6 +257,11 @@ function validateData() {
 </script>
 
 <div id="ssData">
+<?php 
+   if ($sssInfoFound) {
+	  echo '<div class="fright row90"><b>&nbsp;At-Risk&nbsp;</b></div><br clear=all>';
+   }
+?>
 <form action="sssDataHandler.php" method="post" onsubmit="return validateData();">
 <p>
 <span class="fleft">
