@@ -34,7 +34,7 @@ if(isset($_POST['login'])) {
 			$error_message = "FATAL ERROR: cannot make initial connection to 'schoolDB'. (Contact DB admin)";
 		}	
 		if (mysqli_connect_errno($schoolDB)) {
-			echo "Failed to connect to MySQL database $database : " . mysqli_connect_error();
+			echo "Failed to connect to MySQL database 'schoolDB' : " . mysqli_connect_error();
 			die("Program terminated");
 		}
 	}

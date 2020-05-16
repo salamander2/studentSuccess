@@ -39,7 +39,7 @@ function connectToDB($database, $username, $password) {
    $db = mysqli_connect($servername, $username, $password, $database);
    if (mysqli_connect_errno($db)) {
         echo "<script>";
-        echo 'alert("Error connecting to database '.$database.'. Your connection has probably timed out. Please log in again");';
+        echo 'alert("'. $sql_user.' '.$sql_pass. ' Error connecting to database '.$database.'. Your connection has probably timed out. Please log in again");';
         echo "window.location='index.php';";
         echo "</script>";
        // header("Location: index.php"); 
