@@ -76,6 +76,16 @@ function printHeader($fullname, $alpha, $isTeam = null) { //if you don't add isT
    echo $text;
 }
 
+//insert a space after a comma if there isn't already one.
+function insertSpace($data) {
+	$pos = strpos($data, ",");
+	if ($pos === FALSE) return $data;
+    if ($data{$pos+1} == ' ') return $data;   
+    $data = str_replace(',',', ',$data); 
+    
+    return $data;
+}
+
 //This condenses multiple white spaces down to a single space (I think)
 function removeWhiteSpace($text)
 {

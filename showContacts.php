@@ -273,13 +273,14 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
 
 </div> <!-- end mkbk section -->
 <!-- **************** This was the ssData section [right box in main-top section]. It's no longer here for student contact forms.  ***************** -->
+<!-- ************ end ssData **************** -->
+<!-- **************** New top-right section: timetable info ***************-->
+<div id="timetable" style="float:right;">
 <?php 
    if ($sssInfoFound) {
 	  echo '<div class="fright row90"><b>&nbsp;At-Risk&nbsp;</b></div><br clear=all>';
    }
 ?>
-<!-- ************ end ssData **************** -->
-<div id="timetable" style="float:right;">
 <table class="timetable">
 <tr><th>Period</th><th>Course</th><th>Teacher</th><th>Room</th></tr>
 <?php
@@ -294,8 +295,8 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
 	  $n=1;
       while ($row = mysqli_fetch_assoc($timetable)) {
         $coursecode = formatCourse($row['coursecode']);
-
-        $text = "<td>".$row['period'] ."</td><td>". $coursecode ."</td><td>". $row['teacher'] ."</td><td>". $row['room'] . "</td>";
+		$teacher = insertSpace($row['teacher']);
+        $text = "<td>".$row['period'] ."</td><td>". $coursecode ."</td><td>". $teacher ."</td><td>". $row['room'] . "</td>";
         echo "<tr>" . $text . "</tr>";
 		$n++;
       }
@@ -313,6 +314,7 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
    }
 ?>
 </div>
+<!-- **************** END top-right section: timetable info ***************-->
 
 <br clear="both">
 
