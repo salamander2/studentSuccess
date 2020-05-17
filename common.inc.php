@@ -14,6 +14,7 @@ $sql_user = "";
 $sql_pass = "";
 
 //user's login and password and fullname
+$fullname = $alpha = ""; //Get rid of  error "Undefined index: fullname"
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
 $fullname = $_SESSION["fullname"];

@@ -43,9 +43,11 @@ if ($q == "ACTIVATED") $activate = true;
    But they can't do that either since it's no longer php at that point. 
    So ... it will have to call home.php which then sets the $session variable */
 $colour=0;
-$colour = $_SESSION["colourScheme"];
-if (null === $colour || empty($colour)) {
-	$colour=0;
+if (isset($_SESSION["colourScheme"])) {
+	$colour = $_SESSION["colourScheme"];
+	if (null === $colour || empty($colour)) {
+		$colour=0;
+	}
 }
 if ($colour == 99) $colour = 0;
 //$colour = 1;	//for testing
@@ -203,7 +205,7 @@ echo '<tbody>';
 while ($row = mysqli_fetch_assoc($resultArray)){ 
 
 	$selected = false;
-	if ($row['selected'] == 1) $selected=true;
+	if (isset($row['selected']) && $row['selected'] == 1) $selected=true;
 
 	//1. Is the student "at risk" - ie. does he/she have an sssInfo record?
 	//this always gives 1 row with either a 1 or 0 in it.

@@ -67,6 +67,7 @@ if (!$result2) {
 $num_rows = mysqli_num_rows($result2);
 $sssInfoFound = ($num_rows > 0);
 
+/*  remove all At-Risk info from this page. It's on the At-Risk page
 if ($sssInfoFound) {
     while ($row = mysqli_fetch_assoc($result2)){
         $iep = $row['IEP'];
@@ -94,6 +95,7 @@ while ($row=mysqli_fetch_assoc($result3))
 	}
 	$sw_name_opt .= '<option value="'.$row["id"].'" '.$sel.'>'.$row["sw"].'</option>';
 }
+*/
 
 function getAge($then) {
     $then = date('Ymd', strtotime($then));
@@ -265,6 +267,19 @@ function validateData2() {
     Birthdate: <span class="white"><?php echo $dob; ?></span>
     <span class="fright">Age: <span class="white"><?php echo getAge($dob); ?></span></span>
 </p>
+<p class="fontONE smaller fleft">Guardian Phone: <span class="tan"><?php echo $guardianPhone; ?></span><br>
+Guardian Email: <span class="tan"><?php echo str_replace(';','; ',$guardianEmail); ?></span><br>
+Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span></p>
+
+</div> <!-- end mkbk section -->
+<!-- **************** This was the ssData section [right box in main-top section]. It's no longer here for student contact forms.  ***************** -->
+<?php 
+   if ($sssInfoFound) {
+	  echo '<div class="fright row90"><b>&nbsp;At-Risk&nbsp;</b></div><br clear=all>';
+   }
+?>
+<!-- ************ end ssData **************** -->
+<div id="timetable" style="float:right;">
 <table class="timetable">
 <tr><th>Period</th><th>Course</th><th>Teacher</th><th>Room</th></tr>
 <?php
@@ -289,78 +304,17 @@ function validateData2() {
       }
    }
    echo "</table>";
-   echo '<p class="fontONE smaller fleft gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won\'t show up here</i><br>';
+   echo '<br clear="both">';
+   echo '<p class="fontONE smaller fright gray" title="Teacher and student course codes for COOP are completely different!"><i>COOP courses won\'t show up here</i><br>';
    echo 'Raw timetable data: '.$rawTimeTable.'</p>';
    if ($rawTimeTable = "") {
 #   if ($timetable->num_rows == 0) {
-     echo '<p class="fontONE smaller fleft gray">If there are no courses in the timetable, the student might be off roll.</p>';
+     echo '<p class="fontONE smaller fright gray">If there are no courses in the timetable, the student might be off roll.</p>';
    }
 ?>
-</div> <!-- end mkbk section -->
+</div>
 
-<!-- **************** Begin ssData section [right box in main-top section] ***************** -->
-<div id="ssData">
-<?php 
-   if ($sssInfoFound) {
-	  echo '<div class="fright row90"><b>&nbsp;At-Risk&nbsp;</b></div><br clear=all>';
-   }
-?>
-<p>
-<span class="fleft">
-<?php 
-    echo "IEP: ";
-if ($iep) {
-   echo "<input type=\"radio\" name=\"iep\" value=\"1\" checked />Yes <input type=\"radio\" name=\"iep\" value=\"0\" />No";
-} else {
-   echo "<input type=\"radio\" name=\"iep\" value=\"1\" />Yes <input type=\"radio\" name=\"iep\" value=\"0\" checked />No";
-}
-?>
-</span>
-<span class="fright">
-<?php
-echo "FNMI: ";
- 
-if ($fnmi) {
-   echo "<input type=\"radio\" name=\"fnmi\" value=\"1\" checked />Yes <input type=\"radio\" name=\"fnmi\" value=\"0\" />No";
-} else {
-   echo "<input type=\"radio\" name=\"fnmi\" value=\"1\" />Yes <input type=\"radio\" name=\"fnmi\" value=\"0\" checked />No";
-}
-?>
-</span>
-</p>
 <br clear="both">
-<p>
-<span class="fleft">
-    Grade: <input style="text-align:center;" id="grade" type="text" size="2" name="grade" value="<?php echo $grade; ?>">
-</span>
-<span class="fright">
-    Social Worker: 
-<select name="swid">
-   <?php echo $sw_name_opt; ?>
-</select>
-</span>
-</p>
-<br clear="both" />
-</p>
-<!-- drop down box
-<select name="cars">
- <optgroup label="Swedish Cars">
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-  </optgroup>
-  <optgroup label="German Cars">
-    <option value="mercedes">Mercedes</option>
-    <option value="audi">Audi</option>
-  </optgroup>
-  </select>
--->
-
-<p class="fontONE smaller fleft gray"><i>This box is only filled in for At-Risk students</i></p>
-</div><!-- ************ end ssData **************** -->
-<br clear="both">
-<p class="fontONE smaller fleft">Guardian Phone: <span class="tan"><?php echo $guardianPhone; ?></span><br>
-Guardian Email: <span class="tan"><?php echo str_replace(';','; ',$guardianEmail); ?></span><br>
-Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span></p>
 
 <!-- *********** Other admin buttons ************ -->
 <?php
