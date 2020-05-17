@@ -69,7 +69,7 @@ $numContacts = $result->fetch_row()[0];
 <!--This is the page used to search for students -->
 <html>
 <head>
-<title>Beal Student Database: <?php echo $username; ?></title>
+<title><?= $schoolName2 ?> Student Database: <?php echo $username; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sssDB.css">
@@ -126,7 +126,7 @@ if (1===$isTeam) {
 }
 ?>
 </span>
-    <h1>Beal Student Database</h1>
+    <h1><?= $schoolName2 ?> Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
 <br clear="both">
 <!-- <div class="fleft nav-button" style="margin-top:-1em; margin-bottom:10px;"><?php echo $numContacts; ?> students contacted so far</div>

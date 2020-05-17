@@ -224,7 +224,7 @@ function validateData2() {
 	echo '<a class="fa fa-plus-circle nav-button fright" href="editStudent.php?ID='.$studentID.'">  Edit Student</a>';
 }
 ?>
-    <h1>Beal Student Database</h1>
+    <h1><?= $schoolName2 ?> Student Database</h1>
     <?php printHeader($fullname, $alpha, $isTeam); ?>
     <hr color="black">        
 </div>

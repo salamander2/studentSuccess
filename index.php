@@ -146,13 +146,13 @@ function clean_input($string) {
 <!-- for mobile devices
 <meta name="viewport" content="width=device-width, initial-scale=1">
 -->
-<title>Beal Student Database: login</title>
+<title><?= $schoolName2 ?> Student Database: login</title>
 </head>
 
 <body>
 <div id="header">
 <a class="fa fa-arrow-left nav-button fleft" href="http://iquark.ca">  Go Back</a>
-<h1>Beal Student Database</h1>
+<h1><?= $schoolName2 ?> Student Database</h1>
 <h2>Enter your credentials</h2>
 
 <?php print $error_message ?>

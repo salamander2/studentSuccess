@@ -169,7 +169,7 @@ function isDuplicate_studentNum($studentNum, $schoolDB) {
 <body>
 <div id="header">
 <a class="fa fa-arrow-left nav-button fleft" href="showContacts.php?ID=<?php echo $studentID;?>">  Go Back</a>
-    <h1>Beal Student Database</h1>
+    <h1><?= $schoolName2?> Student Database</h1>
 <?php printHeader($fullname, $alpha, $isTeam); ?>
 <hr color="black">
 </div>
