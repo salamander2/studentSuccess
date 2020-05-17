@@ -390,8 +390,6 @@ Please enable Javascript if this form is not working.
 <div id="repeatingComments">
 <hr>
 
-    <?php echo $message; ?>
-
     <?php 
     // sending query: get all comments for this student.
     //$sql = "SELECT AES_DECRYPT(notes, '$masterkeyhash'),timestamp, login_name, AES_DECRYPT(next_steps,'$masterkeyhash'), id, completed FROM comments WHERE student_number=$student_number ORDER BY timestamp DESC";
@@ -462,7 +460,7 @@ while ($row = mysqli_fetch_row($result)){
 <?php
 #echo var_dump($result);
 //echo $timetable->num_rows;
-echo $filename;
+#echo $filename;
 ?>
 </body>
 </html>

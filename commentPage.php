@@ -67,6 +67,7 @@ if (!$result2) {
 $num_rows = mysqli_num_rows($result2);
 $sssInfoFound = ($num_rows > 0);
 
+$iep = $fnmi = $grade = "";
 if ($sssInfoFound) {
     while ($row = mysqli_fetch_assoc($result2)){
         $iep = $row['IEP'];
@@ -89,7 +90,7 @@ if (!$result3) {
 while ($row=mysqli_fetch_assoc($result3)) 
 {
 	$sel="";
-	if ($swID == $row["id"]) { 
+	if (isset($swID) && $swID == $row["id"]) { 
 	    $sel="selected ";
 	}
 	$sw_name_opt .= '<option value="'.$row["id"].'" '.$sel.'>'.$row["sw"].'</option>';
@@ -390,7 +391,7 @@ if (1===$isTeam && $sssInfoFound) {
 <hr>
     <h3 class="white centered"><span class="fa fa-chevron-down"></span>  Previous Comments / Issues  <span class="fa fa-chevron-down"></span></h3>
 
-    <?php echo $message; ?>
+    <?php if(isset($message)) echo $message; ?>
 
     <?php 
     // sending query: get all comments for this student.
@@ -543,7 +544,7 @@ while ($row = mysqli_fetch_row($result)){
 <?php
 #echo var_dump($result);
 //echo $timetable->num_rows;
-echo $filename;
+//echo $filename;
 ?>
 </body>
 </html>
