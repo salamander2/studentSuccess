@@ -157,17 +157,17 @@ function clean_input($string) {
 
 <?php print $error_message ?>
 
-<table zidth="75%" style="margin:20px;">
+<table style="margin:20px;text-align:left;" cell-spacing=10>
 <tr>
-<td width="30%">
-<p class="prevComment">
-This database shows you students' timetables and photos. 
-<span class="red">It is now also being used as a handy record of teacher contacts with students during the pandemic.</span><br><br>
-If you're part of the "students at-risk team" you can also read and update the comments that the At-Risk Team makes 
-about students. These will not be visible to the teachers in general.
-</p>
+<td width=40%>
+<div class="box-repeat" style="color:#000;border-width:2px;">
+<p>For this DEMONSTRATION DATABASE, the logins are<br>
+<code>admin1, teamMember, generic</code>.</p>
+<p>The password for all three is "FloralCanoe" (but it might be changed by users).</p>
+<p>The SQL database will be restored to its original condition each Wednesday and Saturday nights.</p>
+</div>
 </td><td>
-<form class="pure-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form class="pure-form" style="margin: 0 1em;" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 <!-- <form class="pure-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post"> -->
 <fieldset>
 <div class="pure-control-group">
@@ -181,13 +181,47 @@ Password:&nbsp;&nbsp;<input name="password" type="password" placeholder="passwor
 </fieldset>
 </form>
 </td>
-<td width=30% valign="top">
+<td width=25% valign="top">
 <p>&nbsp;</p>
-<p class="box">
+<p class="box" style="margin-left:0.5em;">
+
 eg. "jsmith"<br> or standard 'teacher' login</p>
 </td></tr>
-</table>
+<tr><td colspan=3>
+<div class="prevComment">
+<b>This is a database program that has three purposes:</b>
+<ol><li> It provides a quick way to see students' timetables and photos.
+<li> It provides a handy way that staff can record teacher contacts with students (especially during the pandemic). It is used as a medium to facilitate communication between staff (and also administration) to help track student progress.
+<li> It is also used by the "At Risk team" or "Student Success Team". This team can record more detailed comments about at-risk students. This intra-team communication tool is used for their team meetings. 
+</ol>
+</div>
+<div class="prevComment">
+<b>There are three categories of users:</b>
 
+<ol><li><u>admin</u>: The admins can add more team member users. They can also see the reports, as well as see all of the comments and next steps for the at-risk students. The team admins are the only ones who can perform certain functions on the At-Risk student information. They can highlight the names (for discussion at the next team meeting), add students to the at-risk list, remove them from the list, etc.
+<li><u>team member</u>: Team members have their own personal logins and passwords. They can read and add comments to at-risk students. They can also see the reports. 
+Along with admin, they can edit student information (which will remain until the next update of student data).
+<li><u>generic teacher</u>: This is a user who has no access whatsoever to the At-Risk comment side of things. The generic teacher can only add in student contact information.
+</ol>
+</div>
+
+<div class="prevComment">
+<b>Security:</b>
+
+<ul><li> Users can change their own passwords (they login with a generic password when their account is created). All passwords are hashed and salted before storing.<br> 
+  <code>$hashPassword = password_hash($newpass, PASSWORD_DEFAULT);</code>
+<li>All database queries involving user input are done with prepared statements.
+<li>We have not thought it worth creating a specific login for every single teacher, since our staff is so large, but it wouldn't be out of the question.
+<li>All comments entered are not able to be subsequently modified.
+<li>All comments and next steps entered on the At-Risk page are encrypted before they are stored (AES_encrypt), password is 32 character random alphanumeric string (generated upon installation).
+</ul>
+</div>
+</td></tr>
+</table>
+<p>For this demonstration database: random first names were generated (and attempted to match with gender), random last names were generated, random student numbers were generated (9 digits, beginning with 3, all unique). 
+Random birthdays were generated for students. Random phone numbers and guardian emails were generated. 
+Photos are of actual students, but their student numbers have been randomly generated. 
+Teacher names are randomly generated. Actual course codes and timetables were used as it wasn't really necessary to generate fake ones. 
 </div>
 </body>
 </html>
