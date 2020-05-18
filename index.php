@@ -152,7 +152,7 @@ function clean_input($string) {
 <body>
 <div id="header">
 <a class="fa fa-arrow-left nav-button fleft" href="http://iquark.ca">  Go Back</a>
-<h1><?= $schoolName2 ?> Student Database</h1>
+<h1><?= $schoolName1 ?> : Student Database</h1>
 <h2>Enter your credentials</h2>
 
 <?php print $error_message ?>
