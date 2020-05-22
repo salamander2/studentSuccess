@@ -180,12 +180,6 @@ Password:&nbsp;&nbsp;<input name="password" type="password" placeholder="passwor
 <button type="submit" name="login" class="pure-button">Login</button>
 </fieldset>
 </form>
-</td>
-<td width=25% valign="top">
-<p>&nbsp;</p>
-<p class="box" style="margin-left:0.5em;">
-
-eg. "jsmith"<br> or standard 'teacher' login</p>
 </td></tr>
 <tr><td colspan=3>
 <div class="prevComment">
@@ -218,7 +212,8 @@ Along with admin, they can edit student information (which will remain until the
 </div>
 </td></tr>
 </table>
-<p>For this demonstration database: random first names were generated (and attempted to match with gender), random last names were generated, random student numbers were generated (9 digits, beginning with 3, all unique). 
+<p class="prevComment"><b>Data source:</b><br>
+For this demonstration database: random first names were generated (and attempted to match with gender), random last names were generated, random student numbers were generated (9 digits, beginning with 3, all unique). 
 Random birthdays were generated for students. Random phone numbers and guardian emails were generated. 
 Photos are of actual students, but their student numbers have been randomly generated. 
 Teacher names are randomly generated. Actual course codes and timetables were used as it wasn't really necessary to generate fake ones. 
