@@ -162,8 +162,8 @@ function clean_input($string) {
 <td width=40%>
 <div class="box-repeat" style="color:#000;border-width:2px;">
 <p>For this DEMONSTRATION DATABASE, the logins are<br>
-<code>admin1, teamMember, generic</code>.</p>
-<p>The password for all three is "FloralCanoe" (but it might be changed by users).</p>
+<code class="fontONE"><b>admin1, teamMember, generic</b></code>.</p>
+<p>The password for all three is <span class="fontONE">"<b>FloralCanoe</b>"</span> (but it might be changed by users).</p>
 <p>The SQL database will be restored to its original condition each Wednesday and Saturday nights.</p>
 </div>
 </td><td>
