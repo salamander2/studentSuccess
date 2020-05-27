@@ -56,6 +56,7 @@ if ($stmt = $schoolDB->prepare($sql)) {
    die($message_); 
 }
 
+//TODO change to prepared statement
 // get info from sssInfo table (for current student)
 $sql = "SELECT * FROM sssInfo WHERE studentID='" . $studentID. "'";
 $result2 = mysqli_query($sssDB,$sql);

@@ -59,12 +59,25 @@ if ($stmt = $schoolDB->prepare($sql)) {
 }
 
 // get info from sssInfo table (for current student)
-$sql = "SELECT * FROM sssInfo WHERE studentID='" . $studentID. "'";
-$result2 = mysqli_query($sssDB,$sql);
-if (!$result2) {
-    die("Query to show fields from sssInfo table failed");
+//TODO change to prepared statement
+//$sql = "SELECT * FROM sssInfo WHERE studentID='" . $studentID. "'";
+//$result2 = mysqli_query($sssDB,$sql);
+//if (!$result2) {
+//    die("Query to show fields from sssInfo table failed");
+//}
+//$num_rows = mysqli_num_rows($result2);
+
+$sql = "SELECT * FROM sssInfo WHERE studentID = ?";
+if ($stmt = $sssDB->prepare($sql)) {
+    $stmt->bind_param("i", $studentID);
+    $stmt->execute();
+//TODO: check if get_result() would work as well
+    $stmt->store_result();
+    $num_rows = $stmt->num_rows;
+    $stmt->close();
 }
-$num_rows = mysqli_num_rows($result2);
+
+
 $sssInfoFound = ($num_rows > 0);
 
 /*  remove all At-Risk info from this page. It's on the At-Risk page

@@ -43,6 +43,7 @@ header("Location: userMaint.php");
 
 
 //This is a function to see if the record already exists. It needs to be modified, but maybe we don't even need it, since we have INSERT IGNORE
+//TODO: change to prepared statement
 function isDuplicate_record($studentNum, $schoolDB) {
         $sql = "SELECT * FROM students WHERE studentID = '" . $studentNum . "'";
         $result = mysqli_query($schoolDB, $sql);
