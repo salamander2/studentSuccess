@@ -4,7 +4,7 @@
    Called from: home.php
    Purpose: for administrators and users to change various options
    Tables used: --
-   Transfers control to: --
+   Transfers control to: changePWD.php, listUsers.php, userMaint.php, home.last.php
 ******************************************************************************/
 
 error_reporting(E_ALL);
@@ -33,8 +33,6 @@ Student Success Database -- administrative options
 <h1>Student Success database administration</h1>
 <?php printHeader($fullname, $alpha, $isTeam); ?>
 </div>
-
-<?php echo $error_message; ?>
 
 <?php echo $sql_user; ?>
 <div id="main">

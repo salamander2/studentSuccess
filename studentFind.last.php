@@ -42,12 +42,14 @@ if ($q == "ACTIVATED") $activate = true;
    But they can't do that either since it's no longer php at that point. 
    So ... it will have to call home.php which then sets the $session variable */
 $colour=0;
-$colour = $_SESSION["colourScheme"];
-if (null === $colour || empty($colour)) {
-	$colour=0;
+if (isset($_REQUEST["colourScheme"])) {
+	$colour = clean_input($_REQUEST["colourScheme"]);
+	if (null === $colour || empty($colour)) {
+		$colour=0;
+	} else {
+		$_SESSION["colourScheme"] = $colour;
+	}
 }
-if ($colour == 99) $colour = 0;
-//$colour = 1;	//for testing
 
 // Get current month and year
 //$today = date("Y-m-d H:i:s");

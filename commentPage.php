@@ -340,7 +340,7 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
 <!-- *********** Other admin buttons ************ -->
 <?php
 if (1===$isTeam && $sssInfoFound) {
-	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
+	if ($lastMtg == null || $lastMtg == "") $lastMtg = " yyyy-mm-dd";
 	echo '<div id="mtgDate">';
 	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
 	if ($isTeamAdmin == 1) {
