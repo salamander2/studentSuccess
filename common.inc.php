@@ -10,22 +10,27 @@
 $servername = getenv('IP');
 
 /*** Load session variables again ***/
+//user's login and password and fullname
+$username = $_SESSION["username"];
+#$password = $_SESSION["password"];
+
+$fullname = $alpha = ""; 
+$studentID = 333444555; //test student's number. If I make it 0, would it thrown an error somewhere?
+
+//These are used for logging in to the database with the correct permissions
 $sql_user = "";
 $sql_pass = "";
 
-//user's login and password and fullname
-$fullname = $alpha = ""; //Get rid of  error "Undefined index: fullname"
-$username = $_SESSION["username"];
-$password = $_SESSION["password"];
-$fullname = $_SESSION["fullname"];
-$alpha    = $_SESSION["alpha"];
-$isTeam   = $_SESSION["isTeam"];
+if (isset($_SESSION["fullname"]))  $fullname = $_SESSION["fullname"];
+if (isset($_SESSION["alpha"]))     $alpha = $_SESSION["alpha"];
+if (isset($_SESSION["studentID"])) $studentID = $_SESSION["studentID"];
+
 $isTeamAdmin  = $_SESSION["isTeamAdmin"];
+$isTeam   = $_SESSION["isTeam"];
 $isAdmin  = $_SESSION["isAdmin"];
 $sql_user = $_SESSION["sql_user"]; 
 $sql_pass = $_SESSION["sql_pass"];
 
-$studentID = $_SESSION["studentID"];
 
 /*
 //TODO: do I need this?

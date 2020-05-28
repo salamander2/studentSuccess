@@ -93,9 +93,12 @@ if(isset($_POST['login'])) {
 			$sql_pass = $passRO;
 		}
 
+//FIXME: why is PASSWORD being stored into a session variable! ??!!! 
+		$password = "";
+
 		//store session variables
 		$_SESSION["username"] = $username;
-		$_SESSION["password"] = $password;
+#		$_SESSION["password"] = $password;
 #		$_SESSION["alpha"] = $alpha;	//done in home.php
 
 		$_SESSION["sql_user"] = $sql_user;

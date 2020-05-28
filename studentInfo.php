@@ -57,12 +57,17 @@ if ($stmt = $schoolDB->prepare($sql)) {
 }
 
 // get info from sssInfo table (for current student)
-$sql = "SELECT * FROM sssInfo WHERE studentID='" . $studentID. "'";
-$result2 = mysqli_query($sssDB,$sql);
-if (!$result2) {
+$sql = "SELECT * FROM sssInfo WHERE studentID = ?";
+if ($stmt = $sssDB->prepare($sql)) {
+    $stmt->bind_param("i", $studentID);
+    $stmt->execute();
+    $stmt->store_result();
+    $num_rows = $stmt->num_rows;
+    $stmt->close();
+} else {
     die("Query to show fields from sssInfo table failed");
 }
-$num_rows = mysqli_num_rows($result2);
+
 $sssInfoFound = ($num_rows > 0);
 
 if ($sssInfoFound) {

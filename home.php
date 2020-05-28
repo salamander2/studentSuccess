@@ -17,11 +17,14 @@ $schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
 $sssDB = connectToDB("sssDB", $sql_user, $sql_pass);
 
 /* get the colourscheme variable if this page was loaded via clicking on a radio button in studentFind.php */
-$colour = clean_input($_REQUEST["colourScheme"]);
-if (null === $colour || empty($colour)) {
-	$colour=0;
-} else {
-	$_SESSION["colourScheme"] = $colour;
+$colour=0;
+if (isset($_REQUEST["colourScheme"])) {
+	$colour = clean_input($_REQUEST["colourScheme"]);
+	if (null === $colour || empty($colour)) {
+		$colour=0;
+	} else {
+		$_SESSION["colourScheme"] = $colour;
+	}
 }
 
 //retrieve user info

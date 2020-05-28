@@ -59,6 +59,7 @@ if ($stmt = $schoolDB->prepare($sql)) {
 }
 
 // get info from sssInfo table (for current student)
+//TODO change to prepared statement
 $sql = "SELECT * FROM sssInfo WHERE studentID='" . $studentID. "'";
 $result2 = mysqli_query($sssDB,$sql);
 if (!$result2) {
@@ -339,7 +340,7 @@ Standard student email: <span class="tan"><?php echo $loginID?>@gotvdsb.ca</span
 <!-- *********** Other admin buttons ************ -->
 <?php
 if (1===$isTeam && $sssInfoFound) {
-	if ($lastMtg == "") $lastMtg = " yyyy-mm-dd";
+	if ($lastMtg == null || $lastMtg == "") $lastMtg = " yyyy-mm-dd";
 	echo '<div id="mtgDate">';
 	echo "<p> Date discussed: <input type=\"text\" size=11 readonly value=\" $lastMtg\">";
 	if ($isTeamAdmin == 1) {
