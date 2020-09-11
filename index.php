@@ -165,7 +165,7 @@ function clean_input($string) {
 <td width=40%>
 <div class="box-repeat" style="color:#000;border-width:2px;">
 <p>For this DEMONSTRATION DATABASE, the logins are<br>
-<code class="fontONE"><b>admin1, teamMember, generic</b></code>.</p>
+<code class="fontONE"><b>admin, teamMember, generic</b></code>.</p>
 <p>The password for all three is <span class="fontONE">"<b>FloralCanoe</b>"</span> (but it might be changed by users).</p>
 <p>The SQL database will be restored to its original condition each Wednesday and Saturday nights.</p>
 </div>
@@ -185,14 +185,14 @@ Password:&nbsp;&nbsp;<input name="password" type="password" placeholder="passwor
 </form>
 </td></tr>
 <tr><td colspan=3>
-<div class="prevComment">
+<div class="prevComment lightBG">
 <b>This is a database program that has three purposes:</b>
 <ol><li> It provides a quick way to see students' timetables and photos.
 <li> It provides a handy way that staff can record teacher contacts with students (especially during the pandemic). It is used as a medium to facilitate communication between staff (and also administration) to help track student progress.
 <li> It is also used by the "At Risk team" or "Student Success Team". This team can record more detailed comments about at-risk students. This intra-team communication tool is used for their team meetings. 
 </ol>
 </div>
-<div class="prevComment">
+<div class="prevComment lightBG">
 <b>There are three categories of users:</b>
 
 <ol><li><u>admin</u>: The admins can add more team member users. They can also see the reports, as well as see all of the comments and next steps for the at-risk students. The team admins are the only ones who can perform certain functions on the At-Risk student information. They can highlight the names (for discussion at the next team meeting), add students to the at-risk list, remove them from the list, etc.
@@ -202,7 +202,7 @@ Along with admin, they can edit student information (which will remain until the
 </ol>
 </div>
 
-<div class="prevComment">
+<div class="prevComment box-repeat">
 <b>Security:</b>
 
 <ul><li> Users can change their own passwords (they login with a generic password when their account is created). All passwords are hashed and salted before storing.<br> 
@@ -215,7 +215,7 @@ Along with admin, they can edit student information (which will remain until the
 </div>
 </td></tr>
 </table>
-<p class="prevComment"><b>Data source:</b><br>
+<p class="prevComment box-repeat"><b>Data source:</b><br>
 For this demonstration database: random first names were generated (and attempted to match with gender), random last names were generated, random student numbers were generated (9 digits, beginning with 3, all unique). 
 Random birthdays were generated for students. Random phone numbers and guardian emails were generated. 
 Photos are of actual students, but their student numbers have been randomly generated. 

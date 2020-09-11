@@ -296,6 +296,7 @@ bottom:12px;right:20px;
 .red { color:red; }
 /* header background */
 .yellow { color:#e6cf8b; }
+.lightBG { background-color:white;}
 
 /* These boxes are used in the comment display page.   
    Box is for displaying the alpha characters, box2 inner1 and innner2 are for the comments on commentPage.php */

@@ -165,6 +165,7 @@ echo '<span class="gray smaller">'.$numAtRisk." students</span>";
 
 <div id="txtHint"></div>
 </form>
+<p class="gray">* Two students that have information entered for them are Tracy Martin and Frankie Roesner.</p>
 <?php
 #  echo "===".$isTeam."===";
 echo base64_encode(random_bytes(32));
